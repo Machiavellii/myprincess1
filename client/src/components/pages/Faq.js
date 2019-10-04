@@ -1,5 +1,5 @@
 import React from 'react';
-import './Faq.css'
+import '../../styles/faq.css';
 
 const Faq = () => {
   return (
@@ -13,35 +13,46 @@ const Faq = () => {
       <div className="container">
         <h6 className="mt-5">HOW TO MODIFY OR REMOVE AN ADVERT?</h6>
         <p>
-        - Sign into your account. <br />
-        - Click on MY ADS. <br />
-        - You can either EDIT / DELETE your ad. <br />
+          - Sign into your account. <br />
+          - Click on MY ADS. <br />
+          - You can either EDIT / DELETE your ad. <br />
         </p>
         <h6>HOW TO CHANGE MY PASSWORD?</h6>
         <p>
-        - Sign into your account. <br />
-        - Click on MY ACCOUNT. <br />
-        - The field to change the password is in ACCOUNT DETAILS. <br />
+          - Sign into your account. <br />
+          - Click on MY ACCOUNT. <br />
+          - The field to change the password is in ACCOUNT DETAILS. <br />
         </p>
         <h6>HOW HAVE CHECKED THE LABEL ON MY AD?</h6>
         <p>
-          - Send us a photo selfie mentioning MYPRINCESS.CH (paper or otherwise) by mail to  
+          - Send us a photo selfie mentioning MYPRINCESS.CH (paper or otherwise)
+          by mail to
           <span>
-            <a href={`mailto:contact@myprincess.ch.`} className="email-link"> contact@myprincess.ch.</a> 
+            <a href={`mailto:contact@myprincess.ch.`} className="email-link">
+              {' '}
+              contact@myprincess.ch.
+            </a>
           </span>
         </p>
         <h6>HOW TO DELETE ACCOUNT?</h6>
         <p>
-          - To delete your account, send us a request by mail to  
+          - To delete your account, send us a request by mail to
           <span>
-            <a href={`mailto:contact@myprincess.ch.`} className="email-link"> contact@myprincess.ch.</a>
+            <a href={`mailto:contact@myprincess.ch.`} className="email-link">
+              {' '}
+              contact@myprincess.ch.
+            </a>
           </span>
         </p>
         <h6>I HAVE A QUESTION, WHO TALK TO?</h6>
         <p>
-          - Our customer service is available Monday to Friday from 09h to 18h by mail to  
+          - Our customer service is available Monday to Friday from 09h to 18h
+          by mail to
           <span>
-            <a href={`mailto:contact@myprincess.ch.`} className="email-link"> contact@myprincess.ch.</a>
+            <a href={`mailto:contact@myprincess.ch.`} className="email-link">
+              {' '}
+              contact@myprincess.ch.
+            </a>
           </span>
         </p>
       </div>

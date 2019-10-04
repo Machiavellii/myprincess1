@@ -28,19 +28,14 @@ const App = () => {
 
           <Route exact path="/" component={Landing} />
 
-         
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/faq" component={Faq} />
-            <Route exact path="/contact" component={Contact} />
-            <Route exact path="/postanad" component={Postanad} />
-       
-          <Route exact path="/describe-content" component={DescribeContent} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/faq" component={Faq} />
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/postanad" component={Postanad} />
-          <Footer />
 
+          <Route exact path="/describe-content" component={DescribeContent} />
+
+          <Footer />
         </div>
       </Router>
     </Provider>
