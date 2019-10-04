@@ -24,7 +24,7 @@ const App = () => {
           <Navbar />
           <Header />
           <Route exact path="/" component={Landing} />
-          <div className="container">
+          <div className="">
             <Route exact path="/login" component={Login} />
             <Route exact path="/faq" component={Faq} />
             <Route exact path="/contact" component={Contact} />

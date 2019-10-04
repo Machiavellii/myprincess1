@@ -1,0 +1,19 @@
+.email-link {
+    color: #CE0F69;
+    font-weight: 700;
+}
+
+.email-link:hover {
+    text-decoration: none;
+    color: #2B2B2B;
+}
+
+.jumbotron {
+    background-color: #F9F9F9;
+}
+
+.jumbotron-heading {
+    color: #2B2B2B;
+    font-size: 64px;
+    font-weight: 400;
+}
