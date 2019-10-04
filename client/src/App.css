@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header {
+  background: #383838;
+  color: #fff;
+  justify-content: center;
+  display: flex;
+  padding: 2rem 0;
+  font-size: 1.2rem;
+}
