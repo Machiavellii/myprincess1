@@ -43,7 +43,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/postanad" className="nav-link">
+              <NavLink to="/postanad" className="nav-link rose-border">
                 Post an ad
               </NavLink>
             </li>
@@ -59,7 +59,7 @@ const Navbar = () => {
             <li className="nav-item">
               <a
                 href="https://m.facebook.com/myprincess.ch"
-                className="nav-link"
+                className="nav-link rose-border"
                 activeclassname="active"
                 target="_blank"
                 rel="noopener noreferrer"

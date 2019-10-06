@@ -2,6 +2,7 @@ footer {
   background-color: #2b2b2b;
   padding: 3rem;
 }
+
 footer .small-header {
   border-bottom: unset;
   margin-bottom: 1rem;
@@ -35,11 +36,4 @@ footer .language a {
   color: #fff;
   font-size: 0.7rem;
   text-align: center;
-}
-
-.copyright span:first-child {
-  margin-right: 0.5rem;
-}
-.copyright span:last-child {
-  margin-left: 0.5rem;
 }

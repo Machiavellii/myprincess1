@@ -9,7 +9,7 @@ import Pagination from '../common/Pagination';
 const Landing = () => {
   return (
     <Fragment>
-      <div className="container">
+      <div className="container mt-5">
         <div className="holder-line">
           <span className="sep-holder holder-1">
             <span className="line"></span>

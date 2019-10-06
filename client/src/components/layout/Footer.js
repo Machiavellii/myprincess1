@@ -50,7 +50,7 @@ const Footer = () => {
         </a>
       </div>
       <div className="copyright">
-        <span>Copyright &copy; 2019</span>
+        <span className="mr-2">Copyright &copy; 2019</span>
         <span>
           {' '}
           <strong>
@@ -58,7 +58,7 @@ const Footer = () => {
             Switzerland
           </strong>{' '}
         </span>
-        <span>All rights reserved.</span>
+        <span className="ml-2">All rights reserved.</span>
       </div>
     </footer>
   );

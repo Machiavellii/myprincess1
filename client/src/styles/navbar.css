@@ -1,27 +1,29 @@
 /* NAVBAR */
-/* .navbar {
-  padding: 2rem 1rem;
-} */
 
 .navbar-collapse {
   flex-grow: 0;
 }
+
 .navbar > .container {
   position: relative;
   display: flex;
   justify-content: space-between;
 }
+
 .nav-item {
   margin-right: 1rem;
 }
+
 .nav-item:nth-child(5) {
   margin-right: 0;
 }
+
 .navbar-expand-sm .navbar-nav .nav-link {
   color: #333;
 }
+
 .bg-dark {
-  background-color: #383838 !important;
+  background-color: #2b2b2b !important;
   border-bottom: 1px solid #2f2929;
 }
 .navbar-dark .navbar-toggler {
@@ -53,6 +55,9 @@ button:focus {
 .active {
   border-bottom: 2px solid #acdacf;
 }
+.navbar-dark .navbar-nav .nav-link {
+  color: #fff;
+}
 .navbar-nav .nav-link:hover {
   color: rgba(47, 25, 25, 0.95);
 }
@@ -61,6 +66,11 @@ button:focus {
   margin-right: 0;
   padding-top: 0;
   padding-bottom: 0;
+}
+
+.rose-border {
+  border: 2px solid #ce0f69;
+  border-radius: 5px;
 }
 
 .search-bar {
@@ -75,7 +85,7 @@ button:focus {
   border-right: none;
   border-bottom-color: transparent;
   border-bottom-width: 1px;
-  background-color: #383838;
+  background-color: #2b2b2b;
 }
 .search-bar input:focus {
   outline: unset;
