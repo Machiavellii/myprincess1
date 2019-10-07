@@ -1,4 +1,5 @@
 import React from 'react'
+import '../../styles/ContactForm.css'
 
 class ContactForm extends React.Component {
     render() {
@@ -15,7 +16,7 @@ class ContactForm extends React.Component {
                             <input type="email" className="form-control" id="Email" placeholder="Email" />
                         </div>
                         <div className="form-group col-md-4">
-                            <label for="Phone">Your Phone</label>
+                            <label for="Phone">Your Phone *</label>
                             <input type="text" className="form-control" id="Phone" placeholder="Phone" />
                         </div>
                     </div>
@@ -24,7 +25,7 @@ class ContactForm extends React.Component {
                         <textarea className="form-control" id="Message" rows="3"></textarea>
                     </div>
                 </form>
-                <button type="submit" className="btn btn-primary">Send my Message</button>
+                <button type="submit" className="btn btn-primary btn-lg main-color mt-3">Send my Message</button>
             </div>
         )
     }

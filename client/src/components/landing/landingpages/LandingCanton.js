@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../styles/LandingCanton.css'
 import { Link } from 'react-router-dom';
 import bern from '../../../img/cantons/bern.jpg';
 import fribourg from '../../../img/cantons/fribourg.jpg';
@@ -26,95 +27,98 @@ const LandingCanton = () => {
             </span>
           </div>
 
-          <div className="col-sm-12 col-md-3">
-            <div className="canton p-2 text-center">
-              <Link>
-                <img src={bern} alt="Bern.jpg" />
-              </Link>
-              <span>Bern</span>
+          <div className="custom-row container">
+            <div className="col-sm-12 col-custom">
+              <div className="canton p-2 text-center">
+                <Link>
+                  <img src={bern} alt="Bern.jpg" />
+                </Link>
+                <span>Bern</span>
+              </div>
+            </div>
+
+            <div className="col-sm-12 col-custom">
+              <div className="canton p-2 text-center">
+                <Link>
+                  <img src={fribourg} alt="Fribourg.jpg" />
+                </Link>
+                <span>Fribourg</span>
+              </div>
+            </div>
+
+            <div className="col-sm-12 col-custom">
+              <div className="canton p-2 text-center">
+                <Link>
+                  <img src={geneve} alt="Geneve.jpg" />
+                </Link>
+                <span>Geneve</span>
+              </div>
+            </div>
+
+            <div className="col-sm-12 col-custom">
+              <div className="canton p-2 text-center">
+                <Link>
+                  <img src={jura} alt="jura.jpg" />
+                </Link>
+                <span>Jura Mountains</span>
+              </div>
+            </div>
+
+            <div className="col-sm-12 col-custom">
+              <div className="canton p-2 text-center">
+                <Link>
+                  <img src={lucerne} alt="lucerne.jpg" />
+                </Link>
+                <span>Lucerne</span>
+              </div>
+            </div>
+
+            <div className="col-sm-12 col-custom">
+              <div className="canton p-2 text-center">
+                <Link>
+                  <img src={neuchatel} alt="neuchatel.jpg" />
+                </Link>
+                <span>Neuchatel</span>
+              </div>
+            </div>
+
+            <div className="col-sm-12 col-custom">
+              <div className="canton p-2 text-center">
+                <Link>
+                  <img src={tessin} alt="tessin.jpg" />
+                </Link>
+                <span>Valais</span>
+              </div>
+            </div>
+
+            <div className="col-sm-12 col-custom">
+              <div className="canton p-2 text-center">
+                <Link>
+                  <img src={sion} alt="sion.jpg" />
+                </Link>
+                <span>Ticino</span>
+              </div>
+            </div>
+
+            <div className="col-sm-12 col-custom">
+              <div className="canton p-2 text-center">
+                <Link>
+                  <img src={vaud} alt="vaud.jpg" />
+                </Link>
+                <span>Vaud</span>
+              </div>
+            </div>
+
+            <div className="col-sm-12 col-custom">
+              <div className="canton p-2 text-center">
+                <Link>
+                  <img src={zurich} alt="zurich.jpg" />
+                </Link>
+                <span>Zurich</span>
+              </div>
             </div>
           </div>
 
-          <div className="col-sm-12 col-md-3">
-            <div className="canton p-2 text-center">
-              <Link>
-                <img src={fribourg} alt="Fribourg.jpg" />
-              </Link>
-              <span>Fribourg</span>
-            </div>
-          </div>
-
-          <div className="col-sm-12 col-md-3">
-            <div className="canton p-2 text-center">
-              <Link>
-                <img src={geneve} alt="Geneve.jpg" />
-              </Link>
-              <span>Geneve</span>
-            </div>
-          </div>
-
-          <div className="col-sm-12 col-md-3">
-            <div className="canton p-2 text-center">
-              <Link>
-                <img src={jura} alt="jura.jpg" />
-              </Link>
-              <span>Jura Mountains</span>
-            </div>
-          </div>
-
-          <div className="col-sm-12 col-md-3">
-            <div className="canton p-2 text-center">
-              <Link>
-                <img src={lucerne} alt="lucerne.jpg" />
-              </Link>
-              <span>Lucerne</span>
-            </div>
-          </div>
-
-          <div className="col-sm-12 col-md-3">
-            <div className="canton p-2 text-center">
-              <Link>
-                <img src={neuchatel} alt="neuchatel.jpg" />
-              </Link>
-              <span>Neuchatel</span>
-            </div>
-          </div>
-
-          <div className="col-sm-12 col-md-3">
-            <div className="canton p-2 text-center">
-              <Link>
-                <img src={tessin} alt="tessin.jpg" />
-              </Link>
-              <span>Valais</span>
-            </div>
-          </div>
-
-          <div className="col-sm-12 col-md-3">
-            <div className="canton p-2 text-center">
-              <Link>
-                <img src={sion} alt="sion.jpg" />
-              </Link>
-              <span>Ticino</span>
-            </div>
-          </div>
-
-          <div className="col-sm-12 col-md-3">
-            <div className="canton p-2 text-center">
-              <Link>
-                <img src={vaud} alt="vaud.jpg" />
-              </Link>
-              <span>Vaud</span>
-            </div>
-          </div>
-
-          <div className="col-sm-12 col-md-3">
-            <div className="canton p-2 text-center">
-              <Link>
-                <img src={zurich} alt="zurich.jpg" />
-              </Link>
-              <span>Zurich</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
