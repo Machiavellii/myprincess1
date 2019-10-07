@@ -36,11 +36,20 @@
 /* DECRIBE GIRL */
 .holder {
   position: relative;
-}
-.describe-girl {
-  border: 1px solid #000;
+  margin-bottom: 10rem;
 }
 
+.describe-girl h1 {
+  color: #ce0f69;
+}
+.subheading {
+  color: #999;
+  font-size: 1.1rem;
+}
+
+.describe-girl a {
+  color: #333;
+}
 .describe-girl .rotate {
   transform: rotateY(180deg);
 }
@@ -50,17 +59,90 @@
   width: 100%;
   height: 100%;
   background: #f9f9f9;
+  top: 7%;
 }
 
+.review {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
+}
+
+.review i {
+  color: #ce0f69;
+  border-radius: 50%;
+  border: 2px solid #ce0f69;
+  padding: 0.4rem;
+  margin-right: 0.3rem;
+  transition: 0.3s ease-in;
+}
+
+.review a:hover {
+  color: #ce0f69;
+}
+
+.review a:hover i {
+  background: #ce0f69;
+  color: #fff;
+  transition: 0.3s ease-in;
+}
+
+.aboutGirl {
+  border: 1px solid #e2d2d2;
+  background: #fff;
+  padding: 2rem;
+}
+
+.list-holder {
+  display: flex;
+  justify-content: space-around;
+  padding: 2rem;
+}
+
+.list-holder li {
+  list-style: none;
+  margin-bottom: 0.7rem;
+}
+.list-holder li a i {
+  color: #ce0f69;
+  margin-right: 0.5rem;
+}
 /* VIEW PART */
+.view-holder {
+  background: #fff;
+  border: 1px solid #e2d2d2;
+  padding: 2rem;
+}
+.view-holder p {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2d2d2;
+}
+.view-holder label {
+  font-size: 0.9rem;
+}
 
+::-webkit-input-placeholder {
+  font-size: 0.9rem;
+}
 
+.view-holder span {
+  display: block;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+  color: #6b5d5d;
+  font-size: 0.9rem;
+}
 
+.input-label {
+  font-size: 0.9rem;
+  display: inline;
+}
 
 /* RATING STYLING */
 .stars-outer {
   position: relative;
   display: inline-block;
+  margin-bottom: 1rem;
 }
 
 /* .stars-inner {
@@ -86,4 +168,12 @@
   font-weight: 900;
   color: #ce0f69;
   font-size: 1.2rem;
+}
+
+.btn-rose {
+  background-color: #ce0f69;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
 }

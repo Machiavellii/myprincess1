@@ -4,21 +4,26 @@ const Girl = () => {
   return (
     <div className="describe-girl">
       <h1>Sara</h1>
-      <p>slut waiting for you in Geneva</p>
-      <a href="tel:+41762446896">
-        <i className="fas fa-phone rotate" /> +41762446896
-      </a>
+      <p className="subheading">slut waiting for you in Geneva</p>
       <div className="container">
+        <a href="tel:+41762446896">
+          <i className="fas fa-phone rotate" /> +41762446896
+        </a>
         <div className="review">
           <div className="opinion">
-            <i class="fas fa-star"></i>
-            Writing an opinion
+            <a href="!#">
+              <i class="fas fa-star"></i>
+              Writing an opinion
+            </a>
           </div>
           <div className="favorites">
-            <i class="fas fa-heart"></i>
-            Add to favorites
+            <a href="!#">
+              <i class="fas fa-heart"></i>
+              Add to favorites
+            </a>
           </div>
         </div>
+
         <div className="aboutGirl">
           <p>Hello</p>
           <p>
@@ -29,6 +34,7 @@ const Girl = () => {
           </p>
           <p>💋 xoxo</p>
         </div>
+
         {/* LIST HOLDER */}
         <div className="list-holder">
           <div className="first-list">
@@ -167,8 +173,8 @@ const Girl = () => {
           </div>
         </div>
 
-         {/* VIEW  */}
-         <div className="view-holder">
+        {/* VIEW  */}
+        <div className="view-holder">
           <p>view</p>
 
           <div className="form-group">
@@ -179,42 +185,59 @@ const Girl = () => {
               name=""
               id=""
               rows="8"
-              className='form-control form-control-lg'
+              className="form-control form-control-lg"
               placeholder="Par respect, seuls les avis positifs et respectueux seront publices"
             ></textarea>
           </div>
           <div className="form-group">
             <input type="checkbox" name="" id="" />{' '}
-            <span className="input-span">
+            <label className="input-label">
               Remember my name, my email and my website in the browser for my
               next comment.
-            </span>
+            </label>
           </div>
           <div class="stars-outer">
-            <p>Overall rating out of 5 stars *</p>
+            <span>Overall rating out of 5 stars *</span>
             <span class="stars-inner"></span>
           </div>
 
-        <form>
-        <div className="form-group">
-            <p>Review title *</p>
-            <input type="text" name=''  className='form-control form-control-lg' placeholder='Resumez votre avis ou mettez en evidence un detail important'/>
-          </div>
-          <div className='row'>
-          <div className="form-group col-sm-6">
-            <p>Name *</p>
-            <input type="text" name='' className='form-control form-control-lg' placeholder='Votre nom'/>
-          </div>
-          <div className="form-group col-sm-6">
-            <p>Email Address *</p>
-            <input type="text" name='' className='form-control form-control-lg' placeholder='Addrese e-mail'/>
-          </div>
-          </div>
-        </form>
-
+          <form>
+            <div className="form-group">
+              <span>Review title *</span>
+              <input
+                type="text"
+                name=""
+                className="form-control form-control-lg"
+                placeholder="Resumez votre avis ou mettez en evidence un detail important"
+              />
+            </div>
+            <div className="row">
+              <div className="form-group col-sm-6">
+                <span>Name *</span>
+                <input
+                  type="text"
+                  name=""
+                  className="form-control form-control-lg"
+                  placeholder="Votre nom"
+                />
+              </div>
+              <div className="form-group col-sm-6">
+                <span>Email Address *</span>
+                <input
+                  type="text"
+                  name=""
+                  className="form-control form-control-lg"
+                  placeholder="Addrese e-mail"
+                />
+              </div>
+            </div>
+            <input
+              type="submit"
+              value="Send my opiniom"
+              className="btn btn-rose"
+            />
+          </form>
         </div>
-
-
       </div>
     </div>
   );
