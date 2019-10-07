@@ -1,0 +1,15 @@
+.custom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
+  }
+
+  @media only screen and (max-width: 780px) {
+    .custom-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+        align-items: center;
+      }
+    }
+  
