@@ -7,12 +7,11 @@ import { Provider } from 'react-redux';
 
 import MiniHeader from './components/layout/MiniHeader';
 import Navbar from './components/layout/Navbar';
-import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 
 import Login from './components/auth/Login';
 import Landing from './components/landing/Landing';
-import DescribeContent from './components/landing/landingpages/landingcontent/Describe';
+import DescribeContent from './components/landing/landingpages/landingcontent/singleGirl/Describe';
 import Faq from './components/pages/Faq';
 import Contact from './components/pages/Contact';
 import Postanad from './components/pages/postAnAd/Postanad';
@@ -24,7 +23,6 @@ const App = () => {
         <div className="App">
           <MiniHeader />
           <Navbar />
-          <Header />
 
           <Route exact path="/" component={Landing} />
 
