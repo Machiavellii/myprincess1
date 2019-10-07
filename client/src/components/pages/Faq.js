@@ -7,10 +7,10 @@ const Faq = () => {
       <div className="jumbotron jumbotron-fluid">
         <div className="container">
           <h1 className="display-4 text-center jumbotron-heading">FAQ</h1>
-          <p className="lead text-center">Frequently Asked Questions</p>
+          <p className="lead text-center sub-title">Frequently Asked Questions</p>
         </div>
       </div>
-      <div className="container">
+      <div className="container my-5">
         <h6 className="mt-5">HOW TO MODIFY OR REMOVE AN ADVERT?</h6>
         <p>
           - Sign into your account. <br />

@@ -17,3 +17,12 @@
     font-size: 64px;
     font-weight: 400;
 }
+
+h6 {
+    font-weight: 700;
+}
+
+.sub-title {
+    color: #919191;
+    font-weight: 100;
+}

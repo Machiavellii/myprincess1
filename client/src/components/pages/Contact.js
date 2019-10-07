@@ -8,12 +8,12 @@ const Contact = () => {
       <div className="jumbotron jumbotron-fluid">
         <div className="container">
           <h1 className="display-4 text-center">Contact</h1>
-          <p className="lead text-center">
+          <p className="lead text-center sub-title">
             Our customer service is available Monday to Friday from 09h to 18h
           </p>
         </div>
       </div>
-      <div className="container">
+      <div className="container my-5">
         <p className="mb-4">
           MyPrincess.ch is a directory site for escort and erotic massage parlor
           in Switzerland.
@@ -29,7 +29,7 @@ const Contact = () => {
           Drop us a message and we will reply within 24 hours.
         </p>
 
-        <h4 className="contact-form-heading">Contact Form</h4>
+        <h5 className="contact-form-heading mt-5">Contact Form</h5>
         <ContactForm />
       </div>
     </div>
