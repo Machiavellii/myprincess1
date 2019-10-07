@@ -3,12 +3,7 @@ import React from 'react';
 const Girl = () => {
   return (
     <div className="describe-girl">
-      <h1>Sara</h1>
-      <p className="subheading">slut waiting for you in Geneva</p>
       <div className="container">
-        <a href="tel:+41762446896">
-          <i className="fas fa-phone rotate" /> +41762446896
-        </a>
         <div className="review">
           <div className="opinion">
             <a href="!#">
