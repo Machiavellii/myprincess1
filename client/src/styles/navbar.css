@@ -99,3 +99,7 @@ button:focus {
 .icons a {
   color: #fff;
 }
+
+.img-fluid{
+width: 300px;
+}
