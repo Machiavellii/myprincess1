@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../../styles/LandingCanton.css'
 import { Link } from 'react-router-dom';
 import bern from '../../../img/cantons/bern.jpg';
 import fribourg from '../../../img/cantons/fribourg.jpg';
@@ -118,7 +117,6 @@ const LandingCanton = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
