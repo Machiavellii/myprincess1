@@ -1,6 +1,8 @@
 import React from 'react';
 import PricingCard from './PricingCard';
 
+import PostAnAdForm from './PostAnAdForm'
+
 const Postanad = () => {
   return (
     <div>
@@ -34,6 +36,7 @@ const Postanad = () => {
           </div>
         </div>
       </div>
+      <PostAnAdForm />
     </div>
   );
 };
