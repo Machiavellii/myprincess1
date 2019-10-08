@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import '../../styles/navbar.css';
+import Logo from '../../img/logo.png'
 
 const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-md navbar-dark bg-dark" id="top">
       <div className="container">
         <Link to="/" className="navbar-brand">
-          {/* <img src={Logo} className="img-fluid" alt="logo.png" /> */}
-          <h1>LOGO</h1>
+          {<img width={100} src={Logo} className="img-fluid" alt="logo.png" />}
         </Link>
         <div className="search-bar">
           <input type="text" placeholder="Que recherchez-vous" />
