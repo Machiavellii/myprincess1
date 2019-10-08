@@ -10,11 +10,20 @@ import seven from '../../../../../../img/girls/girl/7.jpeg';
 import eight from '../../../../../../img/girls/girl/8.jpeg';
 
 const Carousel = () => {
-  const [scroll, setCount] = useState(0);
+  let [leftArrow] = useState('');
+  let [rightArrow] = useState('');
+
+  rightArrow = () => {
+    document.getElementById('move').scrollLeft += 250;
+  };
+
+  leftArrow = () => {
+    document.getElementById('move').scrollLeft -= 150;
+  };
 
   return (
     <div className="carousel-holder">
-      <div className="carousel-gallery">
+      <div className="carousel-gallery" id="move">
         <img src={one} alt="" className="img-fluid" />
         <img src={two} alt="" className="img-fluid" />
         <img src={three} alt="" className="img-fluid" />
@@ -24,10 +33,10 @@ const Carousel = () => {
         <img src={seven} alt="" className="img-fluid" />
         <img src={eight} alt="" className="img-fluid" />
       </div>
-      <div className="leftArrow arrow" onClick={() => console.log(123)}>
+      <div className="leftArrow arrow" onClick={leftArrow}>
         <i className="fas fa-arrow-left"></i>
       </div>
-      <div className="rightArrow arrow" onClick={() => console.log(321)}>
+      <div className="rightArrow arrow" onClick={rightArrow}>
         <i className="fas fa-arrow-right"></i>
       </div>
     </div>

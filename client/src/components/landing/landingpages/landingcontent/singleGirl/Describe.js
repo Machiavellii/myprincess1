@@ -3,9 +3,9 @@ import React, { Fragment } from 'react';
 import '../../../../../styles/singleGirl.css';
 
 import Carousel from './carousel/Carousel';
-import Header from './describeGirl/HeaderGirl';
+import Header from './describeGirl/componentGirls/HeaderGirl';
 import DescribeGirl from './describeGirl/Girl';
-import GalleryGirl from './gallery/Gallery';
+import GalleryHolder from './gallery/GalleryHolder';
 
 const DescribeContent = () => {
   return (
@@ -18,8 +18,8 @@ const DescribeContent = () => {
             <div className="col-sm-12 col-md-8">
               <DescribeGirl />
             </div>
-            <div className="col-sm-12 col-md-4">
-              <GalleryGirl />
+            <div className="col-sm-12 col-md-4 gallery">
+              <GalleryHolder />
             </div>
           </div>
         </div>

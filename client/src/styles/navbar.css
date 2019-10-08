@@ -52,6 +52,10 @@ button:focus {
   background: url('../img/times-solid.svg') no-repeat center center;
 }
 
+.navbar-brand {
+  width: 11rem;
+}
+
 .active {
   border-bottom: 2px solid #acdacf;
 }
@@ -98,8 +102,4 @@ button:focus {
 }
 .icons a {
   color: #fff;
-}
-
-.img-fluid{
-width: 300px;
 }

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import chloe from '../../../../img/girls/chloe.jpg';
 import daniela from '../../../../img/girls/daniela.jpeg';
@@ -79,8 +79,6 @@ const Contents = () => {
           </div>
         </article>
       </div>
-
-    
     </div>
   );
 };
