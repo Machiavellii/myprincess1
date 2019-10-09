@@ -18,7 +18,8 @@ a:hover {
 }
 
 img {
-  width: 100%;
+  width: 100%; 
+  object-fit: cover;
 }
 
 .header {
