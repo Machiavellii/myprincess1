@@ -10,14 +10,7 @@ const Navbar = () => {
         <Link to="/" className="navbar-brand">
           <img src={Logo} className="img-fluid" alt="logo.png" />
         </Link>
-        <div className="search-bar">
-          <input type="text" placeholder="Que recherchez-vous" />
-          <div className="icons">
-            <a href="#ee" className="mr-2">
-              <i className="fas fa-search" />
-            </a>
-          </div>
-        </div>
+        
         <button
           className="navbar-toggler"
           data-toggle="collapse"
@@ -27,6 +20,14 @@ const Navbar = () => {
           <span className="navbar-toggler-icon" />
         </button>
         <div className="collapse navbar-collapse" id="navbarCollapse">
+        <div className="search-bar mr-5">
+          <input type="text" placeholder="Que recherchez-vous" />
+          <div className="icons">
+            <a href="#ee" className="mr-2">
+              <i className="fas fa-search" />
+            </a>
+          </div>
+        </div>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               <NavLink to="/faq" className="nav-link" activeClassName="active">
