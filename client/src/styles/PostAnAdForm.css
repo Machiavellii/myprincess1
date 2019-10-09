@@ -1,3 +1,43 @@
 .ck-editor__editable {
     min-height: 200px !important;
 }
+
+.tip {
+    color: #919191;
+}
+
+.dynamic-checkbox {
+    margin: 10px;
+}
+
+.dynamic-checkbox input {
+    transform: scale(1.1);
+}
+
+.dynamic-checkbox-label {
+    margin-left: 10px;
+}
+.dynamic-checkbox:hover,
+.dynamic-checkbox-label:hover {
+    color: #CE0F69;
+}
+
+.main-theme-btn {
+    background-color: #CE0F69;
+    border: 1px solid #CE0F69;
+}
+
+.main-theme-btn:hover {
+    background-color: #2B2B2B;
+    border: 1px solid #2B2B2B;
+}
+
+sup a{
+    color: #CE0F69;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+sup a:hover {
+    color: #2B2B2B;
+}
