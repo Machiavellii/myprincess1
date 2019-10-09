@@ -183,6 +183,13 @@
   top: -10rem;
   padding: 0;
 }
+@media only screen and (max-width: 767px) {
+  .gallery {
+    border: 1px solid #e2d2d2;
+    top: 0rem;
+    margin: 2rem;
+  }
+}
 .gallery-holder {
   padding: 1rem;
 }
