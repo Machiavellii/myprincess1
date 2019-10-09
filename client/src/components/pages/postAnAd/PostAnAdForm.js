@@ -7,7 +7,8 @@ import {
   categoryList,
   servicesList,
   silhouetteList,
-  originList
+  originList,
+  cityList
 } from "../../../constants/data.json";
 
 class PostAnAdForm extends React.Component {
@@ -15,12 +16,15 @@ class PostAnAdForm extends React.Component {
     return (
       <div>
         <form className="container mb-5">
-          <div className="card">
+          <div className="card mb-4">
             <div className="card-body">
-              <h5 className="card-title">Already-have an account?</h5>
+              <h5 className="card-title">Already have an account?</h5>
               <hr />
               <p className="card-text">
-                Login If you do not-have an account, you can create it by below
+                <sup>
+                  <a href="#">Login</a>
+                </sup>{" "}
+                If you do not-have an account, you can create it by below
                 Reviews entering your e-mail address / username. The account
                 details will be confirmed by email.
               </p>
@@ -62,11 +66,13 @@ class PostAnAdForm extends React.Component {
               </label>
             </div>
             <p className="text-center">
-              <small>Please select if your profile is active</small>
+              <small className="tip">
+                Please select if your profile is active
+              </small>
             </p>
           </div>
 
-          <div className="form-group col-md-12">
+          <div className="form-group col-md-12 mb-4">
             <label htmlFor="nickname">
               That nickname will be displayed is your profile *
             </label>
@@ -83,25 +89,31 @@ class PostAnAdForm extends React.Component {
             <br />
             {spokenLanguageList.map((item, index) => {
               return (
-                <div className="form-check form-check-inline" key={index}>
+                <div
+                  className="form-check form-check-inline dynamic-checkbox"
+                  key={index}
+                >
                   <input
                     className="form-check-input"
                     type="checkbox"
                     id={item}
                     value={item}
                   />
-                  <label className="form-check-label" htmlFor={item}>
+                  <label
+                    className="form-check-label dynamic-checkbox-label"
+                    htmlFor={item}
+                  >
                     {item}
                   </label>
                 </div>
               );
             })}
-            <p className="text-center">
-              <small>Please select spoken languages</small>
+            <p className="text-center mt-4">
+              <small className="tip">Please select spoken languages</small>
             </p>
           </div>
 
-          <div className="form-group col-md-12">
+          <div className="form-group col-md-12 mb-5">
             <label htmlFor="slogan">Slogan</label>
             <input
               type="text"
@@ -112,18 +124,24 @@ class PostAnAdForm extends React.Component {
           </div>
 
           <div className="form-group col-md-12">
-          <label className="form-check-label">Services *</label>
+            <label className="form-check-label">Services *</label>
             <br />
             {servicesList.map((item, index) => {
               return (
-                <div className="form-check form-check-inline" key={index}>
+                <div
+                  className="form-check form-check-inline dynamic-checkbox"
+                  key={index}
+                >
                   <input
                     className="form-check-input"
                     type="checkbox"
                     id={item}
                     value={item}
                   />
-                  <label className="form-check-label" htmlFor={item}>
+                  <label
+                    className="form-check-label dynamic-checkbox-label"
+                    htmlFor={item}
+                  >
                     {item}
                   </label>
                 </div>
@@ -131,7 +149,7 @@ class PostAnAdForm extends React.Component {
             })}
           </div>
 
-          <div className="form-group col-md-12">
+          <div className="form-group col-md-12 mt-3">
             <label htmlFor="category">Category</label>
             <select className="form-control" id="category">
               {categoryList.map((item, index) => {
@@ -202,10 +220,37 @@ class PostAnAdForm extends React.Component {
           </div>
 
           <div className="form-group col-md-12">
+            <label htmlFor="address">Address</label>
+            <input
+              type="text"
+              className="form-control"
+              id="address"
+              placeholder=""
+            />
+          </div>
+
+          <div className="form-group col-md-12 mt-3">
+            <label htmlFor="city">City</label>
+            <select className="form-control" id="city">
+              {cityList.map((item, index) => {
+                return (
+                  <option key={index} value={index}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
+          <div className="form-group col-md-12">
             <label htmlFor="coverPicture">Cover picture</label>
-            <input type="file" className="form-control-file" id="coverPicture" />
+            <input
+              type="file"
+              className="form-control-file"
+              id="coverPicture"
+            />
             <p className="text-center">
-              <small>Add a cover photo</small>
+              <small className="tip">Add a cover photo</small>
             </p>
           </div>
 
@@ -213,7 +258,9 @@ class PostAnAdForm extends React.Component {
             <label htmlFor="gallery">Upload your photographs (max. 10)</label>
             <input type="file" className="form-control-file" id="gallery" />
             <p className="text-center">
-              <small>The first picture will be displayed as the hand.</small>
+              <small className="tip">
+                The first picture will be displayed as the hand.
+              </small>
             </p>
           </div>
 
@@ -256,7 +303,10 @@ class PostAnAdForm extends React.Component {
               placeholder="https://www.site.com"
             />
           </div>
-          <button type="button" className="btn btn-primary btn-lg btn-block">
+          <button
+            type="button"
+            className="btn btn-primary btn-lg btn-block main-theme-btn"
+          >
             Preview
           </button>
         </form>
