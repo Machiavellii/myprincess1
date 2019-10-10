@@ -183,6 +183,9 @@
   top: -10rem;
   padding: 0;
 }
+.carousel-gallery img {
+  cursor: pointer;
+}
 @media only screen and (max-width: 767px) {
   .gallery {
     border: 1px solid #e2d2d2;
