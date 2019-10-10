@@ -15,6 +15,7 @@ import DescribeContent from './components/landing/landingpages/landingcontent/si
 import Faq from './components/pages/Faq';
 import Contact from './components/pages/Contact';
 import Postanad from './components/pages/postAnAd/Postanad';
+import PostAnAdForm from './components/pages/postAnAd/PostAnAdForm';
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           <Route exact path="/faq" component={Faq} />
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/postanad" component={Postanad} />
+          <Route exact path="/postanadform" component={PostAnAdForm} />
 
           <Route exact path="/describe-content" component={DescribeContent} />
 

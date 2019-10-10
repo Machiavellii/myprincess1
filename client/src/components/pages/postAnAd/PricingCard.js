@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../../../styles/PricingCard.css';
 
 const PricingCard = props => {
@@ -22,8 +23,8 @@ const PricingCard = props => {
         <br />
         <strong>Support </strong> <span>free</span>
         <br />
-        <a
-          href="!#"
+        <Link
+          to="/postanadform"
           className={
             'btn btn-primary my-3 py-3 px-4 ' +
             (props.buttonStyle ? 'full' : 'empty')
@@ -31,7 +32,7 @@ const PricingCard = props => {
         >
           Start
           <i className="fas fa-caret-right right-icon" />
-        </a>
+        </Link>
       </div>
     </div>
   );

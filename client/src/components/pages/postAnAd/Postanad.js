@@ -1,8 +1,6 @@
 import React from 'react';
 import PricingCard from './PricingCard';
 
-import PostAnAdForm from './PostAnAdForm'
-
 const Postanad = () => {
   return (
     <div>
@@ -10,10 +8,7 @@ const Postanad = () => {
       <div className="container">
         <div className="row">
           <div className="col-md-4 col-sm-12 col-12">
-            <PricingCard 
-              time="7 days" 
-              price="Free" 
-            />
+            <PricingCard time="7 days" price="Free" />
           </div>
 
           <div className="col-md-4 col-sm-12 col-12">
@@ -36,7 +31,6 @@ const Postanad = () => {
           </div>
         </div>
       </div>
-      <PostAnAdForm />
     </div>
   );
 };

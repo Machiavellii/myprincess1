@@ -1,7 +1,7 @@
-import React from "react";
-import "../../../styles/PostAnAdForm.css";
-import CKEditor from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import React, { Fragment } from 'react';
+import '../../../styles/PostAnAdForm.css';
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {
   spokenLanguageList,
   categoryList,
@@ -9,21 +9,22 @@ import {
   silhouetteList,
   originList,
   cityList
-} from "../../../constants/data.json";
+} from '../../../constants/data.json';
 
 class PostAnAdForm extends React.Component {
   render() {
     return (
-      <div>
+      <Fragment>
+        <h1 className="text-center">Post an ad - 7 days</h1>
         <form className="container mb-5">
-          <div className="card mb-4">
+          <div className="card mb-4 mt-5">
             <div className="card-body">
               <h5 className="card-title">Already have an account?</h5>
               <hr />
               <p className="card-text">
                 <sup>
                   <a href="#">Login</a>
-                </sup>{" "}
+                </sup>{' '}
                 If you do not-have an account, you can create it by below
                 Reviews entering your e-mail address / username. The account
                 details will be confirmed by email.
@@ -100,7 +101,7 @@ class PostAnAdForm extends React.Component {
                     value={item}
                   />
                   <label
-                    className="form-check-label dynamic-checkbox-label"
+                    className="form-check-label dynamic-checkbox-label ml-2"
                     htmlFor={item}
                   >
                     {item}
@@ -139,7 +140,7 @@ class PostAnAdForm extends React.Component {
                     value={item}
                   />
                   <label
-                    className="form-check-label dynamic-checkbox-label"
+                    className="form-check-label dynamic-checkbox-label ml-2"
                     htmlFor={item}
                   >
                     {item}
@@ -310,7 +311,7 @@ class PostAnAdForm extends React.Component {
             Preview
           </button>
         </form>
-      </div>
+      </Fragment>
     );
   }
 }
