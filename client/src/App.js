@@ -24,17 +24,13 @@ const App = () => {
         <div className="App">
           <MiniHeader />
           <Navbar />
-
           <Route exact path="/" component={Landing} />
-
           <Route exact path="/login" component={Login} />
           <Route exact path="/faq" component={Faq} />
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/postanad" component={Postanad} />
           <Route exact path="/postanadform" component={PostAnAdForm} />
-
           <Route exact path="/describe-content" component={DescribeContent} />
-
           <Footer />
         </div>
       </Router>
