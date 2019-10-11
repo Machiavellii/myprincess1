@@ -29,7 +29,7 @@ const LandingCanton = () => {
           <div className="custom-row container">
             <div className="col-sm-12 col-custom">
               <div className="canton p-2 text-center">
-                <Link>
+                <Link to="/">
                   <img src={bern} alt="Bern.jpg" />
                 </Link>
                 <span>Bern</span>
@@ -38,7 +38,7 @@ const LandingCanton = () => {
 
             <div className="col-sm-12 col-custom">
               <div className="canton p-2 text-center">
-                <Link>
+                <Link to="/">
                   <img src={fribourg} alt="Fribourg.jpg" />
                 </Link>
                 <span>Fribourg</span>
@@ -47,7 +47,7 @@ const LandingCanton = () => {
 
             <div className="col-sm-12 col-custom">
               <div className="canton p-2 text-center">
-                <Link>
+                <Link to="/">
                   <img src={geneve} alt="Geneve.jpg" />
                 </Link>
                 <span>Geneve</span>
@@ -56,7 +56,7 @@ const LandingCanton = () => {
 
             <div className="col-sm-12 col-custom">
               <div className="canton p-2 text-center">
-                <Link>
+                <Link to="/">
                   <img src={jura} alt="jura.jpg" />
                 </Link>
                 <span>Jura Mountains</span>
@@ -65,7 +65,7 @@ const LandingCanton = () => {
 
             <div className="col-sm-12 col-custom">
               <div className="canton p-2 text-center">
-                <Link>
+                <Link to="/">
                   <img src={lucerne} alt="lucerne.jpg" />
                 </Link>
                 <span>Lucerne</span>
@@ -74,7 +74,7 @@ const LandingCanton = () => {
 
             <div className="col-sm-12 col-custom">
               <div className="canton p-2 text-center">
-                <Link>
+                <Link to="/">
                   <img src={neuchatel} alt="neuchatel.jpg" />
                 </Link>
                 <span>Neuchatel</span>
@@ -83,7 +83,7 @@ const LandingCanton = () => {
 
             <div className="col-sm-12 col-custom">
               <div className="canton p-2 text-center">
-                <Link>
+                <Link to="/">
                   <img src={tessin} alt="tessin.jpg" />
                 </Link>
                 <span>Valais</span>
@@ -92,7 +92,7 @@ const LandingCanton = () => {
 
             <div className="col-sm-12 col-custom">
               <div className="canton p-2 text-center">
-                <Link>
+                <Link to="/">
                   <img src={sion} alt="sion.jpg" />
                 </Link>
                 <span>Ticino</span>
@@ -101,7 +101,7 @@ const LandingCanton = () => {
 
             <div className="col-sm-12 col-custom">
               <div className="canton p-2 text-center">
-                <Link>
+                <Link to="/">
                   <img src={vaud} alt="vaud.jpg" />
                 </Link>
                 <span>Vaud</span>
@@ -110,7 +110,7 @@ const LandingCanton = () => {
 
             <div className="col-sm-12 col-custom">
               <div className="canton p-2 text-center">
-                <Link>
+                <Link to="/">
                   <img src={zurich} alt="zurich.jpg" />
                 </Link>
                 <span>Zurich</span>
