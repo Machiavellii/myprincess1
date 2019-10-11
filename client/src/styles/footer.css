@@ -21,7 +21,7 @@ footer .language a {
 .facebook a {
   color: #fff;
   font-size: 2.5rem;
-  background: #ce0f69;
+  background: var(--rose-color);
   padding: 0.5rem 1rem;
   font-weight: 800;
   margin-bottom: 1.5rem;

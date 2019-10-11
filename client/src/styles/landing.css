@@ -133,6 +133,6 @@
   margin-bottom: 3rem;
 }
 .landingDescribe a {
-  color: #ce0f69;
+  color: var(--rose-color);
   font-size: 1rem;
 }

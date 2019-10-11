@@ -1,54 +1,54 @@
 strong {
-    line-height: 40px !important;
+  line-height: 40px !important;
 }
 
-.badge{
-    background-color: #CE0F69;
-    color: #fff;
+.badge {
+  background-color: var(--rose-color);
+  color: #fff;
 }
 
 .time {
-    color: #2B2B2B;
-    font-weight: normal;
-    font-size: 150%;
-    line-height: 30px;
+  color: #2b2b2b;
+  font-weight: normal;
+  font-size: 150%;
+  line-height: 30px;
 }
 
 .pricing {
-    color: #CE0F69;
-    font-weight: normal;
-    font-size: 250%;
+  color: var(--rose-color);
+  font-weight: normal;
+  font-size: 250%;
 }
 
 .description {
-    font-style: italic;
-    color: #86898C
+  font-style: italic;
+  color: #86898c;
 }
 
 .full {
-    color: #fff;
-    background-color: #CE0F69;
-    border: 1px solid #CE0F69;
+  color: #fff;
+  background-color: var(--rose-color);
+  border: 1px solid var(--rose-color);
 }
 
 .full:hover {
-    color: #fff;
-    background-color: #CE0F69;
-    border: 1px solid #CE0F69;
+  color: #fff;
+  background-color: var(--rose-color);
+  border: 1px solid var(--rose-color);
 }
 
 .empty {
-    color: #CE0F69;
-    background-color: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.075);
+  color: var(--rose-color);
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.075);
 }
 
 .empty:hover {
-    background-color: #484848;
-    color: #fff;
-    border: 1px solid #484848;
+  background-color: #484848;
+  color: #fff;
+  border: 1px solid #484848;
 }
 
 .right-icon {
-    margin-left: 5px;
+  margin-left: 5px;
 }

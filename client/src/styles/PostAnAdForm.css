@@ -21,12 +21,12 @@ h1 {
 
 .dynamic-checkbox:hover,
 .dynamic-checkbox-label:hover {
-  color: #ce0f69;
+  color: var(--rose-color);
 }
 
 .main-theme-btn {
-  background-color: #ce0f69;
-  border: 1px solid #ce0f69;
+  background-color: var(--rose-color);
+  border: 1px solid var(--rose-color);
 }
 
 .main-theme-btn:hover {
@@ -35,7 +35,7 @@ h1 {
 }
 
 sup a {
-  color: #ce0f69;
+  color: var(--rose-color);
   text-decoration: none;
   font-weight: 700;
   font-size: 0.9rem;

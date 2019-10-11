@@ -18,7 +18,7 @@
   position: absolute;
   bottom: 50%;
   background: #fff;
-  color: #ce0f69;
+  color: var(--rose-color);
   font-size: 1.5rem;
   border-radius: 50%;
   padding: 0.5rem;
@@ -49,7 +49,7 @@
 }
 
 .headerGirl h1 {
-  color: #ce0f69;
+  color: var(--rose-color);
   font-size: 3rem;
 }
 .subheading {

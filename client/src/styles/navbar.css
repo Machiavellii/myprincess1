@@ -73,7 +73,7 @@ button:focus {
 }
 
 .rose-border {
-  border: 2px solid #ce0f69;
+  border: 2px solid var(--rose-color);
   border-radius: 5px;
 }
 
