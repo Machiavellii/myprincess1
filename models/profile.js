@@ -1,21 +1,29 @@
 const mongoose = require('mongoose');
-const {ObjectId} = mongoose.Schema;
+const { ObjectId } = mongoose.Schema;
 
-const adSchema = new mongoose.Schema({
+const profileSchema = new mongoose.Schema({
     user_id: {
-        type: objectId,
-        ref: "userSchema"
+        type: ObjectId,
+        ref: "User"
     },
-    ad_is_active: {
-        type: Boolean,
-        default: true
-    },
-    title: {
+    gender: {
         type: String,
         required: true
     },
-    languages: {
-        type: Array,
+    sexual_orientation: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        trim: true,
+        required: true,
+    },
+
+    // User type (should probably be in user) =>
+
+    type: {
+        type: String,
         required: true
     },
     country: {
@@ -32,6 +40,42 @@ const adSchema = new mongoose.Schema({
     },
     ZIP: {
         type: String,
+        required: true
+    },
+    subscription_plan: {
+        type: String,
+        required: true
+    },
+    start_of_subscription: {
+        type: Date
+    },
+    end_of_subscription: {
+        type: Date
+    },
+    favorites: {
+        type: Array,
+    },
+
+    // Profile activity  =>
+    is_active: {
+        type: Boolean,
+        default: false
+    },
+
+    /* Ad activity  =>
+    
+    ad_is_active: {
+        type: Boolean,
+        default: true
+    },*/
+
+    // Ad title  =>
+    title: {
+        type: String,
+        required: true
+    },
+    languages: {
+        type: Array,
         required: true
     },
     slogan: {
@@ -64,10 +108,17 @@ const adSchema = new mongoose.Schema({
         type: Buffer,
         contentType: String
     },
-    photos: {
-        type: ObjectId,
-        ref: "Photos" //**************************** */
-    },
+    photos: [{
+        position: {
+            type: Number,
+            required: true
+        },
+        url: {
+            type: String,
+            required: true
+        },
+    
+    }],
     hours: {
         type: String,
     },
@@ -80,11 +131,13 @@ const adSchema = new mongoose.Schema({
     website: {
         type: String,
     },
+
+    // U kontroleru sabrati sve vrijednosti koje su dodate u niz i podijeliti sa array length =>
     rating: {
         type: Array
     },
-    votes: {type: Array,
-
+    
+    votes: [{
         review: {
             type: String
         },
@@ -100,12 +153,7 @@ const adSchema = new mongoose.Schema({
         opinions: {
             type: Array
         }}
-    
-        
-    }
-
-    
-    
+    ]
 })
 
-module.exports = mongoose.model("Ad", adSchema);
+module.exports = mongoose.model("Profile", adSchema);
