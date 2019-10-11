@@ -1,30 +1,30 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema({
-    /* USER remodeled start */
-    
-    nickname: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        trim: true,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    reg_date: {
-        type: Date,
-        default: Date.now
-    },
+const UserSchema = new Schema({
+  /* USER remodeled start */
 
-    /* USER user remodeled end */
+  nickname: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  }
 
-   
-     /* removed for now :)
+  /* USER user remodeled end */
+
+  /* removed for now :)
      
      in_agency: {
         type: Boolean,
@@ -39,4 +39,4 @@ const userSchema = new mongoose.Schema({
     } */
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = User = mongoose.model('user', UserSchema);
