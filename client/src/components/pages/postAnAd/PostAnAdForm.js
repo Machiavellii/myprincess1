@@ -23,7 +23,7 @@ class PostAnAdForm extends React.Component {
               <hr />
               <p className="card-text">
                 <sup>
-                  <a href="#">Login</a>
+                  <a href="!#">Login</a>
                 </sup>{' '}
                 If you do not-have an account, you can create it by below
                 Reviews entering your e-mail address / username. The account
