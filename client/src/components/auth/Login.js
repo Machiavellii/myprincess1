@@ -5,7 +5,7 @@ const Login = () => {
     <div className="container">
       <form className="p-5">
         <div className="form-group">
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="email">Email Address *</label>
           <input
             type="text"
             className="form-control"
@@ -14,7 +14,7 @@ const Login = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password *</label>
           <input
             type="text"
             className="form-control"
