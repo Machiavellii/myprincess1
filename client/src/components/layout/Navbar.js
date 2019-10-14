@@ -65,7 +65,16 @@ const Navbar = () => {
                 className="nav-link"
                 activeclassname="active"
               >
-                Log in
+                Sing in
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to="/register"
+                className="nav-link"
+                activeclassname="active"
+              >
+                Sing Up
               </NavLink>
             </li>
             <li className="nav-item">

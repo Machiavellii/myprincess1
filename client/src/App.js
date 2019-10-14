@@ -10,6 +10,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 
 import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 import Landing from './components/landing/Landing';
 import DescribeContent from './components/landing/landingpages/landingcontent/singleGirl/Describe';
 import Faq from './components/pages/Faq';
@@ -26,6 +27,7 @@ const App = () => {
           <Navbar />
           <Route exact path="/" component={Landing} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
           <Route exact path="/faq" component={Faq} />
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/postanad" component={Postanad} />
