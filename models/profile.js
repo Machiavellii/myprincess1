@@ -53,7 +53,7 @@ const ProfileSchema = new Schema({
     type: Date
   },
   favorites: {
-    type: Array
+    type: [String]
   },
 
   // Profile activity  =>
@@ -75,7 +75,7 @@ const ProfileSchema = new Schema({
     required: true
   },
   languages: {
-    type: Array,
+    type: [String],
     required: true
   },
   slogan: {
@@ -86,14 +86,14 @@ const ProfileSchema = new Schema({
     required: true
   },
   services: {
-    type: Array,
+    type: [String],
     required: true
   },
   age: {
     type: Number,
     required: true
   },
-  silhoutte: {
+  silhouette: {
     type: String,
     required: true
   },
@@ -135,7 +135,7 @@ const ProfileSchema = new Schema({
 
   // U kontroleru sabrati sve vrijednosti koje su dodate u niz i podijeliti sa array length =>
   rating: {
-    type: Array
+    type: [Number]
   },
 
   votes: [
@@ -153,7 +153,7 @@ const ProfileSchema = new Schema({
         type: String
       },
       opinions: {
-        type: Array
+        type: [String]
       }
     }
   ]
