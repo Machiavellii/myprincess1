@@ -103,18 +103,7 @@ const ProfileSchema = new Schema({
     type: Buffer,
     contentType: String
   },
-  photos: [
-    {
-      position: {
-        type: Number,
-        required: true
-      },
-      url: {
-        type: String,
-        required: true
-      }
-    }
-  ],
+  photos: [String],
   hours: {
     type: String
   },

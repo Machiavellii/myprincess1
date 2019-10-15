@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const config = require('config');
+const multer = require('multer');
 //const request = require('request');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
@@ -250,13 +251,16 @@ router.delete('/', auth, async (req, res) => {
 
 // TODO: upload photo gallery and upload cover photo and check ovo ispod
 
+// @route    POST api/profile/upload-cover
+// @desc     Upload cover photo
+// @access   Private
 router.post(
   "/upload-cover",
   auth,
   async (req, res) => {
     try {
       var storage = multer.diskStorage({
-        destination: function(req, file, cb) {
+        destination: function (req, file, cb) {
           const folder_id = req.user.id;
           dirPath = `./static/images/${folder_id}`;
           if (!fs.existsSync(dirPath)) {
@@ -264,13 +268,13 @@ router.post(
           }
           cb(null, dirPath);
         },
-        filename: function(req, file, cb) {
+        filename: function (req, file, cb) {
           const nickname = req.user.nickname;
           cb(null, nickname + "-" + Date.now());
         }
       });
       var upload = multer({ storage: storage }).single("image");
-      upload(req, res, async function(err) {
+      upload(req, res, async function (err) {
         if (err instanceof multer.MulterError) {
           return res.status(500).json(err);
         } else if (err) {
@@ -285,7 +289,7 @@ router.post(
         });
         if (profile) {
           const coverUrl = `./static/images/${folder_id}` + profile.coverUrl; // Provjeriti da li bi se ovo ispravno prikazivalo
-          fs.unlink(coverUrl, err => {});
+          fs.unlink(coverUrl, err => { });
         }
         await Profile.findOneAndUpdate(
           { user_id: req.user._id },
@@ -306,5 +310,63 @@ router.post(
   }
 );
 
+
+// @route    POST api/profile/upload-gallery
+// @desc     Upload gallery photos 
+// @access   Private
+router.post(
+  "/upload-gallery",
+  auth,
+  async (req, res) => {
+    try {
+      var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+          const folder_id = req.user.id;
+          dirPath = `./static/images/${folder_id}`;
+          if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath);
+          }
+          cb(null, dirPath);
+        },
+        filename: function (req, file, cb) {
+          cb(null, Date.now() + "-" + file.originalname);
+        }
+      });
+      var upload = multer({ storage: storage }).array("images", 10);
+      upload(req, res, async function (err) {
+        if (err instanceof multer.MulterError) {
+          return res.status(500).json(err);
+        } else if (err) {
+          return res.status(500).json(err);
+        }
+        var file = req.file;
+        const folder_id = req.user.id;
+        const coverUrl =
+          file.destination.replace(`./static/images/${folder_id}`, "") + file.filename; // Provjeriti da li bi se ovo ispravno prikazivalo
+        const profile = await Profile.findOne({
+          user_id: mongoose.Types.ObjectId(req.user._id)
+        });
+        if (profile) {
+          const coverUrl = `./static/images/${folder_id}` + profile.coverUrl; // Provjeriti da li bi se ovo ispravno prikazivalo
+          fs.unlink(coverUrl, err => { });
+        }
+        await Profile.findOneAndUpdate(
+          { user_id: req.user._id },
+          {
+            coverUrl: coverUrl
+          },
+          {
+            new: true,
+            upsert: true
+          }
+        );
+        return res.status(200).json({ coverUrl: coverUrl });
+      });
+    } catch (err) {
+      console.log("create dish err:", err);
+      return res.status(500).json();
+    }
+  }
+);
 
 module.exports = router;
