@@ -19,9 +19,9 @@ const Navbar = () => {
         <div className="search-bar mr-5">
           <input type="text" placeholder="Que recherchez-vous" />
           <div className="icons">
-            <a href="#!" className="big-size mr-2">
+            <Link to="/search" className="big-size mr-2">
               <i className="fas fa-search" />
-            </a>
+            </Link>
             <a href="#!" className="small-size">
               <i className="fas fa-search" />
             </a>
