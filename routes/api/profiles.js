@@ -186,4 +186,125 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route    GET api/profile/user/:user_id
+// @desc     Get profile by user ID
+// @access   Public
+router.get('/user/:user_id', async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.params.user_id
+    }).populate('user', ['nickname']);
+
+    if (!profile) {
+      return res.status(400).json({ msg: 'Profile not found!' });
+    }
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Profile not found!' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route    GET api/profile/me
+// @desc     Get current users profile
+// @access   Private
+router.get('/me', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id }).populate(
+      'user',
+      ['nickname']
+    );
+
+    if (!profile) {
+      return res.status(400).json({ msg: 'There is no profile for this user' });
+    }
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route    DELETE api/profile
+// @desc     Delete profile, user & posts
+// @access   Private
+router.delete('/', auth, async (req, res) => {
+  try {
+    // REMOVE USER POST TO DO
+    // Remove profile
+    await Profile.findOneAndRemove({ user: req.user.id });
+    // Remove User
+    await User.findOneAndRemove({ _id: req.user.id });
+
+    res.json({ msg: 'User Deleted' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// TODO: upload photo gallery and upload cover photo and check ovo ispod
+
+router.post(
+  "/upload-cover",
+  auth,
+  async (req, res) => {
+    try {
+      var storage = multer.diskStorage({
+        destination: function(req, file, cb) {
+          const folder_id = req.user.id;
+          dirPath = `./static/images/${folder_id}`;
+          if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath);
+          }
+          cb(null, dirPath);
+        },
+        filename: function(req, file, cb) {
+          const nickname = req.user.nickname;
+          cb(null, nickname + "-" + Date.now());
+        }
+      });
+      var upload = multer({ storage: storage }).single("image");
+      upload(req, res, async function(err) {
+        if (err instanceof multer.MulterError) {
+          return res.status(500).json(err);
+        } else if (err) {
+          return res.status(500).json(err);
+        }
+        var file = req.file;
+        const folder_id = req.user.id;
+        const coverUrl =
+          file.destination.replace(`./static/images/${folder_id}`, "") + file.filename; // Provjeriti da li bi se ovo ispravno prikazivalo
+        const profile = await Profile.findOne({
+          user_id: mongoose.Types.ObjectId(req.user._id)
+        });
+        if (profile) {
+          const coverUrl = `./static/images/${folder_id}` + profile.coverUrl; // Provjeriti da li bi se ovo ispravno prikazivalo
+          fs.unlink(coverUrl, err => {});
+        }
+        await Profile.findOneAndUpdate(
+          { user_id: req.user._id },
+          {
+            coverUrl: coverUrl
+          },
+          {
+            new: true,
+            upsert: true
+          }
+        );
+        return res.status(200).json({ coverUrl: coverUrl });
+      });
+    } catch (err) {
+      console.log("create dish err:", err);
+      return res.status(500).json();
+    }
+  }
+);
+
+
 module.exports = router;
