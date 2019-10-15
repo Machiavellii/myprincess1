@@ -9,6 +9,35 @@ const { check, validationResult } = require('express-validator');
 const Profile = require('../../models/profile');
 const User = require('../../models/User');
 
+/* start upload image logic */
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const folder_id = req.user.id;
+    dirPath = `./static/images/${folder_id}`;
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath);
+    }
+    cb(null, dirPath);
+  },
+  filename: function (req, file, cb) {
+    const nickname = req.user.nickname;
+    cb(null, nickname + "-" + Date.now());
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+var uploadCover = multer({ storage: storage, fileFilter: fileFilter }).single("image");
+var uploadGallery = multer({ storage: storage }).array("images", 10);
+
+/* end upload image logic */
+
 // @route    POST api/profile
 // @desc     Create or update user profile
 // @access   Private
@@ -259,22 +288,7 @@ router.post(
   auth,
   async (req, res) => {
     try {
-      var storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-          const folder_id = req.user.id;
-          dirPath = `./static/images/${folder_id}`;
-          if (!fs.existsSync(dirPath)) {
-            fs.mkdirSync(dirPath);
-          }
-          cb(null, dirPath);
-        },
-        filename: function (req, file, cb) {
-          const nickname = req.user.nickname;
-          cb(null, nickname + "-" + Date.now());
-        }
-      });
-      var upload = multer({ storage: storage }).single("image");
-      upload(req, res, async function (err) {
+        uploadCover(req, res, async function (err) {
         if (err instanceof multer.MulterError) {
           return res.status(500).json(err);
         } else if (err) {
@@ -319,21 +333,7 @@ router.post(
   auth,
   async (req, res) => {
     try {
-      var storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-          const folder_id = req.user.id;
-          dirPath = `./static/images/${folder_id}`;
-          if (!fs.existsSync(dirPath)) {
-            fs.mkdirSync(dirPath);
-          }
-          cb(null, dirPath);
-        },
-        filename: function (req, file, cb) {
-          cb(null, Date.now() + "-" + file.originalname);
-        }
-      });
-      var upload = multer({ storage: storage }).array("images", 10);
-      upload(req, res, async function (err) {
+        uploadGallery(req, res, async function (err) {
         if (err instanceof multer.MulterError) {
           return res.status(500).json(err);
         } else if (err) {
