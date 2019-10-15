@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ProfileSchema = new Schema({
-  user_id: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
@@ -69,11 +69,6 @@ const ProfileSchema = new Schema({
         default: true
     },*/
 
-  // Ad title  =>
-  title: {
-    type: String,
-    required: true
-  },
   languages: {
     type: [String],
     required: true
