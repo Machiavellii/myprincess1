@@ -341,26 +341,26 @@ router.post(
         }
         var file = req.file;
         const folder_id = req.user.id;
-        const coverUrl =
+        const photos =
           file.destination.replace(`./static/images/${folder_id}`, "") + file.filename; // Provjeriti da li bi se ovo ispravno prikazivalo
         const profile = await Profile.findOne({
           user_id: mongoose.Types.ObjectId(req.user._id)
         });
         if (profile) {
-          const coverUrl = `./static/images/${folder_id}` + profile.coverUrl; // Provjeriti da li bi se ovo ispravno prikazivalo
-          fs.unlink(coverUrl, err => { });
+          const photos = `./static/images/${folder_id}` + profile.photos; // Provjeriti da li bi se ovo ispravno prikazivalo
+          fs.unlink(photos, err => { });
         }
         await Profile.findOneAndUpdate(
           { user_id: req.user._id },
           {
-            coverUrl: coverUrl
+            photos: photos
           },
           {
             new: true,
             upsert: true
           }
         );
-        return res.status(200).json({ coverUrl: coverUrl });
+        return res.status(200).json({ photos: photos });
       });
     } catch (err) {
       console.log("create dish err:", err);
