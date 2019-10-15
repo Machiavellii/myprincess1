@@ -328,7 +328,7 @@ router.post(
 // @route    POST api/profile/upload-gallery
 // @desc     Upload gallery photos 
 // @access   Private
-router.post(
+/* router.post(
   "/upload-gallery",
   auth,
   async (req, res) => {
@@ -367,6 +367,6 @@ router.post(
       return res.status(500).json();
     }
   }
-);
+);*/
 
 module.exports = router;
