@@ -12,6 +12,9 @@
   outline: unset;
   box-shadow: unset;
 }
+.card {
+  cursor: pointer;
+}
 
 .card-title {
   color: var(--rose-color);
