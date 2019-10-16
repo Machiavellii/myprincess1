@@ -124,8 +124,8 @@ router.post(
       hours,
       rate,
       website,
-      ratings // array
-      // votes,
+      ratings, // array
+      opinions,
     } = req.body;
 
     /* Profile Object */
@@ -164,6 +164,11 @@ router.post(
       profileFields.photos = photos
         .split(',')
         .map(photo => photo.trim());
+    }
+    if (opinions) {
+      profileFields.opinions = opinions
+        .split(',')
+        .map(opinion => opinion.trim());
     }
     if (favorites) {
       profileFields.favorites = favorites
@@ -273,11 +278,10 @@ router.get('/me', auth, async (req, res) => {
 // @access   Private
 router.delete('/', auth, async (req, res) => {
   try {
-    // REMOVE USER POST TO DO
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     // Remove User
-    await User.findOneAndRemove({ _id: req.user.id });
+    // await User.findOneAndRemove({ _id: req.user.id });
 
     res.json({ msg: 'User Deleted' });
   } catch (err) {
@@ -407,5 +411,119 @@ router.post(
       return res.status(500).json();
     }
   );
+
+  // @route    PUT api/profile/experience
+// @desc     Add profile experience
+// @access   Private
+router.put(
+  '/experience',
+  [
+    auth,
+    [
+      check('title', 'Title is required')
+        .not()
+        .isEmpty(),
+      check('company', 'Company is required')
+        .not()
+        .isEmpty(),
+      check('from', 'From date is required')
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description
+    } = req.body;
+
+    const newExp = {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description
+    };
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+
+      profile.experience.unshift(newExp);
+
+      await profile.save();
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route    PUT api/profile/education
+// @desc     Add profile education
+// @access   Private
+router.post(
+  '/opinions',
+  [
+    auth,
+    [
+      check('review', 'Review is required')
+        .not()
+        .isEmpty(),
+      check('title', 'Title is required')
+        .not()
+        .isEmpty(),
+      check('name', 'Name is required')
+        .not()
+        .isEmpty(),
+      check('email', 'Please include a valid email')
+      .isEmail(),
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      review,
+      title,
+      name,
+      email
+    } = req.body;
+
+    const newOpinion = {
+      review,
+      title,
+      name,
+      email
+    };
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+
+      profile.opinions.unshift(newOpinion);
+
+      await profile.save();
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 module.exports = router;
