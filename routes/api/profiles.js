@@ -413,8 +413,8 @@ router.post(
   );
 
  
-// @route    PUT api/profile/education
-// @desc     Add profile education
+// @route    PUT api/profile/opinions
+// @desc     Add opinions
 // @access   Private
 router.post(
   '/opinions',
@@ -458,6 +458,41 @@ router.post(
       const profile = await Profile.findOne({ user: req.user.id });
 
       profile.opinions.unshift(newOpinion);
+
+      await profile.save();
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route    PUT api/profile/rating
+// @desc     Add rating
+// @access   Private
+router.post(
+  '/rating',
+  [
+    auth,
+    []
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const {
+      num
+    } = req.body;
+
+    const newOpinion = Number(num)
+
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+
+      profile.rating.unshift(newOpinion);
 
       await profile.save();
       res.json(profile);
