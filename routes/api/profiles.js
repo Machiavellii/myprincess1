@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const config = require('config');
 const multer = require('multer');
+const fs = require ('fs')
+const mongoose = require('mongoose')
 //const request = require('request');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
@@ -21,7 +23,7 @@ var storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const nickname = req.user.nickname;
-    cb(null, nickname + "-" + Date.now());
+    cb(null, Date.now() + file.originalname );
   }
 });
 
@@ -42,7 +44,7 @@ var uploadGallery = multer({ storage: storage }).array("images", 10);
 // @desc     Create or update user profile
 // @access   Private
 router.post(
-  '/',
+  '/',  
   auth,
   [
     check('gender', 'Gender is required')
@@ -295,27 +297,26 @@ router.post(
           return res.status(500).json(err);
         }
         var file = req.file;
-        const folder_id = req.user.id;
         const coverUrl =
-          file.destination.replace(`./static/images/${folder_id}`, "") + file.filename; // Provjeriti da li bi se ovo ispravno prikazivalo
+          file.destination + file.filename; // Provjeriti da li bi se ovo ispravno prikazivalo
         const profile = await Profile.findOne({
-          user_id: mongoose.Types.ObjectId(req.user._id)
+          user: mongoose.Types.ObjectId(req.user._id)
         });
         if (profile) {
-          const coverUrl = `./static/images/${folder_id}` + profile.coverUrl; // Provjeriti da li bi se ovo ispravno prikazivalo
-          fs.unlink(coverUrl, err => { });
+          const coverUrl = profile.coverUrl; // Provjeriti da li bi se ovo ispravno prikazivalo
+          fs.unlink(coverUrl, err => { console.log("error", err) });
         }
         await Profile.findOneAndUpdate(
-          { user_id: req.user._id },
+          { user: req.user.id },
           {
-            coverUrl: coverUrl
+            cover_photo: coverUrl
           },
           {
             new: true,
             upsert: true
           }
         );
-        return res.status(200).json({ coverUrl: coverUrl });
+        return res.status(200).json({ cover_photo: coverUrl });
       });
     } catch (err) {
       console.log("create dish err:", err);

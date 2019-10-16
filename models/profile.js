@@ -100,8 +100,7 @@ const ProfileSchema = new Schema({
     type: String
   },
   cover_photo: {
-    type: Buffer,
-    contentType: String
+    type: String
   },
   photos: [String],
   hours: {
