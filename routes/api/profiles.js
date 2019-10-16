@@ -37,7 +37,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 var uploadCover = multer({ storage: storage, fileFilter: fileFilter }).single("image");
-var uploadGallery = multer({ storage: storage }).array("images", 10);
+var uploadGallery = multer({ storage: storage }).array("photos", 10);
 
 /* end upload image logic */
 
@@ -120,7 +120,7 @@ router.post(
       origin,
       description,
       cover_photo, // photo
-      // photos,
+      photos,
       hours,
       rate,
       website,
@@ -160,6 +160,11 @@ router.post(
     if (cover_photo) profileFields.cover_photo = cover_photo;
 
     // Array items
+    if (photos) {
+      profileFields.photos = photos
+        .split(',')
+        .map(photo => photo.trim());
+    }
     if (favorites) {
       profileFields.favorites = favorites
         .split(',')
@@ -330,45 +335,59 @@ router.post(
 // @route    POST api/profile/upload-gallery
 // @desc     Upload gallery photos 
 // @access   Private
-/* router.post(
+router.post(
   "/upload-gallery",
   auth,
   async (req, res) => {
     try {
         uploadGallery(req, res, async function (err) {
-        if (err instanceof multer.MulterError) {
-          return res.status(500).json(err);
-        } else if (err) {
-          return res.status(500).json(err);
-        }
-        var file = req.file;
-        const folder_id = req.user.id;
-        const photos =
-          file.destination.replace(`./static/images/${folder_id}`, "") + file.filename; // Provjeriti da li bi se ovo ispravno prikazivalo
-        const profile = await Profile.findOne({
-          user_id: mongoose.Types.ObjectId(req.user._id)
+          if (err instanceof multer.MulterError) {
+            return res.status(500).json(err);
+          } else if (err) {
+            return res.status(500).json(err);
+          }
+          const photoUrls = req.files.map((item, index) => {
+            return path.join(item.destination,item.filename);
+          });
+          const exist_images = req.body.exist_images.split(",");
+          if (exist_images && exist_images.length > 0 && exist_images[0] != "") {
+            exist_images.map(item => {
+              photoUrls.unshift(item);
+            });
+          }
+          if (photo) {
+            photo.photos.map((item, index) => {
+              const imgPath = path.join(item.destination,item);
+              fs.unlink(imgPath, err => {});
+            });
+          }
+          const profile = await Profile.findOne({
+          user: mongoose.Types.ObjectId(req.user._id)
         });
         if (profile) {
-          const photos = `./static/images/${folder_id}` + profile.photos; // Provjeriti da li bi se ovo ispravno prikazivalo
-          fs.unlink(photos, err => { });
+          const photoUrls = profile.photoUrls;
+          fs.unlink(photoUrls, err => { console.log("error", err) });
         }
-        await Profile.findOneAndUpdate(
-          { user_id: req.user._id },
-          {
-            photos: photos
-          },
-          {
-            new: true,
-            upsert: true
-          }
-        );
-        return res.status(200).json({ photos: photos });
-      });
-    } catch (err) {
-      console.log("create dish err:", err);
+          await Profile.findOneAndUpdate(
+            {
+              user: req.user.id
+            },
+            {
+              photos: photoUrls
+            },
+            {
+              new: true,
+              upsert: true
+            }
+          );
+          return res.status(200).json({ photos: photoUrls });
+        });
+        
+      } catch (err) {
+        console.log("post upload-ads err:", err);
+      }
       return res.status(500).json();
     }
-  }
-);*/
+  );
 
 module.exports = router;
