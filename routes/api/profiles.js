@@ -355,12 +355,8 @@ router.post(
           //     photoUrls.unshift(item);
           //   });
           // }
-          // if (photo) {
-          //   photo.photos.map((item, index) => {
-          //     const imgPath = path.join(item.destination,item);
-          //     fs.unlink(imgPath, err => {});
-          //   });
-          // }
+         
+          
           const profile = await Profile.findOne({
             user: mongoose.Types.ObjectId(req.user._id)
         });
@@ -368,6 +364,28 @@ router.post(
           const photoUrls = profile.photoUrls;
           fs.unlink(photoUrls, err => { console.log("error", err) });
         }
+        const photo = await Profile.findOne({
+          user: req.user.id
+        });
+        if (photo) {
+          photo.photos.map((item, index) => {
+            const imgPath = path.join(item.destination,item);
+            fs.unlink(imgPath, err => {});
+          });
+        }
+        var photos = await Profile.findOneAndUpdate(
+          {
+            user: req.user.id
+          },
+          {
+            user: req.user.id,
+            photos: photoUrls
+          },
+          {
+            new: true,
+            upsert: true
+          }
+        );
         await Profile.findOneAndUpdate(
           {
             user: req.user.id
@@ -381,6 +399,7 @@ router.post(
           }
         );
       });
+      console.log("gallery uploaded")
         return res.status(200).json();
       } catch (err) {
         console.log("gallery upload err:", err);
