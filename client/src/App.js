@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 import store from './store';
 import { Provider } from 'react-redux';
+
+import setAuthToken from './utills/setAuthToken';
 
 import MiniHeader from './components/layout/MiniHeader';
 import Navbar from './components/layout/Navbar';
@@ -20,13 +22,25 @@ import Postanad from './components/pages/postAnAd/Postanad';
 import PostAnAdForm from './components/pages/postAnAd/PostAnAdForm';
 import Search from './components/pages/search/Search';
 
+import Alert from './components/layout/Alert';
+import { loadUser } from './actions/auth';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
   return (
     <Provider store={store}>
       <Router>
         <div className="App">
           <MiniHeader />
           <Navbar />
+          <Alert />
           <Route exact path="/" component={Landing} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />

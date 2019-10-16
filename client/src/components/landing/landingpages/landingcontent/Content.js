@@ -1,8 +1,17 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getProfiles } from '../../../../actions/profile';
 import Contents from './Contents';
 // import Pagination from '../../../common/Pagination';
 
-const Content = () => {
+const Content = ({ getProfiles, profile: { profiles, loading } }) => {
+  useEffect(() => {
+    getProfiles();
+  }, [getProfiles]);
+
+  console.log(profiles, loading);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [contentsPerPage] = useState(7);
 
@@ -19,4 +28,16 @@ const Content = () => {
   );
 };
 
-export default Content;
+Content.propTypes = {
+  getProfiles: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default connect(
+  mapStateToProps,
+  { getProfiles }
+)(Content);

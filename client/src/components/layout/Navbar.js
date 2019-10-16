@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import '../../styles/navbar.css';
 import Logo from '../../img/logo.png';
 
-const Navbar = () => {
+import { connect } from 'react-redux';
+import { logout } from '../../actions/auth';
+
+const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   let [showHide, setShow] = useState(false);
   let [showInput] = useState('');
 
@@ -13,99 +16,124 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark" id="top">
-      {showHide ? (
-        <div className="search-input-small">
-          <input
-            type="text"
-            name=""
-            className="form-control form-control-lg"
-            placeholder="Que recherchez-vous"
-          />
-          <i className="fas fa-times"></i>
-        </div>
-      ) : null}
-      <div className="container">
-        <Link to="/" className="navbar-brand">
-          <img src={Logo} className="img-fluid" alt="logo.png" />
-        </Link>
-        <div className="search-bar mr-5">
-          <input type="text" placeholder="Que recherchez-vous" />
-          <div className="icons">
-            <Link to="/search" className="big-size mr-2">
-              <i className="fas fa-search" />
+      {!loading && (
+        <Fragment>
+          {showHide ? (
+            <div className="search-input-small">
+              <input
+                type="text"
+                name=""
+                className="form-control form-control-lg"
+                placeholder="Que recherchez-vous"
+              />
+              <i className="fas fa-times"></i>
+            </div>
+          ) : null}
+          <div className="container">
+            <Link to="/" className="navbar-brand">
+              <img src={Logo} className="img-fluid" alt="logo.png" />
             </Link>
-            <a href="#!" className="small-size" onClick={showInput}>
-              <i className={`fas fa-search ${showHide ? 'opct' : ''}`} />
-            </a>
-          </div>
-        </div>
-        <div className="button-collapse">
-          <button
-            className="navbar-toggler"
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-expanded="false"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-        </div>
+            <div className="search-bar mr-5">
+              <input type="text" placeholder="Que recherchez-vous" />
+              <div className="icons">
+                <Link to="/search" className="big-size mr-2">
+                  <i className="fas fa-search" />
+                </Link>
+                <a href="#!" className="small-size" onClick={showInput}>
+                  <i className={`fas fa-search ${showHide ? 'opct' : ''}`} />
+                </a>
+              </div>
+            </div>
+            <div className="button-collapse">
+              <button
+                className="navbar-toggler"
+                data-toggle="collapse"
+                data-target="#navbarCollapse"
+                aria-expanded="false"
+              >
+                <span className="navbar-toggler-icon" />
+              </button>
+            </div>
 
-        <div className="collapse navbar-collapse" id="navbarCollapse">
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <NavLink to="/faq" className="nav-link" activeClassName="active">
-                FAQ
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/contact"
-                className="nav-link"
-                activeclassname="active"
-              >
-                Contact
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="/postanad" className="nav-link rose-border">
-                Post an ad
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/login"
-                className="nav-link"
-                activeclassname="active"
-              >
-                Sing in
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/register"
-                className="nav-link"
-                activeclassname="active"
-              >
-                Sing Up
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <a
-                href="https://m.facebook.com/myprincess.ch"
-                className="nav-link rose-border"
-                activeclassname="active"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Facebook
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      {/* {this.props.children} */}
+            <div className="collapse navbar-collapse" id="navbarCollapse">
+              <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <NavLink
+                    to="/faq"
+                    className="nav-link"
+                    activeClassName="active"
+                  >
+                    FAQ
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    to="/contact"
+                    className="nav-link"
+                    activeclassname="active"
+                  >
+                    Contact
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/postanad" className="nav-link rose-border">
+                    Post an ad
+                  </NavLink>
+                </li>
+                {isAuthenticated ? (
+                  <li className="nav-item">
+                    <Link to="/" onClick={logout} className="nav-link">
+                      Logout
+                    </Link>
+                  </li>
+                ) : (
+                  <Fragment>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/login"
+                        className="nav-link"
+                        activeclassname="active"
+                      >
+                        Sing in
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/register"
+                        className="nav-link"
+                        activeclassname="active"
+                      >
+                        Sing Up
+                      </NavLink>
+                    </li>
+                  </Fragment>
+                )}
+
+                <li className="nav-item">
+                  <a
+                    href="https://m.facebook.com/myprincess.ch"
+                    className="nav-link rose-border"
+                    activeclassname="active"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Facebook
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </Fragment>
+      )}
     </nav>
   );
 };
 
-export default Navbar;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logout }
+)(Navbar);
