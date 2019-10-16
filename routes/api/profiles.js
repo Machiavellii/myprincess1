@@ -349,42 +349,41 @@ router.post(
           const photoUrls = req.files.map((item, index) => {
             return path.join(item.destination,item.filename);
           });
-          const exist_images = req.body.exist_images.split(",");
-          if (exist_images && exist_images.length > 0 && exist_images[0] != "") {
-            exist_images.map(item => {
-              photoUrls.unshift(item);
-            });
-          }
-          if (photo) {
-            photo.photos.map((item, index) => {
-              const imgPath = path.join(item.destination,item);
-              fs.unlink(imgPath, err => {});
-            });
-          }
+          // const exist_images = req.body.exist_images;
+          // if (exist_images && exist_images.length > 0 && exist_images[0] != "") {
+          //   exist_images.map(item => {
+          //     photoUrls.unshift(item);
+          //   });
+          // }
+          // if (photo) {
+          //   photo.photos.map((item, index) => {
+          //     const imgPath = path.join(item.destination,item);
+          //     fs.unlink(imgPath, err => {});
+          //   });
+          // }
           const profile = await Profile.findOne({
-          user: mongoose.Types.ObjectId(req.user._id)
+            user: mongoose.Types.ObjectId(req.user._id)
         });
         if (profile) {
           const photoUrls = profile.photoUrls;
           fs.unlink(photoUrls, err => { console.log("error", err) });
         }
-          await Profile.findOneAndUpdate(
-            {
-              user: req.user.id
-            },
-            {
-              photos: photoUrls
-            },
-            {
-              new: true,
-              upsert: true
-            }
-          );
-          return res.status(200).json({ photos: photoUrls });
-        });
-        
+        await Profile.findOneAndUpdate(
+          {
+            user: req.user.id
+          },
+          {
+            photos: photoUrls
+          },
+          {
+            new: true,
+            upsert: true
+          }
+        );
+      });
+        return res.status(200).json();
       } catch (err) {
-        console.log("post upload-ads err:", err);
+        console.log("gallery upload err:", err);
       }
       return res.status(500).json();
     }
