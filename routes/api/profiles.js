@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const config = require('config');
 const multer = require('multer');
-const fs = require ('fs')
+const fs = require ('fs');
+var path = require('path');
 const mongoose = require('mongoose')
 //const request = require('request');
 const auth = require('../../middleware/auth');
@@ -298,12 +299,12 @@ router.post(
         }
         var file = req.file;
         const coverUrl =
-          file.destination + file.filename; // Provjeriti da li bi se ovo ispravno prikazivalo
+          path.join(file.destination, file.filename);
         const profile = await Profile.findOne({
           user: mongoose.Types.ObjectId(req.user._id)
         });
         if (profile) {
-          const coverUrl = profile.coverUrl; // Provjeriti da li bi se ovo ispravno prikazivalo
+          const coverUrl = profile.coverUrl;
           fs.unlink(coverUrl, err => { console.log("error", err) });
         }
         await Profile.findOneAndUpdate(
