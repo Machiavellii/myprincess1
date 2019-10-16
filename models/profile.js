@@ -121,22 +121,23 @@ const ProfileSchema = new Schema({
     type: [Number]
   },
 
-  votes: [
+  opinions: [
     {
       review: {
-        type: String
+        type: String,
+        required: true
       },
       title: {
-        type: String
+        type: String,
+        required: true
       },
       name: {
-        type: String
+        type: String,
+        required: true
       },
       email: {
-        type: String
-      },
-      opinions: {
-        type: [String]
+        type: String,
+        required: true
       }
     }
   ]
