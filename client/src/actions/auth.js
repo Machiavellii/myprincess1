@@ -13,7 +13,6 @@ import {
 } from './type';
 
 import setAuthToken from '../utills/setAuthToken';
-import { RSA_NO_PADDING } from 'constants';
 
 //REGISTER USER
 export const register = ({ nickname, email, password }) => async dispatch => {
