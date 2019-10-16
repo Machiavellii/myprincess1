@@ -13,6 +13,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Landing from './components/landing/Landing';
 import DescribeContent from './components/landing/landingpages/landingcontent/singleGirl/Describe';
+import Links from './components/landing/landingpages/Links';
 import Faq from './components/pages/Faq';
 import Contact from './components/pages/Contact';
 import Postanad from './components/pages/postAnAd/Postanad';
@@ -35,6 +36,7 @@ const App = () => {
           <Route exact path="/postanadform" component={PostAnAdForm} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/describe-content" component={DescribeContent} />
+          <Route exact path="/links" component={Links} />
           <Footer />
         </div>
       </Router>

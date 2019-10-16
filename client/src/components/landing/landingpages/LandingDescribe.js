@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const LandingDescribe = () => {
   return (
@@ -44,7 +45,7 @@ const LandingDescribe = () => {
         all the information, rates, services are written in their profiles.
       </p>
 
-      <a href="!#">Other Links Escorts Girls</a>
+      <Link to="/links">Other Links Escorts Girls</Link>
     </div>
   );
 };
