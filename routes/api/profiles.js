@@ -72,7 +72,7 @@ router.post(
     check('subscription_plan', 'Subscription plan is required')
       .not()
       .isEmpty(),
-    check('Languages', 'Spoken languages are required')
+    check('languages', 'Spoken languages are required')
       .not()
       .isEmpty(),
     check('category', 'Category is required')
