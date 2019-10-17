@@ -488,13 +488,49 @@ router.post(
       user
     } = req.body;
 
-    const newOpinion = Number(num)
+    const newRating = Number(num)
 
 
     try {
       const profile = await Profile.findOne({ user: user });
 
-      profile.rating.unshift(newOpinion);
+      profile.rating.unshift(newRating);
+
+      await profile.save();
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route    PUT api/profile/rating
+// @desc     Add rating
+// @access   Private
+router.post(
+  '/favorites',
+  [
+    auth,
+    []
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const {
+      favorite,
+      user
+    } = req.body;
+
+    const newFavorite = favorite
+
+
+    try {
+      const profile = await Profile.findOne({ user: user });
+
+      profile.favorites.unshift(newFavorite);
 
       await profile.save();
       res.json(profile);
