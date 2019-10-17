@@ -25,10 +25,7 @@ const PricingCard = props => {
         <br />
         <Link
           to="/postanadform"
-          className={
-            'btn btn-primary my-3 py-3 px-4 ' +
-            (props.buttonStyle ? 'full' : 'empty')
-          }
+          className={'btn ' + (props.buttonStyle ? 'full' : 'empty')}
         >
           Start
           <i className="fas fa-caret-right right-icon" />

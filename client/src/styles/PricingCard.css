@@ -29,11 +29,20 @@ strong {
   color: #fff;
   background-color: var(--rose-color);
   border: 1px solid var(--rose-color);
+  display: inline-flex;
+  align-items: center;
+}
+
+.full i {
+  color: #fff !important;
+}
+.full:hover i {
+  color: var(--rose-color) !important;
 }
 
 .full:hover {
-  color: #fff;
-  background-color: var(--rose-color);
+  color: var(--rose-color);
+  background-color: #fff;
   border: 1px solid var(--rose-color);
 }
 
@@ -41,6 +50,8 @@ strong {
   color: var(--rose-color);
   background-color: transparent;
   border: 1px solid rgba(0, 0, 0, 0.075);
+  display: inline-flex;
+  align-items: center;
 }
 
 .empty:hover {
@@ -49,6 +60,10 @@ strong {
   border: 1px solid #484848;
 }
 
+.empty:hover i {
+  color: #fff;
+}
+
 .right-icon {
-  margin-left: 5px;
+  margin-left: 0.5rem;
 }

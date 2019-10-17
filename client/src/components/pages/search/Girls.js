@@ -14,7 +14,7 @@ const Girls = () => {
   return (
     <div className="row">
       <div className="col-sm-6">
-        <div className="card" onClick={redirect}>
+        <div className="card search-card" onClick={redirect}>
           {tru ? (
             <Redirect to="/describe-content" />
           ) : (
@@ -33,7 +33,7 @@ const Girls = () => {
         </div>
       </div>
       <div className="col-sm-6">
-        <div className="card" onClick={redirect}>
+        <div className="card search-card" onClick={redirect}>
           <img src={sara} alt="" className="card-img-top" />
           <div className="card-body">
             <h5 className="card-title">Sara</h5>

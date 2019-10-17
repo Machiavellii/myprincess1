@@ -8,7 +8,7 @@ class ContactForm extends React.Component {
         <form className="mt-5">
           <div className="form-row">
             <div className="form-group col-md-4">
-              <label for="Name">Your Name *</label>
+              <label htmlFor="Name">Your Name *</label>
               <input
                 type="text"
                 className="form-control"
@@ -17,7 +17,7 @@ class ContactForm extends React.Component {
               />
             </div>
             <div className="form-group col-md-4">
-              <label for="Email">Your Email *</label>
+              <label htmlFor="Email">Your Email *</label>
               <input
                 type="email"
                 className="form-control"
@@ -26,7 +26,7 @@ class ContactForm extends React.Component {
               />
             </div>
             <div className="form-group col-md-4">
-              <label for="Phone">Your Phone *</label>
+              <label htmlFor="Phone">Your Phone *</label>
               <input
                 type="text"
                 className="form-control"
@@ -36,7 +36,7 @@ class ContactForm extends React.Component {
             </div>
           </div>
           <div className="form-group">
-            <label for="Message">Your Message *</label>
+            <label htmlFor="Message">Your Message *</label>
             <textarea className="form-control" id="Message" rows="3"></textarea>
           </div>
         </form>

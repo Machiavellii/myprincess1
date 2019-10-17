@@ -86,7 +86,9 @@ class PostAnAdForm extends React.Component {
           </div>
 
           <div className="form-group col-md-12">
-            <label className="form-check-label">Spoken languages</label>
+            <label htmlFor="Spoken languages" className="form-check-label">
+              Spoken languages
+            </label>
             <br />
             {spokenLanguageList.map((item, index) => {
               return (
@@ -125,7 +127,9 @@ class PostAnAdForm extends React.Component {
           </div>
 
           <div className="form-group col-md-12">
-            <label className="form-check-label">Services *</label>
+            <label htmlFor="Services" className="form-check-label">
+              Services *
+            </label>
             <br />
             {servicesList.map((item, index) => {
               return (
