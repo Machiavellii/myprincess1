@@ -444,7 +444,8 @@ router.post(
       review,
       title,
       name,
-      email
+      email,
+      user
     } = req.body;
 
     const newOpinion = {
@@ -455,7 +456,7 @@ router.post(
     };
 
     try {
-      const profile = await Profile.findOne({ user: req.user.id });
+      const profile = await Profile.findOne({ user: user });
 
       profile.opinions.unshift(newOpinion);
 
@@ -483,14 +484,15 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     const {
-      num
+      num,
+      user
     } = req.body;
 
     const newOpinion = Number(num)
 
 
     try {
-      const profile = await Profile.findOne({ user: req.user.id });
+      const profile = await Profile.findOne({ user: user });
 
       profile.rating.unshift(newOpinion);
 
