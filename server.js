@@ -13,7 +13,9 @@ app.use(express.urlencoded({ extended: false }));
 // Routes
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/users', require('./routes/api/users'));
-app.use('/api/profiles', require('./routes/api/profiles'));
+app.use('/api/profile', require('./routes/api/profiles'));
+
+app.use('/static/images', express.static('static/images'));
 
 const PORT = process.env.PORT || 5000;
 

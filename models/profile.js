@@ -26,10 +26,10 @@ const ProfileSchema = new Schema({
     type: String,
     required: true
   },
-  country: {
-    type: String,
-    required: true
-  },
+  // country: {
+  //   type: String,
+  //   required: true
+  // },
   canton: {
     type: String,
     required: true
@@ -38,7 +38,7 @@ const ProfileSchema = new Schema({
     type: String,
     required: true
   },
-  ZIP: {
+  zip: {
     type: String,
     required: true
   },

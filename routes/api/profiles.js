@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const config = require('config');
 const multer = require('multer');
-const fs = require ('fs');
+const fs = require('fs');
 var path = require('path');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 //const request = require('request');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
@@ -14,17 +14,18 @@ const User = require('../../models/User');
 
 /* start upload image logic */
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     const folder_id = req.user.id;
+
     dirPath = `./static/images/${folder_id}`;
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(dirPath);
     }
     cb(null, dirPath);
   },
-  filename: function (req, file, cb) {
+  filename: (req, file, cb) => {
     const nickname = req.user.nickname;
-    cb(null, Date.now() + file.originalname );
+    cb(null, Date.now() + file.originalname);
   }
 });
 
@@ -36,8 +37,8 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-var uploadCover = multer({ storage: storage, fileFilter: fileFilter }).single("image");
-var uploadGallery = multer({ storage: storage }).array("photos", 10);
+const uploadCover = multer({ storage, fileFilter }).single('cover_photo');
+var uploadGallery = multer({ storage: storage }).array('photos', 10);
 
 /* end upload image logic */
 
@@ -45,7 +46,7 @@ var uploadGallery = multer({ storage: storage }).array("photos", 10);
 // @desc     Create or update user profile
 // @access   Private
 router.post(
-  '/',  
+  '/',
   auth,
   [
     check('gender', 'Gender is required')
@@ -57,16 +58,14 @@ router.post(
     check('type', 'Account type is required')
       .not()
       .isEmpty(),
-    check('country', 'Country is required')
-      .not()
-      .isEmpty(),
+
     check('canton', 'Canton is required')
       .not()
       .isEmpty(),
     check('city', 'City is required')
       .not()
       .isEmpty(),
-    check('ZIP', 'ZIP is required')
+    check('zip', 'zip is required')
       .not()
       .isEmpty(),
     check('subscription_plan', 'Subscription plan is required')
@@ -102,10 +101,9 @@ router.post(
       sexual_orientation,
       phone,
       type,
-      country,
       canton,
       city,
-      ZIP,
+      zip,
       subscription_plan,
       start_of_subscription,
       end_of_subscription,
@@ -125,7 +123,7 @@ router.post(
       rate,
       website,
       ratings, // array
-      opinions,
+      opinions
     } = req.body;
 
     /* Profile Object */
@@ -136,10 +134,10 @@ router.post(
       profileFields.sexual_orientation = sexual_orientation;
     if (phone) profileFields.phone = phone;
     if (type) profileFields.type = type;
-    if (country) profileFields.country = country;
+    // if (country) profileFields.country = country;
     if (canton) profileFields.canton = canton;
     if (city) profileFields.city = city;
-    if (ZIP) profileFields.ZIP = ZIP;
+    if (zip) profileFields.zip = zip;
     if (subscription_plan) profileFields.subscription_plan = subscription_plan;
     if (start_of_subscription)
       profileFields.start_of_subscription = start_of_subscription;
@@ -161,9 +159,7 @@ router.post(
 
     // Array items
     if (photos) {
-      profileFields.photos = photos
-        .split(',')
-        .map(photo => photo.trim());
+      profileFields.photos = photos.split(',').map(photo => photo.trim());
     }
     if (opinions) {
       profileFields.opinions = opinions
@@ -221,7 +217,10 @@ router.post(
 // @access   Public
 router.get('/', async (req, res) => {
   try {
-    const profiles = await Profile.find().populate('user', ['nickname']);
+    const profiles = await Profile.find().populate('user', [
+      'nickname',
+      'email'
+    ]);
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
@@ -295,124 +294,116 @@ router.delete('/', auth, async (req, res) => {
 // @route    POST api/profile/upload-cover
 // @desc     Upload cover photo
 // @access   Private
-router.post(
-  "/upload-cover",
-  auth,
-  async (req, res) => {
-    try {
-        uploadCover(req, res, async function (err) {
-        if (err instanceof multer.MulterError) {
-          return res.status(500).json(err);
-        } else if (err) {
-          return res.status(500).json(err);
-        }
-        var file = req.file;
-        const coverUrl =
-          path.join(file.destination, file.filename);
-        const profile = await Profile.findOne({
-          user: mongoose.Types.ObjectId(req.user._id)
-        });
-        if (profile) {
-          const coverUrl = profile.coverUrl;
-          fs.unlink(coverUrl, err => { console.log("error", err) });
-        }
-        await Profile.findOneAndUpdate(
-          { user: req.user.id },
-          {
-            cover_photo: coverUrl
-          },
-          {
-            new: true,
-            upsert: true
-          }
-        );
-        return res.status(200).json({ cover_photo: coverUrl });
+router.post('/upload-cover', auth, async (req, res) => {
+  try {
+    uploadCover(req, res, async function(err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(500).json(err);
+      } else if (err) {
+        return res.status(500).json(err);
+      }
+      var file = req.file;
+      const coverUrl = path.join(file.destination, file.filename);
+      const profile = await Profile.findOne({
+        user: mongoose.Types.ObjectId(req.user._id)
       });
-    } catch (err) {
-      console.log("create dish err:", err);
-      return res.status(500).json();
-    }
+      if (profile) {
+        const coverUrl = profile.coverUrl;
+        fs.unlink(coverUrl, err => {
+          console.log('error', err);
+        });
+      }
+      await Profile.findOneAndUpdate(
+        { user: req.user.id },
+        {
+          cover_photo: coverUrl
+        },
+        {
+          new: true,
+          upsert: true
+        }
+      );
+      return res.status(200).json({ cover_photo: coverUrl });
+    });
+  } catch (err) {
+    console.log('create dish err:', err);
+    return res.status(500).json();
   }
-);
-
+});
 
 // @route    POST api/profile/upload-gallery
-// @desc     Upload gallery photos 
+// @desc     Upload gallery photos
 // @access   Private
-router.post(
-  "/upload-gallery",
-  auth,
-  async (req, res) => {
-    try {
-        uploadGallery(req, res, async function (err) {
-          if (err instanceof multer.MulterError) {
-            return res.status(500).json(err);
-          } else if (err) {
-            return res.status(500).json(err);
-          }
-          const photoUrls = req.files.map((item, index) => {
-            return path.join(item.destination,item.filename);
-          });
-          // const exist_images = req.body.exist_images;
-          // if (exist_images && exist_images.length > 0 && exist_images[0] != "") {
-          //   exist_images.map(item => {
-          //     photoUrls.unshift(item);
-          //   });
-          // }
-         
-          
-          const profile = await Profile.findOne({
-            user: mongoose.Types.ObjectId(req.user._id)
-        });
-        if (profile) {
-          const photoUrls = profile.photoUrls;
-          fs.unlink(photoUrls, err => { console.log("error", err) });
-        }
-        const photo = await Profile.findOne({
-          user: req.user.id
-        });
-        if (photo) {
-          photo.photos.map((item, index) => {
-            const imgPath = path.join(item.destination,item);
-            fs.unlink(imgPath, err => {});
-          });
-        }
-        var photos = await Profile.findOneAndUpdate(
-          {
-            user: req.user.id
-          },
-          {
-            user: req.user.id,
-            photos: photoUrls
-          },
-          {
-            new: true,
-            upsert: true
-          }
-        );
-        await Profile.findOneAndUpdate(
-          {
-            user: req.user.id
-          },
-          {
-            photos: photoUrls
-          },
-          {
-            new: true,
-            upsert: true
-          }
-        );
-      });
-      console.log("gallery uploaded")
-        return res.status(200).json();
-      } catch (err) {
-        console.log("gallery upload err:", err);
+router.post('/upload-gallery', auth, async (req, res) => {
+  try {
+    uploadGallery(req, res, async function(err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(500).json(err);
+      } else if (err) {
+        return res.status(500).json(err);
       }
-      return res.status(500).json();
-    }
-  );
+      const photoUrls = req.files.map((item, index) => {
+        return path.join(item.destination, item.filename);
+      });
+      // const exist_images = req.body.exist_images;
+      // if (exist_images && exist_images.length > 0 && exist_images[0] != "") {
+      //   exist_images.map(item => {
+      //     photoUrls.unshift(item);
+      //   });
+      // }
 
- 
+      const profile = await Profile.findOne({
+        user: mongoose.Types.ObjectId(req.user._id)
+      });
+      if (profile) {
+        const photoUrls = profile.photoUrls;
+        fs.unlink(photoUrls, err => {
+          console.log('error', err);
+        });
+      }
+      const photo = await Profile.findOne({
+        user: req.user.id
+      });
+      if (photo) {
+        photo.photos.map((item, index) => {
+          const imgPath = path.join(item.destination, item);
+          fs.unlink(imgPath, err => {});
+        });
+      }
+      var photos = await Profile.findOneAndUpdate(
+        {
+          user: req.user.id
+        },
+        {
+          user: req.user.id,
+          photos: photoUrls
+        },
+        {
+          new: true,
+          upsert: true
+        }
+      );
+      await Profile.findOneAndUpdate(
+        {
+          user: req.user.id
+        },
+        {
+          photos: photoUrls
+        },
+        {
+          new: true,
+          upsert: true
+        }
+      );
+    });
+    console.log('gallery uploaded');
+    return res.status(200).json();
+  } catch (err) {
+    console.log('gallery upload err:', err);
+  }
+  return res.status(500).json();
+});
+
 // @route    PUT api/profile/opinions
 // @desc     Add opinions
 // @access   Private
@@ -430,8 +421,7 @@ router.post(
       check('name', 'Name is required')
         .not()
         .isEmpty(),
-      check('email', 'Please include a valid email')
-      .isEmail(),
+      check('email', 'Please include a valid email').isEmail()
     ]
   ],
   async (req, res) => {
@@ -440,13 +430,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const {
-      review,
-      title,
-      name,
-      email,
-      user
-    } = req.body;
+    const { review, title, name, email, user } = req.body;
 
     const newOpinion = {
       review,
@@ -472,73 +456,51 @@ router.post(
 // @route    PUT api/profile/rating
 // @desc     Add rating
 // @access   Private
-router.post(
-  '/rating',
-  [
-    auth,
-    []
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    const {
-      num,
-      user
-    } = req.body;
-
-    const newRating = Number(num)
-
-
-    try {
-      const profile = await Profile.findOne({ user: user });
-
-      profile.rating.unshift(newRating);
-
-      await profile.save();
-      res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
+router.post('/rating', [auth, []], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
-);
+  const { num, user } = req.body;
+
+  const newRating = Number(num);
+
+  try {
+    const profile = await Profile.findOne({ user: user });
+
+    profile.rating.unshift(newRating);
+
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // @route    PUT api/profile/rating
 // @desc     Add rating
 // @access   Private
-router.post(
-  '/favorites',
-  [
-    auth,
-    []
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    const {
-      favorite,
-      user
-    } = req.body;
-
-    const newFavorite = favorite
-
-
-    try {
-      const profile = await Profile.findOne({ user: user });
-
-      profile.favorites.unshift(newFavorite);
-
-      await profile.save();
-      res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
+router.post('/favorites', [auth, []], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
-);
+  const { favorite, user } = req.body;
+
+  const newFavorite = favorite;
+
+  try {
+    const profile = await Profile.findOne({ user: user });
+
+    profile.favorites.unshift(newFavorite);
+
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
