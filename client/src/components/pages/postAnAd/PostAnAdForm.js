@@ -18,7 +18,7 @@ import {
   typeList
 } from '../../../constants/data.json';
 
-const PostAnAdForm = ({ createProfil, history }) => {
+const PostAnAdForm = ({ createProfile, history, uploadCover }) => {
   const [formData, setFormData] = useState({
     gender: '',
     sexual_orientation: '',
@@ -41,7 +41,7 @@ const PostAnAdForm = ({ createProfil, history }) => {
     type: ''
   });
 
-  const [cover_photo, setCoverphoto] = useState('');
+  const [cover_photo, setCoverphoto] = useState(null);
   const [fileName, setFileName] = useState('Choose file');
 
   const {
@@ -67,12 +67,11 @@ const PostAnAdForm = ({ createProfil, history }) => {
   } = formData;
 
   const onChange = e => {
-    if(e.target.name === 'cover_photo'){
-      setCoverphoto(e.target.files[0])
+    if (e.target.name === 'cover_photo') {
+      setCoverphoto(e.target.files[0]);
     }
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
 
   const onCheckBox = (e, item) => {
     if (languages.indexOf(e.target.value) < 1 && e.target.checked) {
@@ -100,12 +99,12 @@ const PostAnAdForm = ({ createProfil, history }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    let formCover = new FormData()
+    let formCover = new FormData();
     formCover.append('cover_photo', cover_photo);
-    
-    console.log(formCover, 'cover');
+
+    // console.log(formCover, 'cover');
     createProfile(formData, history);
-    uploadCover(formCover)
+    uploadCover(formCover);
   };
 
   return (

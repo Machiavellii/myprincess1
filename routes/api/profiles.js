@@ -117,7 +117,7 @@ router.post(
       silhouette,
       origin,
       description,
-      cover_photo, // photo
+      // cover_photo, // photo
       photos,
       hours,
       rate,
@@ -126,7 +126,7 @@ router.post(
       opinions
     } = req.body;
 
-  
+    const cover_photo = req.file;
 
     /* Profile Object */
     const profileFields = {};

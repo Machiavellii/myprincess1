@@ -1,7 +1,12 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 
-import { GET_PROFILES, PROFILE_ERROR, GET_PROFILE, UPDATE_PROFILE } from './type';
+import {
+  GET_PROFILES,
+  PROFILE_ERROR,
+  GET_PROFILE,
+  UPDATE_PROFILE
+} from './type';
 
 // GET All Profiles
 export const getProfiles = () => async dispatch => {
@@ -49,6 +54,7 @@ export const createProfile = (
     // }
   } catch (err) {
     const errors = err.response.data.errors;
+    console.log(err.response.data.errors);
 
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
@@ -62,8 +68,7 @@ export const createProfile = (
 };
 
 // UPLOAD COVER
-export const uploadCover = (formFile) => async dispatch => {
-
+export const uploadCover = formFile => async dispatch => {
   try {
     const config = {
       headers: {
@@ -71,7 +76,7 @@ export const uploadCover = (formFile) => async dispatch => {
       }
     };
 
-    console.log(formFile)
+    console.log(formFile);
 
     const res = await axios.post('api/profile/upload-cover', formFile, config);
 
@@ -79,16 +84,16 @@ export const uploadCover = (formFile) => async dispatch => {
       type: UPDATE_PROFILE,
       payload: res.data
     });
-}catch (err) {
-  const errors = err.response.data.errors;
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-  if (errors) {
-    errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
-
-  dispatch({
-    type: PROFILE_ERROR,
-    payload: { msg: err.response.statusText, status: err.response.status }
-  });
-}
-}
+};
