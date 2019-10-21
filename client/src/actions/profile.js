@@ -39,8 +39,6 @@ export const createProfile = (
       }
     };
 
-    console.log(formData);
-
     const res = await axios.post('/api/profile', formData, config);
 
     dispatch({
@@ -54,7 +52,6 @@ export const createProfile = (
     // }
   } catch (err) {
     const errors = err.response.data.errors;
-    console.log(err.response.data.errors);
 
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
@@ -75,8 +72,6 @@ export const uploadCover = formFile => async dispatch => {
         'Content-Type': 'multipart/form-data'
       }
     };
-
-    console.log(formFile);
 
     const res = await axios.post('api/profile/upload-cover', formFile, config);
 
