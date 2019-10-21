@@ -101,8 +101,6 @@ const PostAnAdForm = ({ createProfile, history, uploadCover }) => {
     e.preventDefault();
     let formCover = new FormData();
     formCover.append('cover_photo', cover_photo);
-
-    
     createProfile(formData, history);
     uploadCover(formCover);
   };

@@ -39,8 +39,6 @@ export const createProfile = (
       }
     };
 
-    console.log(formData);
-
     const res = await axios.post('/api/profile', formData, config);
 
     dispatch({
@@ -49,6 +47,9 @@ export const createProfile = (
     });
 
     dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
+
+    history.push('/');
+
     // if(!edit){
     //   history.push('/')
     // }
@@ -74,8 +75,6 @@ export const uploadCover = formFile => async dispatch => {
         'Content-Type': 'multipart/form-data'
       }
     };
-
-    console.log(formFile);
 
     const res = await axios.post('api/profile/upload-cover', formFile, config);
 
