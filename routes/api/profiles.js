@@ -118,7 +118,7 @@ router.post(
       origin,
       description,
       // cover_photo, // photo
-      photos,
+      // photos,
       hours,
       rate,
       website,
@@ -127,6 +127,7 @@ router.post(
     } = req.body;
 
     const cover_photo = req.file;
+    const photos = req.file;
 
     /* Profile Object */
     const profileFields = {};

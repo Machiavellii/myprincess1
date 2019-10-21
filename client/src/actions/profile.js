@@ -1,12 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 
-import {
-  GET_PROFILES,
-  PROFILE_ERROR,
-  GET_PROFILE,
-  UPDATE_PROFILE
-} from './type';
+import { GET_PROFILES, PROFILE_ERROR, GET_PROFILE } from './type';
 
 // GET All Profiles
 export const getProfiles = () => async dispatch => {
@@ -79,7 +74,39 @@ export const uploadCover = formFile => async dispatch => {
     const res = await axios.post('api/profile/upload-cover', formFile, config);
 
     dispatch({
-      type: UPDATE_PROFILE,
+      type: GET_PROFILE,
+      payload: res.data
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+export const uploadGallery = formFile => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    };
+
+    const res = await axios.post(
+      'api/profile/upload-gallery',
+      formFile,
+      config
+    );
+
+    dispatch({
+      type: GET_PROFILE,
       payload: res.data
     });
   } catch (err) {

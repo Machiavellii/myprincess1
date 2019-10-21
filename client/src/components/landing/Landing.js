@@ -1,13 +1,20 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getProfiles } from '../../actions/profile';
+import PropTypes from 'prop-types';
 
 import '../../styles/landing.css';
 import Content from './landingpages/landingcontent/Content';
-import LatestAds from './landingpages/landingcontent/LatestAds';
+// import LatestAds from './landingpages/landingcontent/LatestAds';
 import LandingCanton from './landingpages/LandingCanton';
 import LandingDescribe from './landingpages/LandingDescribe';
 import Pagination from '../common/Pagination';
 
-const Landing = () => {
+const Landing = ({ getProfiles, profile: { profiles, loading } }) => {
+  useEffect(() => {
+    getProfiles();
+  }, [getProfiles]);
+
   return (
     <Fragment>
       <div className="header">
@@ -26,7 +33,7 @@ const Landing = () => {
           </span>
         </div>
 
-        <Content />
+        <Content profile={profiles} />
 
         <div className="holder-line">
           <span className="sep-holder holder-1">
@@ -37,7 +44,7 @@ const Landing = () => {
             <span className="line"></span>
           </span>
         </div>
-        <LatestAds />
+        {/* <LatestAds /> */}
         <Pagination />
       </div>
       <LandingCanton />
@@ -48,4 +55,16 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+Landing.propTypes = {
+  getProfiles: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default connect(
+  mapStateToProps,
+  { getProfiles }
+)(Landing);

@@ -3,7 +3,11 @@ import '../../../styles/PostAnAdForm.css';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { createProfile, uploadCover } from '../../../actions/profile';
+import {
+  createProfile,
+  uploadCover,
+  uploadGallery
+} from '../../../actions/profile';
 
 import {
   spokenLanguageList,
@@ -18,7 +22,12 @@ import {
   typeList
 } from '../../../constants/data.json';
 
-const PostAnAdForm = ({ createProfile, history, uploadCover }) => {
+const PostAnAdForm = ({
+  createProfile,
+  history,
+  uploadCover,
+  uploadGallery
+}) => {
   const [formData, setFormData] = useState({
     gender: '',
     sexual_orientation: '',
@@ -42,7 +51,8 @@ const PostAnAdForm = ({ createProfile, history, uploadCover }) => {
   });
 
   const [cover_photo, setCoverphoto] = useState(null);
-  const [fileName, setFileName] = useState('Choose file');
+  const [photos, setGalleryphoto] = useState(null);
+  // const [fileName, setFileName] = useState('Choose file');
 
   const {
     gender,
@@ -69,6 +79,9 @@ const PostAnAdForm = ({ createProfile, history, uploadCover }) => {
   const onChange = e => {
     if (e.target.name === 'cover_photo') {
       setCoverphoto(e.target.files[0]);
+    }
+    if (e.target.name === 'photos') {
+      setGalleryphoto(e.target.files);
     }
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -101,8 +114,16 @@ const PostAnAdForm = ({ createProfile, history, uploadCover }) => {
     e.preventDefault();
     let formCover = new FormData();
     formCover.append('cover_photo', cover_photo);
+
+    let formGallery = new FormData();
+    for (var x = 0; x < photos.length; x++) {
+      formGallery.append('photos', photos[x]);
+    }
+
     createProfile(formData, history);
     uploadCover(formCover);
+    uploadGallerynpm(formGallery);
+    console.log(formData);
   };
 
   return (
@@ -177,6 +198,7 @@ const PostAnAdForm = ({ createProfile, history, uploadCover }) => {
             className="form-control"
             id="nickname"
             placeholder="Nickname"
+            required
           />
         </div>
 
@@ -213,13 +235,14 @@ const PostAnAdForm = ({ createProfile, history, uploadCover }) => {
                 <input
                   className="form-check-input"
                   type="checkbox"
+                  id="item"
                   value={item}
                   onChange={e => onCheckBox(e, item)}
                   name="languages"
                 />
                 <label
                   className="form-check-label dynamic-checkbox-label ml-2"
-                  htmlFor="{item}"
+                  htmlFor={item}
                 >
                   {item}
                 </label>
@@ -471,7 +494,14 @@ const PostAnAdForm = ({ createProfile, history, uploadCover }) => {
 
         <div className="form-group col-md-12">
           <label htmlFor="gallery">Upload your photographs (max. 10)</label>
-          <input type="file" className="form-control-file" id="gallery" />
+          <input
+            type="file"
+            className="form-control-file"
+            id="gallery"
+            name="gallery"
+            multiple
+            onChange={onChange}
+          />
           <p className="text-center">
             <small className="tip">
               The first picture will be displayed as the hand.
@@ -543,5 +573,5 @@ const PostAnAdForm = ({ createProfile, history, uploadCover }) => {
 
 export default connect(
   null,
-  { createProfile, uploadCover }
+  { createProfile, uploadCover, uploadGallery }
 )(withRouter(PostAnAdForm));
