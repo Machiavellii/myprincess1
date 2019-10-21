@@ -39,6 +39,8 @@ export const createProfile = (
       }
     };
 
+    console.log(formData);
+
     const res = await axios.post('/api/profile', formData, config);
 
     dispatch({
@@ -72,6 +74,8 @@ export const uploadCover = formFile => async dispatch => {
         'Content-Type': 'multipart/form-data'
       }
     };
+
+    console.log(formFile);
 
     const res = await axios.post('api/profile/upload-cover', formFile, config);
 
