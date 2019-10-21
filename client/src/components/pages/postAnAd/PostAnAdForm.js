@@ -1,12 +1,9 @@
 import React, { Fragment, useState } from 'react';
 import '../../../styles/PostAnAdForm.css';
 
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { createProfil } from '../../../actions/profile';
+import { createProfile, uploadCover } from '../../../actions/profile';
 
 import {
   spokenLanguageList,
@@ -21,20 +18,19 @@ import {
   typeList
 } from '../../../constants/data.json';
 
-const PostAnAdForm = ({ createProfil }) => {
+const PostAnAdForm = ({ createProfil, history }) => {
   const [formData, setFormData] = useState({
     gender: '',
     sexual_orientation: '',
     phone: '',
     category: '',
-    services: '',
+    services: [],
     age: '',
     origin: '',
     description: '',
     city: '',
     canton: '',
     zip: '',
-    cover_photo: null,
     is_active: '',
     languages: [],
     silhouette: '',
@@ -45,6 +41,9 @@ const PostAnAdForm = ({ createProfil }) => {
     type: ''
   });
 
+  const [cover_photo, setCoverphoto] = useState('');
+  const [fileName, setFileName] = useState('Choose file');
+
   const {
     gender,
     sexual_orientation,
@@ -54,11 +53,9 @@ const PostAnAdForm = ({ createProfil }) => {
     age,
     origin,
     description,
-
     city,
     canton,
     zip,
-    cover_photo,
     is_active,
     languages,
     silhouette,
@@ -70,10 +67,12 @@ const PostAnAdForm = ({ createProfil }) => {
   } = formData;
 
   const onChange = e => {
-    e.targe.name === 'cover_photo'
-      ? setFormData({ cover_photo: e.target.files[0] })
-      : setFormData({ ...formData, [e.target.name]: e.target.value });
+    if(e.target.name === 'cover_photo'){
+      setCoverphoto(e.target.files[0])
+    }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  
 
   const onCheckBox = (e, item) => {
     if (languages.indexOf(e.target.value) < 1 && e.target.checked) {
@@ -81,25 +80,38 @@ const PostAnAdForm = ({ createProfil }) => {
     }
 
     languages.map((lang, i) => {
-      console.log(e.target.checked);
-      if (e.target.checked && lang) {
-        console.log(lang, i);
+      if (!e.target.checked) {
+        return e.target.value === lang ? languages.splice(i, 1) : languages;
       }
     });
+  };
 
-    console.log(languages);
+  const onCheckBoxServ = (e, service) => {
+    if (services.indexOf(e.target.value) < 1 && e.target.checked) {
+      services.push(service);
+    }
+
+    services.map((serv, i) => {
+      if (!e.target.checked) {
+        return e.target.value === serv ? services.splice(i, 1) : services;
+      }
+    });
   };
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log(formData);
-    // createProfile(formData, history);
+    let formCover = new FormData()
+    formCover.append('cover_photo', cover_photo);
+    
+    console.log(formCover, 'cover');
+    createProfile(formData, history);
+    uploadCover(formCover)
   };
 
   return (
     <Fragment>
       <h1 className="text-center">Post an ad - 7 days</h1>
-      <form className="container mb-5" onSubmit={e => onSubmit(e)}>
+      <form className="container mb-5" onSubmit={onSubmit}>
         <div className="card mb-4 mt-5">
           <div className="card-body">
             <h5 className="card-title">Already have an account?</h5>
@@ -133,7 +145,7 @@ const PostAnAdForm = ({ createProfil }) => {
               name="is_active"
               id="active"
               value={is_active}
-              onChange={e => onChange(e)}
+              onChange={onChange}
             />
             <label className="form-check-label" htmlFor="active">
               active
@@ -146,7 +158,7 @@ const PostAnAdForm = ({ createProfil }) => {
               name="is_active"
               id="inactive"
               value={is_active}
-              onChange={e => onChange(e)}
+              onChange={onChange}
             />
             <label className="form-check-label" htmlFor="inactive">
               inactive
@@ -178,7 +190,7 @@ const PostAnAdForm = ({ createProfil }) => {
             id="type"
             name="type"
             value={type}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           >
             {typeList.map((item, index) => {
               return (
@@ -191,7 +203,7 @@ const PostAnAdForm = ({ createProfil }) => {
         </div>
 
         <div className="form-group col-md-12">
-          <label htmlFor="Spoken languages" className="form-check-label">
+          <label htmlFor=" Spoken languages" className="form-check-label">
             Spoken languages
           </label>
           <br />
@@ -210,7 +222,7 @@ const PostAnAdForm = ({ createProfil }) => {
                 />
                 <label
                   className="form-check-label dynamic-checkbox-label ml-2"
-                  htmlFor={item}
+                  htmlFor="{item}"
                 >
                   {item}
                 </label>
@@ -231,7 +243,7 @@ const PostAnAdForm = ({ createProfil }) => {
             placeholder="Slogan"
             name="slogan"
             value={slogan}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
         </div>
 
@@ -240,7 +252,7 @@ const PostAnAdForm = ({ createProfil }) => {
           <select
             className="form-control"
             id="gender"
-            onChange={e => onChange(e)}
+            onChange={onChange}
             value={gender}
             name="gender"
           >
@@ -259,7 +271,7 @@ const PostAnAdForm = ({ createProfil }) => {
             Services *
           </label>
           <br />
-          {servicesList.map((item, index) => {
+          {servicesList.map((service, index) => {
             return (
               <div
                 className="form-check form-check-inline dynamic-checkbox"
@@ -268,16 +280,15 @@ const PostAnAdForm = ({ createProfil }) => {
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  id={item}
-                  value={services}
+                  value={service}
                   name="services"
-                  onChange={e => onChange(e)}
+                  onChange={e => onCheckBoxServ(e, service)}
                 />
                 <label
                   className="form-check-label dynamic-checkbox-label ml-2"
-                  htmlFor={item}
+                  htmlFor={service}
                 >
-                  {item}
+                  {service}
                 </label>
               </div>
             );
@@ -289,7 +300,7 @@ const PostAnAdForm = ({ createProfil }) => {
           <select
             className="form-control"
             id="category"
-            onChange={e => onChange(e)}
+            onChange={onChange}
             name="category"
             value={category}
           >
@@ -308,7 +319,7 @@ const PostAnAdForm = ({ createProfil }) => {
           <select
             className="form-control"
             id="sexual_orientation"
-            onChange={e => onChange(e)}
+            onChange={onChange}
             value={sexual_orientation}
             name="sexual_orientation"
           >
@@ -331,7 +342,7 @@ const PostAnAdForm = ({ createProfil }) => {
             placeholder="18"
             name="age"
             value={age}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
         </div>
 
@@ -340,7 +351,7 @@ const PostAnAdForm = ({ createProfil }) => {
           <select
             className="form-control"
             id="silhoue"
-            onChange={e => onChange(e)}
+            onChange={onChange}
             name="silhouette"
             value={silhouette}
           >
@@ -359,7 +370,7 @@ const PostAnAdForm = ({ createProfil }) => {
           <select
             className="form-control"
             id="origin"
-            onChange={e => onChange(e)}
+            onChange={onChange}
             value={origin}
             name="origin"
           >
@@ -374,27 +385,14 @@ const PostAnAdForm = ({ createProfil }) => {
         </div>
 
         <div className="form-group col-md-12">
-          <label htmlFor="desc">Description *</label>
-          <CKEditor
-            onInit={editor => {
-              // Insert the toolbar before the editable area.
-              editor.ui
-                .getEditableElement()
-                .parentElement.insertBefore(
-                  editor.ui.view.toolbar.element,
-                  editor.ui.getEditableElement()
-                );
-            }}
-            id="desc"
-            //onChange={(event, editor) => console.log({ event, editor })}
-            onChange={e => onChange(e)}
-            editor={ClassicEditor}
-            data=""
-            width="500"
+          <label htmlFor="description">Description *</label>
+          <textarea
+            className="form-control"
+            rows="3"
             name="description"
             value={description}
-            //config={ /* the editor configuration */ }
-          />
+            onChange={onChange}
+          ></textarea>
         </div>
 
         {/* <div className="form-group col-md-12">
@@ -406,16 +404,15 @@ const PostAnAdForm = ({ createProfil }) => {
             placeholder=""
             name='address'
             value={address}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
         </div> */}
 
         <div className="form-group col-md-12 mt-3">
-          <label htmlFor="cantons">Canton</label>
+          <label htmlFor="canton">Canton</label>
           <select
             className="form-control"
-            id="canton"
-            onChange={e => onChange(e)}
+            onChange={onChange}
             value={canton}
             name="canton"
           >
@@ -434,7 +431,7 @@ const PostAnAdForm = ({ createProfil }) => {
           <select
             className="form-control"
             id="city"
-            onChange={e => onChange(e)}
+            onChange={onChange}
             value={city}
             name="city"
           >
@@ -457,7 +454,7 @@ const PostAnAdForm = ({ createProfil }) => {
             placeholder="8000"
             name="zip"
             value={zip}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
         </div>
 
@@ -467,7 +464,7 @@ const PostAnAdForm = ({ createProfil }) => {
             type="file"
             className="form-control-file"
             id="coverPicture"
-            onChange={e => onChange(e)}
+            onChange={onChange}
             name="cover_photo"
           />
           <p className="text-center">
@@ -494,7 +491,7 @@ const PostAnAdForm = ({ createProfil }) => {
             placeholder="21:00-05:00"
             name="hours"
             value={hours}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           ></textarea>
         </div>
 
@@ -507,7 +504,7 @@ const PostAnAdForm = ({ createProfil }) => {
             placeholder="200CHF"
             name="rate"
             value={rate}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           ></textarea>
         </div>
 
@@ -520,7 +517,7 @@ const PostAnAdForm = ({ createProfil }) => {
             placeholder="+41 79 000 00 00"
             name="phone"
             value={phone}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
         </div>
 
@@ -533,7 +530,7 @@ const PostAnAdForm = ({ createProfil }) => {
             name="website"
             value={website}
             placeholder="https://www.site.com"
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
         </div>
         <button
@@ -549,5 +546,5 @@ const PostAnAdForm = ({ createProfil }) => {
 
 export default connect(
   null,
-  { createProfil }
+  { createProfile, uploadCover }
 )(withRouter(PostAnAdForm));

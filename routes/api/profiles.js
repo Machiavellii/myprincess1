@@ -68,9 +68,9 @@ router.post(
     check('zip', 'zip is required')
       .not()
       .isEmpty(),
-    check('subscription_plan', 'Subscription plan is required')
-      .not()
-      .isEmpty(),
+    // check('subscription_plan', 'Subscription plan is required')
+    //   .not()
+    //   .isEmpty(),
     check('languages', 'Spoken languages are required')
       .not()
       .isEmpty(),
@@ -126,6 +126,8 @@ router.post(
       opinions
     } = req.body;
 
+  
+
     /* Profile Object */
     const profileFields = {};
     profileFields.user = req.user.id;
@@ -138,7 +140,7 @@ router.post(
     if (canton) profileFields.canton = canton;
     if (city) profileFields.city = city;
     if (zip) profileFields.zip = zip;
-    if (subscription_plan) profileFields.subscription_plan = subscription_plan;
+    // if (subscription_plan) profileFields.subscription_plan = subscription_plan;
     if (start_of_subscription)
       profileFields.start_of_subscription = start_of_subscription;
     if (end_of_subscription)
@@ -159,30 +161,22 @@ router.post(
 
     // Array items
     if (photos) {
-      profileFields.photos = photos.split(',').map(photo => photo.trim());
+      profileFields.photos = photos;
     }
     if (opinions) {
-      profileFields.opinions = opinions
-        .split(',')
-        .map(opinion => opinion.trim());
+      profileFields.opinions = opinions;
     }
     if (favorites) {
-      profileFields.favorites = favorites
-        .split(',')
-        .map(favorite => favorite.trim());
+      profileFields.favorites = favorites;
     }
     if (languages) {
-      profileFields.languages = languages
-        .split(',')
-        .map(language => language.trim());
+      profileFields.languages = languages;
     }
     if (services) {
-      profileFields.services = services
-        .split(',')
-        .map(service => service.trim());
+      profileFields.services = services;
     }
     if (ratings) {
-      profileFields.ratings = ratings.split(',').map(rating => rating.trim());
+      profileFields.ratings = ratings;
     }
 
     try {

@@ -1,7 +1,7 @@
 import axios from 'axios';
-// import { setAlert } from './alert';
+import { setAlert } from './alert';
 
-import { GET_PROFILES, PROFILE_ERROR, GET_PROFILE } from './type';
+import { GET_PROFILES, PROFILE_ERROR, GET_PROFILE, UPDATE_PROFILE } from './type';
 
 // GET All Profiles
 export const getProfiles = () => async dispatch => {
@@ -22,6 +22,73 @@ export const getProfiles = () => async dispatch => {
 };
 
 // CREATE PROFIL
-export const createProfil = () => async dispatch => {
-  console.log(123);
+export const createProfile = (
+  formData,
+  history,
+  edit = false
+) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    console.log(formData);
+
+    const res = await axios.post('/api/profile', formData, config);
+
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data
+    });
+
+    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
+    // if(!edit){
+    //   history.push('/')
+    // }
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
 };
+
+// UPLOAD COVER
+export const uploadCover = (formFile) => async dispatch => {
+
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    };
+
+    console.log(formFile)
+
+    const res = await axios.post('api/profile/upload-cover', formFile, config);
+
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    });
+}catch (err) {
+  const errors = err.response.data.errors;
+
+  if (errors) {
+    errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+  }
+
+  dispatch({
+    type: PROFILE_ERROR,
+    payload: { msg: err.response.statusText, status: err.response.status }
+  });
+}
+}

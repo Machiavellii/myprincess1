@@ -43,8 +43,7 @@ const ProfileSchema = new Schema({
     required: true
   },
   subscription_plan: {
-    type: String,
-    required: true
+    type: String
   },
   start_of_subscription: {
     type: Date
