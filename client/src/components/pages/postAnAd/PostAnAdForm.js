@@ -51,7 +51,7 @@ const PostAnAdForm = ({
   });
 
   const [cover_photo, setCoverphoto] = useState(null);
-  const [photos, setGalleryphoto] = useState(null);
+  const [photos, setGalleryphoto] = useState([]);
   // const [fileName, setFileName] = useState('Choose file');
 
   const {
@@ -81,8 +81,9 @@ const PostAnAdForm = ({
       setCoverphoto(e.target.files[0]);
     }
     if (e.target.name === 'photos') {
-      setGalleryphoto(e.target.files);
+      setGalleryphoto([...photos, e.target.files]);
     }
+
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -116,14 +117,14 @@ const PostAnAdForm = ({
     formCover.append('cover_photo', cover_photo);
 
     let formGallery = new FormData();
-    for (var x = 0; x < photos.length; x++) {
-      formGallery.append('photos', photos[x]);
-    }
+    formGallery.append('photos', photos);
+
+    console.log(photos);
 
     createProfile(formData, history);
     uploadCover(formCover);
-    uploadGallerynpm(formGallery);
-    console.log(formData);
+    // uploadGallery(formGallery);
+    // console.log(formData);
   };
 
   return (
@@ -498,7 +499,7 @@ const PostAnAdForm = ({
             type="file"
             className="form-control-file"
             id="gallery"
-            name="gallery"
+            name="photos"
             multiple
             onChange={onChange}
           />
