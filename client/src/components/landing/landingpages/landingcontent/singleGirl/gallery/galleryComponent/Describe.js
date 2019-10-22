@@ -1,25 +1,25 @@
 import React from 'react';
 
-const Describe = () => {
+const Describe = ({ profile }) => {
+  const { category, age, silhouette, origin, languages, rate } = profile;
   return (
     <div className="simple-describe mb-5">
       <h6>Category:</h6>
-      <p className="mb-1">Escort (SEX)</p>
+      <p className="mb-1">{category}</p>
       <p>VIP</p>
       <h6>Age:</h6>
-      <p>26</p>
+      <p>{age}</p>
       <h6 className="mt-4">Silhouette:</h6>
-      <p>delicate</p>
+      <p>{silhouette}</p>
       <h6 className="mt-4">origin:</h6>
-      <p>latin</p>
+      <p>{origin}</p>
       <h6 className="mt-4">Spoken languages:</h6>
-      <p>Spanish</p>
-      <p>French</p>
-      <p>Italian</p>
-      <p>Portuguese</p>
-      <p>English</p>
+      {languages.map((lang, i) => (
+        <p key={i}>{lang}</p>
+      ))}
+
       <h6 className="mt-4">Minimun rate:</h6>
-      <p>From CHF 100.-</p>
+      <p>From CHF {rate}.-</p>
     </div>
   );
 };

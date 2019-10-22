@@ -81,7 +81,10 @@ const PostAnAdForm = ({
       setCoverphoto(e.target.files[0]);
     }
     if (e.target.name === 'photos') {
-      setGalleryphoto([...photos, e.target.files]);
+      // setGalleryphoto(e.target.files);
+      photos.push(e.target.files);
+      // setGalleryphoto([...photos, e.target.files]);
+      console.log(photos);
     }
 
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -117,14 +120,17 @@ const PostAnAdForm = ({
     formCover.append('cover_photo', cover_photo);
 
     let formGallery = new FormData();
-    formGallery.append('photos', photos);
 
-    console.log(photos);
+    for (let i = 0; i < photos.length; i += 1) {
+      formGallery.append('photos', photos[i]);
+    }
+    //console.log(photos);
+    // formGallery.append('photos', photos);
 
     createProfile(formData, history);
     uploadCover(formCover);
-    // uploadGallery(formGallery);
-    // console.log(formData);
+    uploadGallery(formGallery);
+    console.log(formData);
   };
 
   return (

@@ -11,7 +11,7 @@ import img6 from '../../../../../../../img/girls/girl/6.jpeg';
 import img7 from '../../../../../../../img/girls/girl/7.jpeg';
 import img8 from '../../../../../../../img/girls/girl/8.jpeg';
 
-const Gallery = () => {
+const Gallery = ({ profile }) => {
   const [toggler, setToggler] = useState(false);
 
   return (

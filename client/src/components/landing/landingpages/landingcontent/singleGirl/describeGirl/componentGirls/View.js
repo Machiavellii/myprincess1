@@ -1,6 +1,6 @@
 import React from 'react';
 
-const View = () => {
+const View = ({ profile }) => {
   return (
     <div className="view-holder">
       <p>view</p>

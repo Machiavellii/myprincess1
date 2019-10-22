@@ -49,7 +49,7 @@ const App = () => {
           <Route exact path="/postanad" component={Postanad} />
           <Route exact path="/postanadform" component={PostAnAdForm} />
           <Route exact path="/search" component={Search} />
-          <Route exact path="/describe-content" component={DescribeContent} />
+          <Route exact path="/profile/user/:id" component={DescribeContent} />
           <Route exact path="/links" component={Links} />
           <Footer />
         </div>

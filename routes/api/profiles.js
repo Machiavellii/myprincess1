@@ -361,7 +361,8 @@ router.post('/upload-gallery', auth, async (req, res) => {
       });
       if (photo) {
         photo.photos.map((item, index) => {
-          const imgPath = path.join(item.destination, item);
+          console.log(item);
+          const imgPath = path.join(item, item);
           fs.unlink(imgPath, err => {});
         });
       }

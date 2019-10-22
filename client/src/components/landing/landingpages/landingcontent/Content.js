@@ -4,10 +4,8 @@ import Contents from './Contents';
 // import Pagination from '../../../common/Pagination';
 
 const Content = profile => {
-  // console.log(profile);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [contentsPerPage] = useState(7);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [contentsPerPage] = useState(7);
 
   //Get current posts
   // const indexOfLastContent = currentPage * contentsPerPage;

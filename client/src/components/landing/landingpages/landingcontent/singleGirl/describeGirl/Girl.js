@@ -4,14 +4,14 @@ import Links from './componentGirls/Links';
 import About from './componentGirls/Aboutgirl';
 import View from './componentGirls/View';
 
-const Girl = () => {
+const Girl = ({ profile }) => {
   return (
     <div className="describe-girl">
       <div className="container">
-        <Review />
-        <About />
-        <Links />
-        <View />
+        <Review profile={profile} />
+        <About profile={profile} />
+        <Links profile={profile} />
+        <View profile={profile} />
       </div>
     </div>
   );

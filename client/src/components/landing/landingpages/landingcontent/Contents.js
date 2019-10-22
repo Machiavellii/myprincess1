@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Contents = ({ profiles }) => {
-  console.log(profiles.profile);
+const Contents = ({ profiles: { profile } }) => {
   return (
     <div className="row">
-      {profiles.profile.map(profile => (
+      {profile.map(profile => (
         <div className="col-sm-6 col-md-4 col-lg-3" key={profile._id}>
           <article className="content">
             <div className="contentHolder">
@@ -14,7 +13,7 @@ const Contents = ({ profiles }) => {
                   {profile.canton}
                 </Link>
               </div>
-              <Link to="/describe-content">
+              <Link to={`/profile/user/${profile.user._id}`}>
                 <img src={profile.cover_photo} alt="" className="img-fluid" />
               </Link>
               <div className="bottom-holder">
