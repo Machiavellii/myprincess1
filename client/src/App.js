@@ -21,6 +21,7 @@ import Contact from './components/pages/Contact';
 import Postanad from './components/pages/postAnAd/Postanad';
 import PostAnAdForm from './components/pages/postAnAd/PostAnAdForm';
 import Search from './components/pages/search/Search';
+import EscortsGirls from './components/pages/EscortsGirls';
 
 import Alert from './components/layout/Alert';
 import { loadUser } from './actions/auth';
@@ -51,6 +52,7 @@ const App = () => {
           <Route exact path="/search" component={Search} />
           <Route exact path="/profile/user/:id" component={DescribeContent} />
           <Route exact path="/links" component={Links} />
+          <Route exact path="/escorts-girls/:canton" component={EscortsGirls} />
           <Footer />
         </div>
       </Router>
