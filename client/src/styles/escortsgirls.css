@@ -1,0 +1,25 @@
+.contact-form-heading {
+    display: grid;
+    grid-template-columns: minmax(20px, 1fr) auto minmax(20px, 1fr);
+    align-items: center;
+    text-align: center;
+    grid-gap: 20px;
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 100%;
+}
+
+.contact-form-heading:before,
+.contact-form-heading:after {
+    content: '';
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.no-annoucments-heading {
+    grid-gap: 20px;
+    width: 100%;
+    font-weight: 600;
+    font-size: 100%;
+    margin: 10% 0;
+}
