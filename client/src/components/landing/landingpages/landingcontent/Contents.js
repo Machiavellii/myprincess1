@@ -1,12 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import "../../../../styles/contents.css";
+import { Link } from "react-router-dom";
 
 const Contents = ({ profiles: { profile } }) => {
+  console.log(profile);
   return (
     <div className="row">
       {profile.map(profile => (
         <div className="col-sm-6 col-md-4 col-lg-3" key={profile._id}>
-          <article className="content">
+          <article className={"content"}>
             <div className="contentHolder">
               <div className="top-holder">
                 <Link to="/" className="links">
@@ -15,11 +17,18 @@ const Contents = ({ profiles: { profile } }) => {
               </div>
               <Link to={`/profile/user/${profile.user._id}`}>
                 <img src={profile.cover_photo} alt="" className="img-fluid" />
+                {!profile.is_active ? (
+                  <div className="inactive">
+                    <h6>This announcement is currently inactive</h6>
+                  </div>
+                ) : (
+                  <div></div>
+                )}
               </Link>
               <div className="bottom-holder">
                 <h5>
                   <Link to="/" className="links link-name">
-                    {' '}
+                    {" "}
                     {profile.user.nickname}
                   </Link>
                 </h5>
