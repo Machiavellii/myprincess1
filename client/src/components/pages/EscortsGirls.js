@@ -1,9 +1,9 @@
-import React from 'react';
-import '../../styles/escortsgirls.css';
-import { connect } from 'react-redux';
-import LandingCanton from '../landing/landingpages/LandingCanton';
-import { getProfiles } from '../../actions/profile';
-import { Link } from 'react-router-dom';
+import React from "react";
+import "../../styles/escortsgirls.css";
+import { connect } from "react-redux";
+import LandingCanton from "../landing/landingpages/LandingCanton";
+import { getProfiles } from "../../actions/profile";
+import { Link } from "react-router-dom";
 
 class EscortsGirls extends React.Component {
   componentDidMount() {
@@ -24,17 +24,24 @@ class EscortsGirls extends React.Component {
                     {girl.canton}
                   </Link>
                 </div>
-                <Link to="/describe-content">
+                <Link to={`/profile/user/${girl.user._id}`}>
                   <img
                     src={`${window.location.origin}/${girl.cover_photo}`}
                     alt=""
                     className="img-fluid"
                   />
+                  {!girl.is_active ? (
+                    <div className="inactive">
+                      <h6>This announcement is currently inactive</h6>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
                 </Link>
                 <div className="bottom-holder">
                   <h5>
                     <Link to="/" className="links link-name">
-                      {' '}
+                      {" "}
                       {girl.user.nickname}
                     </Link>
                   </h5>
@@ -60,7 +67,7 @@ class EscortsGirls extends React.Component {
       <div className="container">
         <h4
           className="text-center contact-form-heading mt-5"
-          style={{ textTransform: 'uppercase' }}
+          style={{ textTransform: "uppercase" }}
         >
           escorts girls of the canton of {this.props.match.params.canton}
         </h4>

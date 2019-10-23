@@ -1,13 +1,13 @@
-import React, { Fragment, useState } from 'react';
-import '../../../styles/PostAnAdForm.css';
+import React, { Fragment, useState } from "react";
+import "../../../styles/PostAnAdForm.css";
 
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import {
   createProfile,
   uploadCover,
   uploadGallery
-} from '../../../actions/profile';
+} from "../../../actions/profile";
 
 import {
   spokenLanguageList,
@@ -20,38 +20,40 @@ import {
   genderList,
   sexual_orientationList,
   typeList
-} from '../../../constants/data.json';
+} from "../../../constants/data.json";
 
 const PostAnAdForm = ({
   createProfile,
   history,
   uploadCover,
-  uploadGallery
+  uploadGallery,
+  auth: isAuthenticated
 }) => {
   const [formData, setFormData] = useState({
-    gender: '',
-    sexual_orientation: '',
-    phone: '',
-    category: '',
+    gender: "",
+    sexual_orientation: "",
+    phone: "",
+    category: "",
     services: [],
-    age: '',
-    origin: '',
-    description: '',
-    city: '',
-    canton: '',
-    zip: '',
-    is_active: '',
+    age: "",
+    origin: "",
+    description: "",
+    city: "",
+    canton: "",
+    zip: "",
+    is_active: "",
     languages: [],
-    silhouette: '',
-    rate: '',
-    slogan: '',
-    hours: '',
-    website: '',
-    type: ''
+    silhouette: "",
+    rate: "",
+    slogan: "",
+    hours: "",
+    website: "",
+    type: ""
   });
 
   const [cover_photo, setCoverphoto] = useState(null);
   const [photos, setGalleryphoto] = useState([]);
+
   // const [fileName, setFileName] = useState('Choose file');
 
   const {
@@ -84,10 +86,10 @@ const PostAnAdForm = ({
   // };
 
   const onChange = e => {
-    if (e.target.name === 'cover_photo') {
+    if (e.target.name === "cover_photo") {
       setCoverphoto(e.target.files[0]);
     }
-    if (e.target.name === 'photos') {
+    if (e.target.name === "photos") {
       setGalleryphoto(e.target.files);
       // setGalleryphoto([...photos, e.target.files]);
       console.log(photos);
@@ -123,12 +125,12 @@ const PostAnAdForm = ({
   const onSubmit = e => {
     e.preventDefault();
     let formCover = new FormData();
-    formCover.append('cover_photo', cover_photo);
+    formCover.append("cover_photo", cover_photo);
 
     let formGallery = new FormData();
 
     for (let i = 0; i < photos.length; i += 1) {
-      formGallery.append('photos', photos[i]);
+      formGallery.append("photos", photos[i]);
     }
     console.log(photos);
     // formGallery.append('photos', photos.photos);
@@ -139,33 +141,39 @@ const PostAnAdForm = ({
     console.log(formData);
   };
 
+  console.log(isAuthenticated);
+
   return (
     <Fragment>
       <h1 className="text-center">Post an ad - 7 days</h1>
       <form className="container mb-5" onSubmit={onSubmit}>
-        <div className="card mb-4 mt-5">
-          <div className="card-body">
-            <h5 className="card-title">Already have an account?</h5>
-            <hr />
-            <p className="card-text">
-              <sup>
-                <a href="!#">Login</a>
-              </sup>{' '}
-              If you do not-have an account, you can create it by below Reviews
-              entering your e-mail address / username. The account details will
-              be confirmed by email.
-            </p>
-            <div className="form-group col-md-12">
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                placeholder="Email"
-                name="email"
-              />
+        {!isAuthenticated.token ? (
+          <div className="card mb-4 mt-5">
+            <div className="card-body">
+              <h5 className="card-title">Already have an account?</h5>
+              <hr />
+              <p className="card-text">
+                <sup>
+                  <a href="!#">Login</a>
+                </sup>{" "}
+                If you do not-have an account, you can create it by below
+                Reviews entering your e-mail address / username. The account
+                details will be confirmed by email.
+              </p>
+              <div className="form-group col-md-12">
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  placeholder="Email"
+                  name="email"
+                />
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <Fragment></Fragment>
+        )}
 
         <div className="form-group col-md-12">
           <p>Job Activity</p>
@@ -584,7 +592,11 @@ const PostAnAdForm = ({
   );
 };
 
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { createProfile, uploadCover, uploadGallery }
 )(withRouter(PostAnAdForm));
