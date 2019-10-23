@@ -38,7 +38,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const uploadCover = multer({ storage, fileFilter }).single('cover_photo');
-var uploadGallery = multer({ storage: storage }).array('photos', 10);
+var uploadGallery = multer({ storage, fileFilter }).array('photos', 10);
 
 /* end upload image logic */
 
@@ -161,9 +161,8 @@ router.post(
     if (cover_photo) profileFields.cover_photo = cover_photo;
 
     // Array items
-    if (photos) {
-      profileFields.photos = photos;
-    }
+    if (photos) profileFields.photos = photos;
+
     if (opinions) {
       profileFields.opinions = opinions;
     }
@@ -361,8 +360,7 @@ router.post('/upload-gallery', auth, async (req, res) => {
       });
       if (photo) {
         photo.photos.map((item, index) => {
-          console.log(item);
-          const imgPath = path.join(item, item);
+          const imgPath = path.join(item);
           fs.unlink(imgPath, err => {});
         });
       }
@@ -393,6 +391,7 @@ router.post('/upload-gallery', auth, async (req, res) => {
       );
     });
     console.log('gallery uploaded');
+
     return res.status(200).json();
   } catch (err) {
     console.log('gallery upload err:', err);

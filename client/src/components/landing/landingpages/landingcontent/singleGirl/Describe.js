@@ -14,14 +14,12 @@ import GalleryHolder from './gallery/GalleryHolder';
 const DescribeContent = ({
   getProfileById,
   profile: { profile, loading },
-  auth,
   match
 }) => {
   useEffect(() => {
     getProfileById(match.params.id);
   }, [getProfileById, match.params.id]);
 
-  console.log(profile, loading);
   return (
     <Fragment>
       {profile === null || loading ? (
@@ -49,8 +47,7 @@ const DescribeContent = ({
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile,
-  auth: state.auth
+  profile: state.profile
 });
 
 export default connect(

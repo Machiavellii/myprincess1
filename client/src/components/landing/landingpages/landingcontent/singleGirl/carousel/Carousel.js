@@ -7,7 +7,7 @@ const Carousel = ({ profile }) => {
 
   let [leftArrow] = useState('');
   let [rightArrow] = useState('');
-  let [toggler, setToggler] = useState(false);
+  const [togg, setToggler] = useState(false);
   const [photoGallery, setPhotos] = useState('');
 
   rightArrow = () => {
@@ -18,9 +18,9 @@ const Carousel = ({ profile }) => {
     document.getElementById('move').scrollLeft -= 150;
   };
 
-  toggler = photo => {
-    setToggler(!toggler);
+  const toggler = photo => {
     setPhotos(photo);
+    // setToggler(!togg);
   };
 
   return (
