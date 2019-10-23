@@ -5,13 +5,20 @@ import Logo from '../../img/logo.png';
 
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
+import { filterFunc } from '../../actions/profile';
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, loading }, logout, filterFunc }) => {
   let [showHide, setShow] = useState(false);
   let [showInput] = useState('');
+  const [filter, setFilter] = useState('');
 
   showInput = () => {
     setShow((showHide = !showHide));
+  };
+
+  const onChange = e => {
+    setFilter(e.target.value);
+    filterFunc(filter);
   };
 
   return (
@@ -22,9 +29,10 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
             <div className="search-input-small">
               <input
                 type="text"
-                name=""
+                value={filter}
                 className="form-control form-control-lg"
                 placeholder="Que recherchez-vous"
+                onChange={onChange}
               />
               <i className="fas fa-times"></i>
             </div>
@@ -34,7 +42,12 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
               <img src={Logo} className="img-fluid" alt="logo.png" />
             </Link>
             <div className="search-bar mr-5">
-              <input type="text" placeholder="Que recherchez-vous" />
+              <input
+                type="text"
+                placeholder="Que recherchez-vous"
+                value={filter}
+                onChange={onChange}
+              />
               <div className="icons">
                 <Link to="/search" className="big-size mr-2">
                   <i className="fas fa-search" />
@@ -130,10 +143,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(
   mapStateToProps,
-  { logout }
+  { logout, filterFunc }
 )(Navbar);

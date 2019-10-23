@@ -2,9 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Contents = ({ profiles: { profile } }) => {
+  const filter =
+    profile.profileFilter.length >= 1
+      ? profile.profileFilter
+      : profile.profileFilter < 1
+      ? profile.profiles
+      : profile.profiles;
+
+  console.log(filter);
+  // console.log(profiles);
+
   return (
     <div className="row">
-      {profile.map(profile => (
+      {filter.map(profile => (
         <div className="col-sm-6 col-md-4 col-lg-3" key={profile._id}>
           <article className="content">
             <div className="contentHolder">
@@ -31,5 +41,9 @@ const Contents = ({ profiles: { profile } }) => {
     </div>
   );
 };
+
+// const mapStateToProps = state => ({
+//   profile: state.profile
+// });
 
 export default Contents;

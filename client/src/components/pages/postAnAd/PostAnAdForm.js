@@ -133,8 +133,8 @@ const PostAnAdForm = ({
     console.log(photos);
     // formGallery.append('photos', photos.photos);
 
-    // createProfile(formData, history);
-    // uploadCover(formCover);
+    createProfile(formData, history);
+    uploadCover(formCover);
     uploadGallery(formGallery);
     console.log(formData);
   };

@@ -10,7 +10,7 @@ import LandingCanton from './landingpages/LandingCanton';
 import LandingDescribe from './landingpages/LandingDescribe';
 import Pagination from '../common/Pagination';
 
-const Landing = ({ getProfiles, profile: { profiles, loading } }) => {
+const Landing = ({ getProfiles, profile }) => {
   useEffect(() => {
     getProfiles();
   }, [getProfiles]);
@@ -33,7 +33,7 @@ const Landing = ({ getProfiles, profile: { profiles, loading } }) => {
           </span>
         </div>
 
-        <Content profile={profiles} />
+        <Content profile={profile} />
 
         <div className="holder-line">
           <span className="sep-holder holder-1">
