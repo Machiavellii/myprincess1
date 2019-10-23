@@ -1,7 +1,12 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 
-import { GET_PROFILES, PROFILE_ERROR, GET_PROFILE } from './type';
+import {
+  GET_PROFILES,
+  PROFILE_ERROR,
+  GET_PROFILE,
+  FILTER_PROFILE
+} from './type';
 
 // GET All Profiles
 export const getProfiles = () => async dispatch => {
@@ -136,5 +141,17 @@ export const getProfileById = userId => async dispatch => {
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
+  }
+};
+
+export const filterFunc = value => dispatch => {
+  const valueV = value.toLowerCase();
+  if (value.length >= 3) {
+    dispatch({
+      type: FILTER_PROFILE,
+      payload: valueV
+    });
+
+    // console.log(value);
   }
 };
