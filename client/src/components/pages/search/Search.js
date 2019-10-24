@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getProfiles } from '../../../actions/profile';
 
 import '../../../styles/searchPage.css';
 
@@ -6,17 +8,19 @@ import Map from './Map';
 import Girls from './Girls';
 import FilterForm from './FilterForm';
 
-const Search = () => {
-  let [toggleFilter] = useState('');
-  let [toggleMap] = useState('');
+const Search = ({ profiles, getProfiles }) => {
+  useEffect(() => {
+    getProfiles();
+  }, [getProfiles]);
+
   let [activeFilter, setActive] = useState(false);
   let [activeMap, setActiveMap] = useState(false);
 
-  toggleFilter = e => {
+  const toggleFilter = e => {
     setActive((activeFilter = !activeFilter));
   };
 
-  toggleMap = e => {
+  const toggleMap = e => {
     setActiveMap((activeMap = !activeMap));
   };
 
@@ -33,10 +37,10 @@ const Search = () => {
 
       <div className="col-md-12 col-lg-6">
         <div className={activeFilter ? 'd-block' : 'd-none d-lg-block'}>
-          <FilterForm />
+          <FilterForm profiles={profiles} />
         </div>
         <div className={activeMap ? 'd-none' : 'col-md-12'}>
-          <Girls />
+          <Girls profiles={profiles} />
         </div>
       </div>
       <div className={activeMap ? 'col-md-12 d-md-block' : 'd-none d-lg-block'}>
@@ -46,4 +50,11 @@ const Search = () => {
   );
 };
 
-export default Search;
+const mapStateToProps = state => ({
+  profiles: state.profile
+});
+
+export default connect(
+  mapStateToProps,
+  { getProfiles }
+)(Search);

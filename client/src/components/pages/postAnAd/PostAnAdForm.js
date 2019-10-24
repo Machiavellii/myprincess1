@@ -1,13 +1,13 @@
-import React, { Fragment, useState } from "react";
-import "../../../styles/PostAnAdForm.css";
+import React, { Fragment, useState } from 'react';
+import '../../../styles/PostAnAdForm.css';
 
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import {
   createProfile,
   uploadCover,
   uploadGallery
-} from "../../../actions/profile";
+} from '../../../actions/profile';
 
 import {
   spokenLanguageList,
@@ -20,7 +20,7 @@ import {
   genderList,
   sexual_orientationList,
   typeList
-} from "../../../constants/data.json";
+} from '../../../constants/data.json';
 
 const PostAnAdForm = ({
   createProfile,
@@ -30,25 +30,25 @@ const PostAnAdForm = ({
   auth: isAuthenticated
 }) => {
   const [formData, setFormData] = useState({
-    gender: "",
-    sexual_orientation: "",
-    phone: "",
-    category: "",
+    gender: '',
+    sexual_orientation: '',
+    phone: '',
+    category: '',
     services: [],
-    age: "",
-    origin: "",
-    description: "",
-    city: "",
-    canton: "",
-    zip: "",
-    is_active: "",
+    age: '',
+    origin: '',
+    description: '',
+    city: '',
+    canton: '',
+    zip: '',
+    is_active: '',
     languages: [],
-    silhouette: "",
-    rate: "",
-    slogan: "",
-    hours: "",
-    website: "",
-    type: ""
+    silhouette: '',
+    rate: '',
+    slogan: '',
+    hours: '',
+    website: '',
+    type: ''
   });
 
   const [cover_photo, setCoverphoto] = useState(null);
@@ -86,15 +86,14 @@ const PostAnAdForm = ({
   // };
 
   const onChange = e => {
-    if (e.target.name === "cover_photo") {
+    if (e.target.name === 'cover_photo') {
       setCoverphoto(e.target.files[0]);
     }
-    if (e.target.name === "photos") {
+    if (e.target.name === 'photos') {
       setGalleryphoto(e.target.files);
       // setGalleryphoto([...photos, e.target.files]);
       console.log(photos);
     }
-
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -125,12 +124,12 @@ const PostAnAdForm = ({
   const onSubmit = e => {
     e.preventDefault();
     let formCover = new FormData();
-    formCover.append("cover_photo", cover_photo);
+    formCover.append('cover_photo', cover_photo);
 
     let formGallery = new FormData();
 
     for (let i = 0; i < photos.length; i += 1) {
-      formGallery.append("photos", photos[i]);
+      formGallery.append('photos', photos[i]);
     }
     console.log(photos);
     // formGallery.append('photos', photos.photos);
@@ -140,8 +139,6 @@ const PostAnAdForm = ({
     uploadGallery(formGallery);
     console.log(formData);
   };
-
-  console.log(isAuthenticated);
 
   return (
     <Fragment>
@@ -155,7 +152,7 @@ const PostAnAdForm = ({
               <p className="card-text">
                 <sup>
                   <a href="!#">Login</a>
-                </sup>{" "}
+                </sup>{' '}
                 If you do not-have an account, you can create it by below
                 Reviews entering your e-mail address / username. The account
                 details will be confirmed by email.
@@ -171,9 +168,7 @@ const PostAnAdForm = ({
               </div>
             </div>
           </div>
-        ) : (
-          <Fragment></Fragment>
-        )}
+        ) : null}
 
         <div className="form-group col-md-12">
           <p>Job Activity</p>
@@ -183,7 +178,7 @@ const PostAnAdForm = ({
               type="radio"
               name="is_active"
               id="active"
-              value={is_active}
+              value={true}
               onChange={onChange}
             />
             <label className="form-check-label" htmlFor="active">
@@ -196,7 +191,7 @@ const PostAnAdForm = ({
               type="radio"
               name="is_active"
               id="inactive"
-              value={is_active}
+              value={false}
               onChange={onChange}
             />
             <label className="form-check-label" htmlFor="inactive">

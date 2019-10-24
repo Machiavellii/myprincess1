@@ -61,7 +61,7 @@ const Register = ({ setAlert, isAuthenticated, register }) => {
         <div className="form-group">
           <label htmlFor="password">Password *</label>
           <input
-            type="text"
+            type="password"
             className="form-control"
             name="password"
             minLength="6"
@@ -73,7 +73,7 @@ const Register = ({ setAlert, isAuthenticated, register }) => {
         <div className="form-group">
           <label htmlFor="password">Confirm Password *</label>
           <input
-            type="text"
+            type="password"
             className="form-control"
             name="password2"
             minLength="6"

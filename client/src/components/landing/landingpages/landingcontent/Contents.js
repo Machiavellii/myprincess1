@@ -6,13 +6,9 @@ const Contents = ({ profiles: { profile } }) => {
   const filter =
     profile.profileFilter.length >= 1
       ? profile.profileFilter
-      : profile.profileFilter < 1
-      ? profile.profiles
       : profile.profiles;
 
-  console.log(filter);
-  // console.log(profiles);
-
+  console.log(profile);
   return (
     <div className="row">
       {filter.map(profile => (
@@ -26,13 +22,13 @@ const Contents = ({ profiles: { profile } }) => {
               </div>
               <Link to={`/profile/user/${profile.user._id}`}>
                 <img src={profile.cover_photo} alt="" className="img-fluid" />
-                {/* {!profile.is_active ? (
+                {!profile.is_active ? (
                   <div className="inactive">
                     <h6>This announcement is currently inactive</h6>
                   </div>
                 ) : (
                   <div></div>
-                )} */}
+                )}
               </Link>
               <div className="bottom-holder">
                 <h5>
@@ -49,9 +45,5 @@ const Contents = ({ profiles: { profile } }) => {
     </div>
   );
 };
-
-// const mapStateToProps = state => ({
-//   profile: state.profile
-// });
 
 export default Contents;

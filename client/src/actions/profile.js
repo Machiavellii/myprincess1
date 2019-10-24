@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { setAlert } from './alert';
+import { Redirect } from 'react-router-dom';
 
 import {
   GET_PROFILES,
   PROFILE_ERROR,
   GET_PROFILE,
-  FILTER_PROFILE
+  FILTER_PROFILE,
+  SEARCHPAGE_FILTER
 } from './type';
 
 // GET All Profiles
@@ -48,7 +50,7 @@ export const createProfile = (
 
     dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
-    // history.push('/');
+    history.push('/');
 
     // if(!edit){
     //   history.push('/')
@@ -151,7 +153,16 @@ export const filterFunc = value => dispatch => {
       type: FILTER_PROFILE,
       payload: valueV
     });
-
-    // console.log(value);
+  } else {
+    dispatch({
+      type: FILTER_PROFILE,
+      payload: ''
+    });
   }
+};
+export const filterSearchPage = value => dispatch => {
+  dispatch({
+    type: SEARCHPAGE_FILTER,
+    payload: value
+  });
 };

@@ -1,49 +1,43 @@
 import React, { Fragment, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
-import sara from '../../../img/girls/sara.jpeg';
-
-const Girls = () => {
-  let [redirect] = useState('');
+const Girls = ({ profiles }) => {
   let [tru, setTru] = useState(false);
 
-  redirect = () => {
+  const redirect = () => {
     setTru((tru = true));
   };
 
+  const filter =
+    profiles.searchPage.length >= 1 ? profiles.searchPage : profiles.profiles;
+
   return (
     <div className="row">
-      <div className="col-sm-6">
-        <div className="card search-card" onClick={redirect}>
-          {tru ? (
-            <Redirect to="/describe-content" />
-          ) : (
-            <Fragment>
-              <img src={sara} alt="" className="card-img-top" />
-              <div className="card-body">
-                <h5 className="card-title">Sara</h5>
-                <p className="card-text">Student hot in Yverdon</p>
-                <Link to="/describe-content">
-                  <i className="fas fa-map-marker-alt" /> Street Uttins 20, VD
-                  CH
-                </Link>
-              </div>
-            </Fragment>
-          )}
-        </div>
-      </div>
-      <div className="col-sm-6">
-        <div className="card search-card" onClick={redirect}>
-          <img src={sara} alt="" className="card-img-top" />
-          <div className="card-body">
-            <h5 className="card-title">Sara</h5>
-            <p className="card-text">Student hot in Yverdon</p>
-            <Link to="/describe-content">
-              <i className="fas fa-map-marker-alt" /> Street Uttins 20, VD CH
-            </Link>
+      {filter.map(profile => (
+        <div className="col-sm-6" key={profile._id}>
+          <div className="card search-card" onClick={redirect}>
+            {tru ? (
+              <Redirect to={`/profile/user/${profile.user._id}`} />
+            ) : (
+              <Fragment>
+                <img
+                  src={profile.cover_photo}
+                  alt=""
+                  className="card-img-top"
+                />
+                <div className="card-body">
+                  <h5 className="card-title">{profile.user.nickname}</h5>
+                  <p className="card-text">Student hot in {profile.city}</p>
+                  <Link to={`/profile/user/${profile.user._id}`}>
+                    <i className="fas fa-map-marker-alt" /> Street Uttins 20,{' '}
+                    {profile.canton}
+                  </Link>
+                </div>
+              </Fragment>
+            )}
           </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 };

@@ -3,7 +3,8 @@ import {
   PROFILE_ERROR,
   GET_PROFILE,
   UPDATE_PROFILE,
-  FILTER_PROFILE
+  FILTER_PROFILE,
+  SEARCHPAGE_FILTER
 } from '../actions/type';
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
   profiles: [],
   loading: true,
   error: {},
-  profileFilter: []
+  profileFilter: [],
+  searchPage: []
 };
 
 export default function(state = initialState, action) {
@@ -50,6 +52,34 @@ export default function(state = initialState, action) {
           }
         }),
         loading: false
+      };
+    case SEARCHPAGE_FILTER:
+      return {
+        ...state,
+        searchPage: state.profiles.filter(profile => {
+          const service = profile.services.map(service => {
+            return service.toLowerCase();
+          });
+
+          if (
+            profile.canton.toLowerCase().includes(payload.canton.toLowerCase())
+          ) {
+            return profile;
+          } else if (
+            profile.canton.toLowerCase().includes(payload) &&
+            profile.category
+              .toLowerCase()
+              .includes(payload.category.toLowerCase())
+          ) {
+            return profile;
+          } else if (
+            profile.canton.toLowerCase().includes(payload) &&
+            profile.category.toLowerCase().includes(payload) &&
+            service.includes(payload.services.toLowerCase())
+          ) {
+            return profile;
+          }
+        })
       };
 
     default:
