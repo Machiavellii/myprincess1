@@ -68,7 +68,6 @@ const PostAnAdForm = ({
     city,
     canton,
     zip,
-    is_active,
     languages,
     silhouette,
     rate,

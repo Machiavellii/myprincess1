@@ -16,7 +16,7 @@ const FilterForm = ({ filterSearchPage }) => {
 
   useEffect(() => {
     filterSearchPage(formData);
-  }, [formData]);
+  }, [formData, filterSearchPage]);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

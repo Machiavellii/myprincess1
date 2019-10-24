@@ -25,7 +25,7 @@ const Search = ({ profiles, getProfiles }) => {
   };
 
   return (
-    <div className="row py-1">
+    <div className="row py-1 search">
       <div className="col-sm-12 d-lg-none btns">
         <button className="btn btn-rose-back" onClick={toggleFilter}>
           <i className="fas fa-filter" /> Filter ads

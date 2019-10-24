@@ -20,7 +20,7 @@ const Carousel = ({ profile }) => {
 
   const toggler = photo => {
     setPhotos(photo);
-    // setToggler(!togg);
+    setToggler(!togg);
   };
 
   return (
@@ -32,7 +32,7 @@ const Carousel = ({ profile }) => {
             src={`${window.location.origin}/${photo}`}
             alt=""
             className="img-fluid"
-            onClick={toggler.bind(this, photo)}
+            onClick={e => toggler(photo)}
           />
         ))}
       </div>
