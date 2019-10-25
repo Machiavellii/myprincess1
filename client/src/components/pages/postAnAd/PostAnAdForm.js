@@ -89,8 +89,8 @@ const PostAnAdForm = ({
       setCoverphoto(e.target.files[0]);
     }
     if (e.target.name === 'photos') {
-      setGalleryphoto(e.target.files);
-      // setGalleryphoto([...photos, e.target.files]);
+      // setGalleryphoto(e.target.files);
+      setGalleryphoto([...photos, e.target.files]);
       console.log(photos);
     }
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -127,11 +127,11 @@ const PostAnAdForm = ({
 
     let formGallery = new FormData();
 
-    for (let i = 0; i < photos.length; i += 1) {
+    for (let i = 0; i < photos.length; i++) {
       formGallery.append('photos', photos[i]);
     }
+    // formGallery.append('photos', photos);
     console.log(photos);
-    // formGallery.append('photos', photos.photos);
 
     createProfile(formData, history);
     uploadCover(formCover);
@@ -515,6 +515,7 @@ const PostAnAdForm = ({
             id="gallery"
             name="photos"
             multiple
+            // webkitdirectory="true"
             onChange={onChange}
           />
           <p className="text-center">

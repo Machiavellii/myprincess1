@@ -127,7 +127,7 @@ router.post(
     } = req.body;
 
     const cover_photo = req.file;
-    const photos = req.file;
+    const photos = req.files;
 
     /* Profile Object */
     const profileFields = {};

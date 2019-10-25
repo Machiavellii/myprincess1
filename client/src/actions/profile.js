@@ -104,7 +104,7 @@ export const uploadGallery = formFile => async dispatch => {
         'Content-Type': 'multipart/form-data'
       }
     };
-
+    console.log(formFile);
     const res = await axios.post(
       'api/profile/upload-gallery',
       formFile,
