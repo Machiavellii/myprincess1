@@ -48,3 +48,12 @@ img {
   background-color: var(--rose-color);
   color: #fff;
 }
+
+.pagination > .page-item {
+  cursor: pointer;
+}
+
+.pagin {
+  background-color: #503b3b;
+  color: #fff;
+}

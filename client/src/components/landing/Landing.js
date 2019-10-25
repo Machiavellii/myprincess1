@@ -8,7 +8,7 @@ import Content from './landingpages/landingcontent/Content';
 // import LatestAds from './landingpages/landingcontent/LatestAds';
 import LandingCanton from './landingpages/LandingCanton';
 import LandingDescribe from './landingpages/LandingDescribe';
-import Pagination from '../common/Pagination';
+// import Pagination from '../common/Pagination';
 
 const Landing = ({ getProfiles, profile }) => {
   useEffect(() => {
@@ -45,7 +45,7 @@ const Landing = ({ getProfiles, profile }) => {
           </span>
         </div>
         {/* <LatestAds /> */}
-        <Pagination />
+        {/* <Pagination /> */}
       </div>
       <LandingCanton />
       <div className="container">
