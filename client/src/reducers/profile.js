@@ -33,7 +33,6 @@ export default function(state = initialState, action) {
         profiles: payload,
         loading: false
       };
-
     case PROFILE_ERROR:
       return {
         ...state,
