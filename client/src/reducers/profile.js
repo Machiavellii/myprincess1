@@ -61,19 +61,28 @@ export default function(state = initialState, action) {
           });
 
           if (
+            typeof profile.canton === 'string' &&
             profile.canton.toLowerCase().includes(payload.canton.toLowerCase())
           ) {
             return profile;
           } else if (
-            profile.canton.toLowerCase().includes(payload) &&
+            typeof profile.canton === 'string' &&
+            profile.canton
+              .toLowerCase()
+              .includes(payload.canton.toLowerCase()) &&
             profile.category
               .toLowerCase()
               .includes(payload.category.toLowerCase())
           ) {
             return profile;
           } else if (
-            profile.canton.toLowerCase().includes(payload) &&
-            profile.category.toLowerCase().includes(payload) &&
+            typeof profile.canton === 'string' &&
+            profile.canton
+              .toLowerCase()
+              .includes(payload.canton.toLowerCase()) &&
+            profile.category
+              .toLowerCase()
+              .includes(payload.category.toLowerCase()) &&
             service.includes(payload.services.toLowerCase())
           ) {
             return profile;
