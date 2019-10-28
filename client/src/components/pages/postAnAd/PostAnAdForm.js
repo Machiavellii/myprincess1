@@ -54,8 +54,6 @@ const PostAnAdForm = ({
   const [cover_photo, setCoverphoto] = useState(null);
   const [photos, setGalleryphoto] = useState([]);
 
-  // const [fileName, setFileName] = useState('Choose file');
-
   const {
     gender,
     sexual_orientation,
@@ -77,20 +75,13 @@ const PostAnAdForm = ({
     type
   } = formData;
 
-  // const onGallery = e => {
-  //   setGalleryphoto(e.target.files);
-
-  //   // setGalleryphoto([...photos, e.target.files]);
-  //   console.log(photos);
-  // };
-
   const onChange = e => {
     if (e.target.name === 'cover_photo') {
       setCoverphoto(e.target.files[0]);
     }
     if (e.target.name === 'photos') {
-      // setGalleryphoto(e.target.files);
-      setGalleryphoto([...photos, e.target.files]);
+      setGalleryphoto(e.target.files);
+      // setGalleryphoto([...photos, e.target.files]);
       console.log(photos);
     }
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -127,11 +118,10 @@ const PostAnAdForm = ({
 
     let formGallery = new FormData();
 
-    for (let i = 0; i < photos.length; i++) {
-      formGallery.append('photos', photos[i]);
+    for (const key of Object.keys(photos)) {
+      formGallery.append('photos', photos[key]);
+      console.log(photos);
     }
-    // formGallery.append('photos', photos);
-    console.log(photos);
 
     createProfile(formData, history);
     uploadCover(formCover);

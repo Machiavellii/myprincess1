@@ -101,7 +101,9 @@ const ProfileSchema = new Schema({
   cover_photo: {
     type: String
   },
-  photos: [String],
+  photos: {
+    type: [String]
+  },
   hours: {
     type: String
   },

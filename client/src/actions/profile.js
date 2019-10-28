@@ -49,7 +49,7 @@ export const createProfile = (
 
     dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
-    history.push('/');
+    // history.push('/');
 
     // if(!edit){
     //   history.push('/')
@@ -116,6 +116,7 @@ export const uploadGallery = formFile => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    console.log(err);
     const errors = err.response.data.errors;
 
     if (errors) {

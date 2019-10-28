@@ -1,10 +1,7 @@
-import React, { Fragment, useState } from "react";
-import "../../../styles/PostAnAdForm.css";
+import React, { useState } from 'react';
+import '../../../styles/PostAnAdForm.css';
 
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-
-import { loadUser } from '../../../actions/auth';
+import { connect } from 'react-redux';
 
 import {
   spokenLanguageList,
@@ -17,11 +14,11 @@ import {
   genderList,
   sexual_orientationList,
   typeList
-} from "../../../constants/data.json";
+} from '../../../constants/data.json';
 
 const EditAdForm = ({
-    profile: { profile, loading },
-    auth: isAuthenticated
+  profile: { profile, loading },
+  auth: isAuthenticated
 }) => {
   return (
     <form className="container mb-5">
@@ -367,8 +364,8 @@ const EditAdForm = ({
 };
 
 const mapStateToProps = state => ({
-    profile: state.profile,
-    auth: state.auth
-  });
+  profile: state.profile,
+  auth: state.auth
+});
 
-  export default connect(mapStateToProps)(EditAdForm)
+export default connect(mapStateToProps)(EditAdForm);

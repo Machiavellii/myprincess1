@@ -17,7 +17,9 @@ var storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const folder_id = req.user.id;
 
-    dirPath = `./static/images/${folder_id}`;
+    // dirPath = `./static/images/${folder_id}`;
+    dirPath = `./static/images/`;
+
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(dirPath);
     }
@@ -38,7 +40,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const uploadCover = multer({ storage, fileFilter }).single('cover_photo');
-var uploadGallery = multer({ storage, fileFilter }).array('photos', 10);
+const uploadGallery = multer({ storage, fileFilter }).array('photos', 10);
 
 /* end upload image logic */
 
@@ -117,8 +119,7 @@ router.post(
       silhouette,
       origin,
       description,
-      // cover_photo, // photo
-      // photos,
+      photos,
       hours,
       rate,
       website,
@@ -127,7 +128,9 @@ router.post(
     } = req.body;
 
     const cover_photo = req.file;
-    const photos = req.files;
+    // const photos = req.files;
+
+    console.log(photos, 'photos');
 
     /* Profile Object */
     const profileFields = {};
@@ -297,6 +300,7 @@ router.post('/upload-cover', auth, async (req, res) => {
         return res.status(500).json(err);
       }
       var file = req.file;
+
       const coverUrl = path.join(file.destination, file.filename);
       const profile = await Profile.findOne({
         user: mongoose.Types.ObjectId(req.user._id)
@@ -337,8 +341,10 @@ router.post('/upload-gallery', auth, async (req, res) => {
         return res.status(500).json(err);
       }
       const photoUrls = req.files.map((item, index) => {
+        console.log(item.filename);
         return path.join(item.destination, item.filename);
       });
+
       // const exist_images = req.body.exist_images;
       // if (exist_images && exist_images.length > 0 && exist_images[0] != "") {
       //   exist_images.map(item => {
@@ -349,6 +355,7 @@ router.post('/upload-gallery', auth, async (req, res) => {
       const profile = await Profile.findOne({
         user: mongoose.Types.ObjectId(req.user._id)
       });
+
       if (profile) {
         const photoUrls = profile.photoUrls;
         fs.unlink(photoUrls, err => {
@@ -364,6 +371,7 @@ router.post('/upload-gallery', auth, async (req, res) => {
           fs.unlink(imgPath, err => {});
         });
       }
+
       var photos = await Profile.findOneAndUpdate(
         {
           user: req.user.id
@@ -377,6 +385,7 @@ router.post('/upload-gallery', auth, async (req, res) => {
           upsert: true
         }
       );
+
       await Profile.findOneAndUpdate(
         {
           user: req.user.id
@@ -389,8 +398,12 @@ router.post('/upload-gallery', auth, async (req, res) => {
           upsert: true
         }
       );
+      console.log(photoUrls);
+      // return res.status(200).json({ photos: photoUrls });
     });
+
     console.log('gallery uploaded');
+    console.log(req.files);
 
     return res.status(200).json();
   } catch (err) {

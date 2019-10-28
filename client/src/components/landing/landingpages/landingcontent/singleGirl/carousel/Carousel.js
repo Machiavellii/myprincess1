@@ -4,6 +4,7 @@ import FsLightbox from 'fslightbox-react';
 
 const Carousel = ({ profile }) => {
   const { photos } = profile;
+  console.log(photos);
 
   let [leftArrow] = useState('');
   let [rightArrow] = useState('');
