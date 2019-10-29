@@ -58,13 +58,18 @@ export const createProfile = (
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error =>
+        dispatch({
+          type: PROFILE_ERROR,
+          payload: error.msg
+        })
+      );
     }
 
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
+    // dispatch({
+    //   type: PROFILE_ERROR,
+    //   payload: { msg: err.response.statusText, status: err.response.status }
+    // });
   }
 };
 
@@ -84,11 +89,11 @@ export const uploadCover = formFile => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    // const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-    }
+    // if (errors) {
+    //   errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    // }
 
     dispatch({
       type: PROFILE_ERROR,
@@ -117,11 +122,11 @@ export const uploadGallery = formFile => async dispatch => {
     });
   } catch (err) {
     console.log(err);
-    const errors = err.response.data.errors;
+    // const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-    }
+    // if (errors) {
+    //   errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    // }
 
     dispatch({
       type: PROFILE_ERROR,

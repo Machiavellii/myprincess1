@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import '../../../styles/PostAnAdForm.css';
 
 import { connect } from 'react-redux';
@@ -22,12 +22,38 @@ import {
   typeList
 } from '../../../constants/data.json';
 
+import InputGroup from '../../common/InputGroup';
+import SelectListGroup from '../../common/SelectListGroup';
+import TextAreaGroup from '../../common/TextAreaGroup';
+import {
+  nickname,
+  typeLabel,
+  sloganLabel,
+  genderLabel,
+  categoryLabel,
+  sexualOrientationLabel,
+  ageLabel,
+  silhouetteLabel,
+  originLabel,
+  descriptionLabel,
+  cantonLabel,
+  cityLabel,
+  cityzipLabel,
+  coverLabel,
+  galleryLabel,
+  businesshoursLabel,
+  rateLabel,
+  phonenumberLabel,
+  websiteLabel
+} from '../../common/consts';
+
 const PostAnAdForm = ({
   createProfile,
   history,
   uploadCover,
   uploadGallery,
-  auth: isAuthenticated
+  auth: isAuthenticated,
+  profile: error
 }) => {
   const [formData, setFormData] = useState({
     gender: '',
@@ -48,7 +74,8 @@ const PostAnAdForm = ({
     slogan: '',
     hours: '',
     website: '',
-    type: ''
+    type: '',
+    errors: ''
   });
 
   const [cover_photo, setCoverphoto] = useState(null);
@@ -72,8 +99,16 @@ const PostAnAdForm = ({
     slogan,
     hours,
     website,
-    type
+    type,
+    errors
   } = formData;
+
+  useEffect(() => {
+    if (error.error.length > 1) {
+      setFormData({ ...formData, errors: error.error });
+      setTimeout(() => setFormData({ ...formData, errors: '' }), 5000);
+    }
+  }, [error]);
 
   const onChange = e => {
     if (e.target.name === 'cover_photo') {
@@ -146,7 +181,8 @@ const PostAnAdForm = ({
                 Reviews entering your e-mail address / username. The account
                 details will be confirmed by email.
               </p>
-              <div className="form-group col-md-12">
+
+              <div className="form-group">
                 <input
                   type="email"
                   className="form-control"
@@ -159,7 +195,7 @@ const PostAnAdForm = ({
           </div>
         ) : null}
 
-        <div className="form-group col-md-12">
+        <div className="form-group">
           <p>Job Activity</p>
           <div className="form-check form-check-inline">
             <input
@@ -194,39 +230,18 @@ const PostAnAdForm = ({
           </p>
         </div>
 
-        <div className="form-group col-md-12 mb-4">
-          <label htmlFor="nickname">
-            That nickname will be displayed is your profile *
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="nickname"
-            placeholder="Nickname"
-            required
-          />
-        </div>
+        <InputGroup placeholder={'Nickname'} labels={nickname} required />
 
-        <div className="form-group col-md-12 mt-3">
-          <label htmlFor="type">Type</label>
-          <select
-            className="form-control"
-            id="type"
-            name="type"
-            value={type}
-            onChange={onChange}
-          >
-            {typeList.map((item, index) => {
-              return (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        <SelectListGroup
+          name="type"
+          value={type}
+          onChange={onChange}
+          error={errors}
+          options={typeList}
+          labels={typeLabel}
+        />
 
-        <div className="form-group col-md-12">
+        <div className="form-group">
           <label htmlFor=" Spoken languages" className="form-check-label">
             Spoken languages
           </label>
@@ -259,39 +274,25 @@ const PostAnAdForm = ({
           </p>
         </div>
 
-        <div className="form-group col-md-12 mb-3">
-          <label htmlFor="slogan">Slogan</label>
-          <input
-            type="text"
-            className="form-control"
-            id="slogan"
-            placeholder="Slogan"
-            name="slogan"
-            value={slogan}
-            onChange={onChange}
-          />
-        </div>
+        <InputGroup
+          name="slogan"
+          placeholder={'Slogan'}
+          onChange={onChange}
+          labels={sloganLabel}
+          value={slogan}
+          error={errors}
+        />
 
-        <div className="form-group col-md-12 mt-4">
-          <label htmlFor="gender">Gender</label>
-          <select
-            className="form-control"
-            id="gender"
-            onChange={onChange}
-            value={gender}
-            name="gender"
-          >
-            {genderList.map((item, index) => {
-              return (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        <SelectListGroup
+          name="gender"
+          value={gender}
+          onChange={onChange}
+          error={errors}
+          options={genderList}
+          labels={genderLabel}
+        />
 
-        <div className="form-group col-md-12">
+        <div className="form-group">
           <label htmlFor="Services" className="form-check-label">
             Services *
           </label>
@@ -320,252 +321,138 @@ const PostAnAdForm = ({
           })}
         </div>
 
-        <div className="form-group col-md-12 mt-3">
-          <label htmlFor="category">Category</label>
-          <select
-            className="form-control"
-            id="category"
-            onChange={onChange}
-            name="category"
-            value={category}
-          >
-            {categoryList.map((item, index) => {
-              return (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        <SelectListGroup
+          name="category"
+          value={category}
+          onChange={onChange}
+          error={errors}
+          options={categoryList}
+          labels={categoryLabel}
+        />
+        <SelectListGroup
+          name="sexual_orientation"
+          value={sexual_orientation}
+          onChange={onChange}
+          error={errors}
+          options={sexual_orientationList}
+          labels={sexualOrientationLabel}
+        />
+        <InputGroup
+          name="age"
+          placeholder={'18'}
+          onChange={onChange}
+          labels={ageLabel}
+          value={age}
+          error={errors}
+        />
+        <SelectListGroup
+          name="silhouette"
+          value={silhouette}
+          onChange={onChange}
+          error={errors}
+          options={silhouetteList}
+          labels={silhouetteLabel}
+        />
+        <SelectListGroup
+          name="origin"
+          value={origin}
+          onChange={onChange}
+          error={errors}
+          options={originList}
+          labels={originLabel}
+        />
 
-        <div className="form-group col-md-12 mt-3">
-          <label htmlFor="sexual_orientation">Sexual_orientation</label>
-          <select
-            className="form-control"
-            id="sexual_orientation"
-            onChange={onChange}
-            value={sexual_orientation}
-            name="sexual_orientation"
-          >
-            {sexual_orientationList.map((item, index) => {
-              return (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        <TextAreaGroup
+          placeholder="Short Bio "
+          name="description"
+          value={description}
+          onChange={onChange}
+          // error={error}
+          info="Tell us a little about yourself"
+          labels={descriptionLabel}
+        />
 
-        <div className="form-group col-md-12">
-          <label htmlFor="age">Age *</label>
-          <input
-            type="text"
-            className="form-control"
-            id="age"
-            placeholder="18"
-            name="age"
-            value={age}
-            onChange={onChange}
-          />
-        </div>
+        <SelectListGroup
+          name="canton"
+          value={canton}
+          onChange={onChange}
+          error={errors}
+          options={cantonsList}
+          labels={cantonLabel}
+        />
+        <SelectListGroup
+          name="city"
+          value={city}
+          onChange={onChange}
+          error={errors}
+          options={cityList}
+          labels={cityLabel}
+        />
+        <InputGroup
+          name="zip"
+          placeholder={'8000'}
+          onChange={onChange}
+          labels={cityzipLabel}
+          value={zip}
+          error={errors}
+        />
+        <InputGroup
+          type="file"
+          name="cover_photo"
+          onChange={onChange}
+          labels={coverLabel}
+        />
+        <p className="text-center">
+          <small className="tip">Add a cover photo</small>
+        </p>
 
-        <div className="form-group col-md-12">
-          <label htmlFor="silhoue">Silhouette *</label>
-          <select
-            className="form-control"
-            id="silhoue"
-            onChange={onChange}
-            name="silhouette"
-            value={silhouette}
-          >
-            {silhouetteList.map((item, index) => {
-              return (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        <InputGroup
+          type="file"
+          name="photos"
+          onChange={onChange}
+          labels={galleryLabel}
+          multiple
+        />
+        <p className="text-center">
+          <small className="tip">
+            The first picture will be displayed as the hand.
+          </small>
+        </p>
 
-        <div className="form-group col-md-12">
-          <label htmlFor="origin">Origin *</label>
-          <select
-            className="form-control"
-            id="origin"
-            onChange={onChange}
-            value={origin}
-            name="origin"
-          >
-            {originList.map((item, index) => {
-              return (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        <TextAreaGroup
+          placeholder="21:00 - 05:00"
+          name="hours"
+          value={hours}
+          onChange={onChange}
+          // error={error}
+          labels={businesshoursLabel}
+        />
 
-        <div className="form-group col-md-12">
-          <label htmlFor="description">Description *</label>
-          <textarea
-            className="form-control"
-            rows="3"
-            name="description"
-            value={description}
-            onChange={onChange}
-          ></textarea>
-        </div>
+        <TextAreaGroup
+          placeholder="200CHF"
+          name="rate"
+          value={rate}
+          onChange={onChange}
+          // error={error}
 
-        {/* <div className="form-group col-md-12">
-          <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            className="form-control"
-            id="address"
-            placeholder=""
-            name='address'
-            value={address}
-            onChange={onChange}
-          />
-        </div> */}
-
-        <div className="form-group col-md-12 mt-3">
-          <label htmlFor="canton">Canton</label>
-          <select
-            className="form-control"
-            onChange={onChange}
-            value={canton}
-            name="canton"
-          >
-            {cantonsList.map((item, index) => {
-              return (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-
-        <div className="form-group col-md-12 mt-3">
-          <label htmlFor="city">City</label>
-          <select
-            className="form-control"
-            id="city"
-            onChange={onChange}
-            value={city}
-            name="city"
-          >
-            {cityList.map((item, index) => {
-              return (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-
-        <div className="form-group col-md-12">
-          <label htmlFor="zip">City Zip</label>
-          <input
-            type="text"
-            className="form-control"
-            id="zip"
-            placeholder="8000"
-            name="zip"
-            value={zip}
-            onChange={onChange}
-          />
-        </div>
-
-        <div className="form-group col-md-12">
-          <label htmlFor="coverPicture">Cover picture</label>
-          <input
-            type="file"
-            className="form-control-file"
-            id="coverPicture"
-            onChange={onChange}
-            name="cover_photo"
-          />
-          <p className="text-center">
-            <small className="tip">Add a cover photo</small>
-          </p>
-        </div>
-
-        <div className="form-group col-md-12">
-          <label htmlFor="gallery">Upload your photographs (max. 10)</label>
-          <input
-            type="file"
-            className="form-control-file"
-            id="gallery"
-            name="photos"
-            multiple
-            // webkitdirectory="true"
-            onChange={onChange}
-          />
-          <p className="text-center">
-            <small className="tip">
-              The first picture will be displayed as the hand.
-            </small>
-          </p>
-        </div>
-
-        <div className="form-group col-md-12">
-          <label htmlFor="businessHours">Business hours</label>
-          <textarea
-            className="form-control"
-            id="businessHours"
-            rows="3"
-            placeholder="21:00-05:00"
-            name="hours"
-            value={hours}
-            onChange={onChange}
-          ></textarea>
-        </div>
-
-        <div className="form-group col-md-12">
-          <label htmlFor="minimumRate">Minmum Rate</label>
-          <textarea
-            className="form-control"
-            id="minimumRate"
-            rows="3"
-            placeholder="200CHF"
-            name="rate"
-            value={rate}
-            onChange={onChange}
-          ></textarea>
-        </div>
-
-        <div className="form-group col-md-12">
-          <label htmlFor="phone">Phone Number *</label>
-          <input
-            type="text"
-            className="form-control"
-            id="phone"
-            placeholder="+41 79 000 00 00"
-            name="phone"
-            value={phone}
-            onChange={onChange}
-          />
-        </div>
-
-        <div className="form-group col-md-12">
-          <label htmlFor="website">Personal Website</label>
-          <input
-            type="text"
-            className="form-control"
-            id="website"
-            name="website"
-            value={website}
-            placeholder="https://www.site.com"
-            onChange={onChange}
-          />
-        </div>
+          labels={rateLabel}
+        />
+        <InputGroup
+          name="phone"
+          placeholder={'+41 79 000 00 00'}
+          onChange={onChange}
+          labels={phonenumberLabel}
+          value={phone}
+          error={errors}
+        />
+        <InputGroup
+          name="website"
+          placeholder={'https://www.site.com'}
+          onChange={onChange}
+          labels={websiteLabel}
+          value={website}
+          error={errors}
+        />
         <button
           type="submit"
           className="btn btn-primary btn-lg btn-block main-theme-btn"
@@ -578,7 +465,8 @@ const PostAnAdForm = ({
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(
