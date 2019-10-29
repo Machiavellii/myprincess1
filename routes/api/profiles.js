@@ -88,7 +88,7 @@ router.post(
     check('silhouette', 'Category is required')
       .not()
       .isEmpty(),
-    check('origin', 'Origin is required')
+    check('origin', 'Field is required')
       .not()
       .isEmpty()
   ],
