@@ -10,7 +10,11 @@ import LandingCanton from './landingpages/LandingCanton';
 import LandingDescribe from './landingpages/LandingDescribe';
 // import Pagination from '../common/Pagination';
 
+import { useTranslation } from 'react-i18next';
+
 const Landing = ({ getProfiles, profile }) => {
+  const { t, i18n } = useTranslation();
+  
   useEffect(() => {
     getProfiles();
   }, [getProfiles]);
@@ -19,7 +23,7 @@ const Landing = ({ getProfiles, profile }) => {
     <Fragment>
       <div className="header">
         <span>
-          Directory for escort and erotic massage parlor in Switzerland
+          {t('Directory.1')}
         </span>
       </div>
       <div className="container mt-5">
