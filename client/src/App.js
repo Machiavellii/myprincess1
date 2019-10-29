@@ -56,7 +56,7 @@ const App = () => {
           <Route exact path="/links" component={Links} />
           <Route exact path="/escorts-girls/:canton" component={EscortsGirls} />
           <Route exact path="/my-profiles" component={MyProfiles} />
-          <Route exact path="/edit" component={EditAdForm} />
+          <Route exact path="/edit-profile/:id" component={EditAdForm} />
           <Footer />
         </div>
       </Router>
