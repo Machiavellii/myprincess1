@@ -8,14 +8,14 @@ import portugal from '../../img/flag-icons/portugal.png';
 import russia from '../../img/flag-icons/russia.png';
 import unitedkingdom from '../../img/flag-icons/united-kingdom.png';
 
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 
 const MiniHeader = () => {
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
 
   const handleLanguage = lang => {
-    i18n.changeLanguage(lang)
-  }
+    // i18n.changeLanguage(lang);
+  };
 
   return (
     <div className="small-header">

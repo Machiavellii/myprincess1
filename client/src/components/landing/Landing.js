@@ -10,11 +10,11 @@ import LandingCanton from './landingpages/LandingCanton';
 import LandingDescribe from './landingpages/LandingDescribe';
 // import Pagination from '../common/Pagination';
 
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 
 const Landing = ({ getProfiles, profile }) => {
-  const { t, i18n } = useTranslation();
-  
+  // const { t, i18n } = useTranslation();
+
   useEffect(() => {
     getProfiles();
   }, [getProfiles]);
@@ -22,9 +22,8 @@ const Landing = ({ getProfiles, profile }) => {
   return (
     <Fragment>
       <div className="header">
-        <span>
-          {t('Directory.1')}
-        </span>
+        {/* <span>{t('Directory.1')}</span> */}
+        <span></span>
       </div>
       <div className="container mt-5">
         <div className="holder-line">
