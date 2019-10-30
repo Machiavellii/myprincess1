@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const config = require('config');
 const multer = require('multer');
 const fs = require('fs');
-var path = require('path');
+const path = require('path');
 const mongoose = require('mongoose');
-//const request = require('request');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
@@ -13,13 +11,10 @@ const Profile = require('../../models/profile');
 const User = require('../../models/User');
 
 /* start upload image logic */
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const folder_id = req.user.id;
-
-    // dirPath = `./static/images/${folder_id}`;
-    dirPath = `./static/images/`;
-
+    dirPath = `./static/images/${folder_id}`;
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(dirPath);
     }
@@ -28,6 +23,33 @@ var storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const nickname = req.user.nickname;
     cb(null, Date.now() + file.originalname);
+  }
+});
+
+//Gallsery Storage
+const storageGallery = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './static/gallery/');
+  },
+  filename: (req, file, cb) => {
+    const fileName = file.originalname.toLowerCase();
+    cb(null, fileName);
+  }
+});
+
+const uploadGallery = multer({
+  storage: storageGallery,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == 'image/png' ||
+      file.mimetype == 'image/jpg' ||
+      file.mimetype == 'image/jpeg'
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+    }
   }
 });
 
@@ -40,7 +62,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const uploadCover = multer({ storage, fileFilter }).single('cover_photo');
-const uploadGallery = multer({ storage, fileFilter }).array('photos', 10);
+// const uploadGallery = multer({ storage, fileFilter }).array('photos', 10);
 
 /* end upload image logic */
 
@@ -130,7 +152,7 @@ router.post(
     const cover_photo = req.file;
     // const photos = req.files;
 
-    console.log(photos, 'photos');
+    // console.log(photos, 'photos');
 
     /* Profile Object */
     const profileFields = {};
@@ -332,85 +354,44 @@ router.post('/upload-cover', auth, async (req, res) => {
 // @route    POST api/profile/upload-gallery
 // @desc     Upload gallery photos
 // @access   Private
-router.post('/upload-gallery', auth, async (req, res) => {
-  try {
-    uploadGallery(req, res, async function(err) {
-      if (err instanceof multer.MulterError) {
-        return res.status(500).json(err);
-      } else if (err) {
-        return res.status(500).json(err);
+router.post(
+  '/upload-gallery',
+  auth,
+  uploadGallery.array('photos', 6),
+  async (req, res) => {
+    try {
+      let reqFiles = [];
+      const url = req.protocol + '://' + req.get('host');
+      for (var i = 0; i < req.files.length; i++) {
+        reqFiles.push('/static/gallery/' + req.files[i].filename);
       }
-      const photoUrls = req.files.map((item, index) => {
-        console.log(item.filename);
-        return path.join(item.destination, item.filename);
-      });
-
-      // const exist_images = req.body.exist_images;
-      // if (exist_images && exist_images.length > 0 && exist_images[0] != "") {
-      //   exist_images.map(item => {
-      //     photoUrls.unshift(item);
-      //   });
-      // }
 
       const profile = await Profile.findOne({
         user: mongoose.Types.ObjectId(req.user._id)
       });
-
       if (profile) {
-        const photoUrls = profile.photoUrls;
+        const photoUrls = profile.reqFiles;
         fs.unlink(photoUrls, err => {
           console.log('error', err);
         });
       }
-      const photo = await Profile.findOne({
-        user: req.user.id
-      });
-      if (photo) {
-        photo.photos.map((item, index) => {
-          const imgPath = path.join(item);
-          fs.unlink(imgPath, err => {});
-        });
-      }
-
-      var photos = await Profile.findOneAndUpdate(
-        {
-          user: req.user.id
-        },
-        {
-          user: req.user.id,
-          photos: photoUrls
-        },
-        {
-          new: true,
-          upsert: true
-        }
-      );
 
       await Profile.findOneAndUpdate(
+        { user: req.user.id },
         {
-          user: req.user.id
-        },
-        {
-          photos: photoUrls
+          photos: reqFiles
         },
         {
           new: true,
           upsert: true
         }
       );
-      console.log(photoUrls);
-      // return res.status(200).json({ photos: photoUrls });
-    });
-
-    console.log('gallery uploaded');
-    console.log(req.files);
-
-    return res.status(200).json();
-  } catch (err) {
-    console.log('gallery upload err:', err);
+      res.status(201).json({ photos: reqFiles });
+    } catch (err) {
+      console.log(err);
+    }
   }
-  return res.status(500).json();
-});
+);
 
 // @route    PUT api/profile/opinions
 // @desc     Add opinions

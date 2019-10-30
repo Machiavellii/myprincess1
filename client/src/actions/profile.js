@@ -19,11 +19,15 @@ export const getProfiles = () => async dispatch => {
       type: GET_PROFILES,
       payload: res.data
     });
-  } catch (error) {
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: { msg: error.response.statusText, status: error.response.status }
-    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
   }
 };
 
@@ -49,7 +53,7 @@ export const createProfile = (
 
     dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
-    // history.push('/');
+    history.push('/');
 
     // if(!edit){
     //   history.push('/')
@@ -153,12 +157,10 @@ export const getProfileById = userId => async dispatch => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach(error =>
-        dispatch({
-          type: PROFILE_ERROR,
-          payload: error.msg
-        })
-      );
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
     }
     // dispatch({
     //   type: PROFILE_ERROR,

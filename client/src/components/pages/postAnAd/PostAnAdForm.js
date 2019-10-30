@@ -79,7 +79,7 @@ const PostAnAdForm = ({
   });
 
   const [cover_photo, setCoverphoto] = useState(null);
-  const [photos, setGalleryphoto] = useState([]);
+  const [photos, setGalleryphoto] = useState('');
 
   const {
     gender,
@@ -160,14 +160,18 @@ const PostAnAdForm = ({
 
     createProfile(formData, history);
     uploadCover(formCover);
-    // uploadGallery(formGallery);
+    uploadGallery(formGallery);
     console.log(formData);
   };
 
   return (
     <Fragment>
       <h1 className="text-center">Post an ad - 7 days</h1>
-      <form className="container mb-5" onSubmit={onSubmit}>
+      <form
+        className="container mb-5"
+        onSubmit={onSubmit}
+        encType="multipart/form-data"
+      >
         {!isAuthenticated.token ? (
           <div className="card mb-4 mt-5">
             <div className="card-body">
@@ -406,13 +410,15 @@ const PostAnAdForm = ({
           <small className="tip">Add a cover photo</small>
         </p>
 
-        <InputGroup
+        <input type="file" name="photos" onChange={onChange} multiple />
+
+        {/* <InputGroup
           type="file"
           name="photos"
           onChange={onChange}
           labels={galleryLabel}
           multiple
-        />
+        /> */}
         <p className="text-center">
           <small className="tip">
             The first picture will be displayed as the hand.

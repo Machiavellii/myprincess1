@@ -27,15 +27,18 @@ const Carousel = ({ profile }) => {
   return (
     <div className="carousel-holder">
       <div className="carousel-gallery" id="move">
-        {photos.map((photo, i) => (
+        {photos.map(photo => {
+          console.log(photo);
+        })}
+        {/* {photos.map((photo, i) => (
           <img
             key={i}
-            src={`${window.location.origin}/${photo}`}
+            src={photo}
             alt=""
             className="img-fluid"
             onClick={e => toggler(photo)}
           />
-        ))}
+        ))} */}
       </div>
       <div className="leftArrow arrow" onClick={leftArrow}>
         <i className="fas fa-arrow-left"></i>

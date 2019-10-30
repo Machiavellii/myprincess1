@@ -4,6 +4,7 @@ import Gallery from './galleryComponent/Gallery';
 
 const GalleryHolder = ({ profile }) => {
   const { cover_photo, is_active, city } = profile;
+
   return (
     <div className="gallery-holder">
       <div className="img-holder mb-4">

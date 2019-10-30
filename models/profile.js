@@ -102,7 +102,7 @@ const ProfileSchema = new Schema({
     type: String
   },
   photos: {
-    type: [String]
+    type: Array
   },
   hours: {
     type: String
