@@ -5,7 +5,7 @@ import Pagination from '../../../common/Pagination';
 
 const Contents = ({ profiles: { profile } }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [contentsPerPage] = useState(3);
+  const [contentsPerPage] = useState(6);
 
   // Get current posts
   const indexOfLastContent = currentPage * contentsPerPage;

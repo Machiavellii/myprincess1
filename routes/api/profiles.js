@@ -26,24 +26,8 @@ let storage = multer.diskStorage({
   }
 });
 
-//Gallsery Storage
-const storageGallery = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const folder_id = req.user.id;
-    dirPath = `./static/gallery/${folder_id}`;
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath);
-    }
-    cb(null, dirPath);
-  },
-  filename: (req, file, cb) => {
-    const fileName = file.originalname.toLowerCase();
-    cb(null, fileName);
-  }
-});
-
 const uploadGallery = multer({
-  storage: storageGallery,
+  storage: storage,
   fileFilter: (req, file, cb) => {
     if (
       file.mimetype == 'image/png' ||
@@ -67,7 +51,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const uploadCover = multer({ storage, fileFilter }).single('cover_photo');
-// const uploadGallery = multer({ storage: storageGallery, fileFilter }).array('photos', 10);
+// const uploadGallery = multer({ storage, fileFilter }).array('photos', 10);
 
 /* end upload image logic */
 
@@ -365,16 +349,15 @@ router.post(
   uploadGallery.array('photos', 10),
   async (req, res) => {
     try {
-
       let reqFiles = [];
-      // const url = req.protocol + '://' + req.get('host');
       for (var i = 0; i < req.files.length; i++) {
         reqFiles.push(req.files[i]);
       }
 
       const photoUrls = reqFiles.map((item, index) => {
-        return path.join(item.destination, item.filename)
-      })
+        const photoLink = path.join(item.destination, item.filename);
+        return photoLink
+      });
 
       const profile = await Profile.findOne({
         user: mongoose.Types.ObjectId(req.user._id)
@@ -385,31 +368,15 @@ router.post(
           console.log('error', err);
         });
       }
-
+      
       const photo = await Profile.findOne({
         user: req.user.id
       });
       if (photo) {
-        // console.log(photo)
         photo.photos.map((item, index) => {
-          const imgPath = path.join(item);
-          fs.unlink(imgPath, err => {});
+          fs.unlink(item, err => {});
         });
       }
-
-      let photos = await Profile.findOneAndUpdate(
-        {
-          user: req.user.id
-        },
-        {
-          user: req.user.id,
-          photos: photoUrls
-        },
-        {
-          new: true,
-          upsert: true
-        }
-      );
 
       await Profile.findOneAndUpdate(
         { user: req.user.id },
@@ -427,7 +394,6 @@ router.post(
     }
   }
 );
-
 
 // @route    PUT api/profile/opinions
 // @desc     Add opinions

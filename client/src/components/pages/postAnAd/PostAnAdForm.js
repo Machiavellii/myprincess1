@@ -116,8 +116,6 @@ const PostAnAdForm = ({
     }
     if (e.target.name === 'photos') {
       setGalleryphoto(e.target.files);
-      // setGalleryphoto([...photos, e.target.files]);
-      console.log(photos);
     }
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -234,7 +232,7 @@ const PostAnAdForm = ({
           </p>
         </div>
 
-        <InputGroup placeholder={'Nickname'} labels={nickname} required />
+        {/* <InputGroup placeholder={'Nickname'} labels={nickname} required /> */}
 
         <SelectListGroup
           name="type"

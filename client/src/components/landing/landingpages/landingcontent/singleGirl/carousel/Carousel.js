@@ -4,7 +4,6 @@ import FsLightbox from 'fslightbox-react';
 
 const Carousel = ({ profile }) => {
   const { photos } = profile;
-  console.log(photos);
 
   let [leftArrow] = useState('');
   let [rightArrow] = useState('');
@@ -27,18 +26,16 @@ const Carousel = ({ profile }) => {
   return (
     <div className="carousel-holder">
       <div className="carousel-gallery" id="move">
-        {photos.map(photo => {
-          console.log(photo);
-        })}
-        {/* {photos.map((photo, i) => (
+        {photos.map(photo => {})}
+        {photos.map((photo, i) => (
           <img
             key={i}
-            src={photo}
+            src={`${window.location.origin}/${photo}`}
             alt=""
             className="img-fluid"
             onClick={e => toggler(photo)}
           />
-        ))} */}
+        ))}
       </div>
       <div className="leftArrow arrow" onClick={leftArrow}>
         <i className="fas fa-arrow-left"></i>
@@ -46,10 +43,10 @@ const Carousel = ({ profile }) => {
       <div className="rightArrow arrow" onClick={rightArrow}>
         <i className="fas fa-arrow-right"></i>
       </div>
-      <FsLightbox
+      {/* <FsLightbox
         toggler={toggler}
         sources={[`${window.location.origin}/${photoGallery}`]}
-      />
+      /> */}
     </div>
   );
 };
