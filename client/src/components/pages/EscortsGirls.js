@@ -13,7 +13,11 @@ class EscortsGirls extends React.Component {
   renderGirlsFromCanton() {
     const canton = this.props.match.params.canton;
     return this.props.profiles
-      .filter(profile => profile.canton.toLowerCase() === canton)
+      .filter(profile => {
+       if(typeof profile.canton === 'string'){
+         return profile.canton.toLowerCase() === canton
+       }
+      })
       .map(girl => {
         return (
           <div className="col-sm-6 col-md-4 col-lg-3 mt-5" key={girl._id}>
@@ -65,6 +69,7 @@ class EscortsGirls extends React.Component {
     }
     return (
       <div className="container">
+      <div className='row'>
         <h4
           className="text-center contact-form-heading mt-5"
           style={{ textTransform: "uppercase" }}
@@ -74,6 +79,8 @@ class EscortsGirls extends React.Component {
         {this.renderGirlsFromCanton()}
         {message}
         <LandingCanton />
+
+      </div>
       </div>
     );
   }
