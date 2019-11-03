@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 
 import FsLightbox from 'fslightbox-react';
 
-const Carousel = ({ profile }) => {
-  const { photos } = profile;
-
+const Carousel = ({ photos }) => {
   let [leftArrow] = useState('');
   let [rightArrow] = useState('');
   const [togg, setToggler] = useState(false);
@@ -26,7 +24,6 @@ const Carousel = ({ profile }) => {
   return (
     <div className="carousel-holder">
       <div className="carousel-gallery" id="move">
-        {photos.map(photo => {})}
         {photos.map((photo, i) => (
           <img
             key={i}

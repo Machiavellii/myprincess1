@@ -33,6 +33,15 @@
   left: 1%;
 }
 
+.btn-holder {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+.btn-holder a {
+  font-size: 0.9rem;
+}
+
 /* DECRIBE GIRL */
 .holder {
   background: #f9f9f9;

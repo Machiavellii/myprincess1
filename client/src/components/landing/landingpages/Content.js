@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react';
-import '../../../../styles/contents.css';
+import '../../../styles/contents.css';
 import { Link } from 'react-router-dom';
-import Pagination from '../../../common/Pagination';
+import Pagination from '../../common/Pagination';
 
-const Contents = ({ profiles: { profile } }) => {
+const Content = ({ profile }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [contentsPerPage] = useState(6);
 
@@ -33,6 +33,7 @@ const Contents = ({ profiles: { profile } }) => {
                     {profile.canton}
                   </Link>
                 </div>
+
                 <Link to={`/profile/user/${profile.user._id}`}>
                   <img src={profile.cover_photo} alt="" className="img-fluid" />
                   {!profile.is_active ? (
@@ -65,4 +66,4 @@ const Contents = ({ profiles: { profile } }) => {
   );
 };
 
-export default Contents;
+export default Content;

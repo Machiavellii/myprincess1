@@ -6,12 +6,14 @@ import {
   PROFILE_ERROR,
   GET_PROFILE,
   FILTER_PROFILE,
-  SEARCHPAGE_FILTER
+  SEARCHPAGE_FILTER,
+  CLEAR_PROFILE,
+  UPDATE_PROFILE
 } from './type';
 
 // GET All Profiles
 export const getProfiles = () => async dispatch => {
-  // dispatch({ type: CLEAR_PROFILE });
+  dispatch({ type: CLEAR_PROFILE });
   try {
     const res = await axios.get('/api/profile');
 
@@ -20,14 +22,28 @@ export const getProfiles = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
 
-    if (errors) {
-      dispatch({
-        type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status }
-      });
-    }
+export const getProfileById = userId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/profile/user/${userId}`);
+
+    console.log(res.data);
+
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
 };
 
@@ -54,7 +70,7 @@ export const createProfile = (
     dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
     history.push('/');
-
+    window.location.reload();
     // if(!edit){
     //   history.push('/')
     // }
@@ -78,7 +94,7 @@ export const createProfile = (
 };
 
 // UPLOAD COVER
-export const uploadCover = formFile => async dispatch => {
+export const uploadCover = (formFile, formGallery) => async dispatch => {
   try {
     const config = {
       headers: {
@@ -102,7 +118,7 @@ export const uploadCover = formFile => async dispatch => {
     if (errors) {
       errors.forEach(error =>
         dispatch({
-          type: PROFILE_ERROR,
+          type: UPDATE_PROFILE,
           payload: error.msg
         })
       );
@@ -117,7 +133,6 @@ export const uploadGallery = formFile => async dispatch => {
         'Content-Type': 'multipart/form-data'
       }
     };
-    console.log(formFile);
     const res = await axios.post(
       'api/profile/upload-gallery',
       formFile,
@@ -125,7 +140,7 @@ export const uploadGallery = formFile => async dispatch => {
     );
 
     dispatch({
-      type: GET_PROFILE,
+      type: UPDATE_PROFILE,
       payload: res.data
     });
   } catch (err) {
@@ -143,29 +158,6 @@ export const uploadGallery = formFile => async dispatch => {
         })
       );
     }
-  }
-};
-
-export const getProfileById = userId => async dispatch => {
-  try {
-    const res = await axios.get(`/api/profile/user/${userId}`);
-
-    dispatch({
-      type: GET_PROFILE,
-      payload: res.data
-    });
-  } catch (err) {
-    const errors = err.response.data.errors;
-    if (errors) {
-      dispatch({
-        type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status }
-      });
-    }
-    // dispatch({
-    //   type: PROFILE_ERROR,
-    //   payload: { msg: err.response.statusText, status: err.response.status }
-    // });
   }
 };
 

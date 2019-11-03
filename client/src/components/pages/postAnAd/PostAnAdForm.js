@@ -26,7 +26,7 @@ import InputGroup from '../../common/InputGroup';
 import SelectListGroup from '../../common/SelectListGroup';
 import TextAreaGroup from '../../common/TextAreaGroup';
 import {
-  nickname,
+  // nickname,
   typeLabel,
   sloganLabel,
   genderLabel,
@@ -40,7 +40,7 @@ import {
   cityLabel,
   cityzipLabel,
   coverLabel,
-  galleryLabel,
+  // galleryLabel,
   businesshoursLabel,
   rateLabel,
   phonenumberLabel,
@@ -153,13 +153,11 @@ const PostAnAdForm = ({
 
     for (const key of Object.keys(photos)) {
       formGallery.append('photos', photos[key]);
-      console.log(photos);
     }
 
-    createProfile(formData, history);
-    uploadCover(formCover);
     uploadGallery(formGallery);
-    console.log(formData);
+    uploadCover(formCover);
+    createProfile(formData, history);
   };
 
   return (

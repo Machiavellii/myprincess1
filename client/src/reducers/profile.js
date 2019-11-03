@@ -4,7 +4,8 @@ import {
   GET_PROFILE,
   UPDATE_PROFILE,
   FILTER_PROFILE,
-  SEARCHPAGE_FILTER
+  SEARCHPAGE_FILTER,
+  CLEAR_PROFILE
 } from '../actions/type';
 
 const initialState = {
@@ -39,6 +40,15 @@ export default function(state = initialState, action) {
         error: payload,
         loading: false
       };
+    case CLEAR_PROFILE:
+      return {
+        ...state,
+        profile: null,
+        loading: false,
+        profileFilter: [],
+        searchPage: []
+      };
+
     case FILTER_PROFILE:
       return {
         ...state,
