@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import '../../../styles/PostAnAdForm.css';
 
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import {
+  createProfile,
+  uploadCover,
+  uploadGallery,
+  getCurrentProfile
+} from '../../../actions/profile';
 
 import {
   spokenLanguageList,
@@ -16,356 +23,449 @@ import {
   typeList
 } from '../../../constants/data.json';
 
+import InputGroup from '../../common/InputGroup';
+import SelectListGroup from '../../common/SelectListGroup';
+import TextAreaGroup from '../../common/TextAreaGroup';
+import {
+  // nickname,
+  typeLabel,
+  sloganLabel,
+  genderLabel,
+  categoryLabel,
+  sexualOrientationLabel,
+  ageLabel,
+  silhouetteLabel,
+  originLabel,
+  descriptionLabel,
+  cantonLabel,
+  cityLabel,
+  cityzipLabel,
+  coverLabel,
+  // galleryLabel,
+  businesshoursLabel,
+  rateLabel,
+  phonenumberLabel,
+  websiteLabel
+} from '../../common/consts';
+
 const EditAdForm = ({
-  profile: { profile, loading },
-  auth: isAuthenticated
+  createProfile,
+  history,
+  uploadCover,
+  uploadGallery,
+  getCurrentProfile,
+  profile: { profile, loading }
 }) => {
+  const [formData, setFormData] = useState({
+    gender: '',
+    sexual_orientation: '',
+    phone: '',
+    category: '',
+    services: [],
+    age: '',
+    origin: '',
+    description: '',
+    city: '',
+    canton: '',
+    zip: '',
+    is_active: '',
+    languages: [],
+    silhouette: '',
+    rate: '',
+    slogan: '',
+    hours: '',
+    website: '',
+    type: '',
+    errors: ''
+  });
+
+  const [cover_photo, setCoverphoto] = useState(null);
+  const [photos, setGalleryphoto] = useState('');
+
+  useEffect(() => {
+    getCurrentProfile();
+
+    setFormData({
+      gender: loading || !profile.gender ? ' ' : profile.gender,
+      sexual_orientation:
+        loading || !profile.sexual_orientation
+          ? ' '
+          : profile.sexual_orientation,
+      phone: loading || !profile.phone ? ' ' : profile.phone,
+      category: loading || !profile.category ? ' ' : profile.category,
+      services: loading || !profile.services ? ' ' : profile.services,
+      age: loading || !profile.age ? ' ' : profile.age,
+      type: loading || !profile.type ? ' ' : profile.type,
+      origin: loading || !profile.origin ? ' ' : profile.origin,
+      description: loading || !profile.description ? ' ' : profile.description,
+      city: loading || !profile.city ? ' ' : profile.city,
+      canton: loading || !profile.canton ? ' ' : profile.canton,
+      zip: loading || !profile.zip ? ' ' : profile.zip,
+      languages: loading || !profile.languages ? ' ' : profile.languages,
+      silhouette: loading || !profile.silhouette ? ' ' : profile.silhouette,
+      rate: loading || !profile.rate ? ' ' : profile.rate,
+      slogan: loading || !profile.slogan ? ' ' : profile.slogan,
+      hours: loading || !profile.hours ? ' ' : profile.hours,
+      website: loading || !profile.website ? ' ' : profile.website,
+      is_active: loading || !profile.is_active ? ' ' : profile.is_active
+    });
+  }, [loading, getCurrentProfile]);
+
+  const {
+    gender,
+    sexual_orientation,
+    phone,
+    category,
+    services,
+    age,
+    origin,
+    description,
+    city,
+    canton,
+    zip,
+    languages,
+    silhouette,
+    rate,
+    slogan,
+    hours,
+    website,
+    type,
+    is_active,
+    errors
+  } = formData;
+
+  const onChange = e => {
+    if (e.target.name === 'cover_photo') {
+      setCoverphoto(e.target.files[0]);
+    }
+    if (e.target.name === 'photos') {
+      setGalleryphoto(e.target.files);
+    }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onCheckBox = (e, item) => {
+    if (languages.indexOf(e.target.value) < 1 && e.target.checked) {
+      languages.push(item);
+    }
+
+    languages.map((lang, i) => {
+      if (!e.target.checked) {
+        return e.target.value === lang ? languages.splice(i, 1) : languages;
+      }
+    });
+  };
+
+  const onCheckBoxServ = (e, service) => {
+    if (services.indexOf(e.target.value) < 1 && e.target.checked) {
+      services.push(service);
+    }
+
+    services.map((serv, i) => {
+      if (!e.target.checked) {
+        return e.target.value === serv ? services.splice(i, 1) : services;
+      }
+    });
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+    let formCover = new FormData();
+    formCover.append('cover_photo', cover_photo);
+
+    let formGallery = new FormData();
+
+    for (const key of Object.keys(photos)) {
+      formGallery.append('photos', photos[key]);
+    }
+
+    uploadGallery(formGallery);
+    uploadCover(formCover);
+    createProfile(formData, history, true);
+  };
+
   return (
-    <form className="container mb-5">
-      <div className="form-group col-md-12">
-        <p>Job Activity</p>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="is_active"
-            id="active"
-            value={true}
-          />
-          <label className="form-check-label" htmlFor="active">
-            active
-          </label>
+    <Fragment>
+      <h1 className="text-center">Post an ad - 7 days</h1>
+      <form
+        className="container mb-5"
+        onSubmit={onSubmit}
+        encType="multipart/form-data"
+      >
+        <div className="form-group">
+          <p>Job Activity</p>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="is_active"
+              id="active"
+              value={true}
+              onChange={onChange}
+              // checked={profile.is_active}
+            />
+            <label className="form-check-label" htmlFor="active">
+              active
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="is_active"
+              id="inactive"
+              value={false}
+              onChange={onChange}
+              // checked={!profile.is_active}
+            />
+            <label className="form-check-label" htmlFor="inactive">
+              inactive
+            </label>
+          </div>
         </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="is_active"
-            id="inactive"
-            value={false}
-          />
-          <label className="form-check-label" htmlFor="inactive">
-            inactive
-          </label>
-        </div>
-        <p className="text-center">
-          <small className="tip">Please select if your profile is active</small>
-        </p>
-      </div>
 
-      <div className="form-group col-md-12 mb-4">
-        <label htmlFor="nickname">
-          That nickname will be displayed is your profile *
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="nickname"
-          placeholder="Nickname"
-          required
+        {/* <InputGroup placeholder={'Nickname'} labels={nickname} required /> */}
+
+        <SelectListGroup
+          name="type"
+          value={type}
+          onChange={onChange}
+          error={errors}
+          options={typeList}
+          labels={typeLabel}
         />
-      </div>
 
-      <div className="form-group col-md-12 mt-3">
-        <label htmlFor="type">Type</label>
-        <select className="form-control" id="type" name="type">
-          {typeList.map((item, index) => {
+        <div className="form-group">
+          <label htmlFor=" Spoken languages" className="form-check-label">
+            Spoken languages
+          </label>
+          <br />
+          {spokenLanguageList.map((item, index) => {
             return (
-              <option key={index} value={item}>
-                {item}
-              </option>
+              <div
+                className="form-check form-check-inline dynamic-checkbox"
+                key={index}
+              >
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  id="item"
+                  value={item}
+                  onChange={e => onCheckBox(e, item)}
+                  name="languages"
+                  // checked={}
+                />
+                <label
+                  className="form-check-label dynamic-checkbox-label ml-2"
+                  htmlFor={item}
+                >
+                  {item}
+                </label>
+              </div>
             );
           })}
-        </select>
-      </div>
+          <p className="text-center mt-4">
+            <small className="tip">Please select spoken languages</small>
+          </p>
+        </div>
 
-      <div className="form-group col-md-12">
-        <label htmlFor=" Spoken languages" className="form-check-label">
-          Spoken languages
-        </label>
-        <br />
-        {spokenLanguageList.map((item, index) => {
-          return (
-            <div
-              className="form-check form-check-inline dynamic-checkbox"
-              key={index}
-            >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                id="item"
-                value={item}
-                name="languages"
-              />
-              <label
-                className="form-check-label dynamic-checkbox-label ml-2"
-                htmlFor={item}
-              >
-                {item}
-              </label>
-            </div>
-          );
-        })}
-        <p className="text-center mt-4">
-          <small className="tip">Please select spoken languages</small>
-        </p>
-      </div>
-
-      <div className="form-group col-md-12 mb-3">
-        <label htmlFor="slogan">Slogan</label>
-        <input
-          type="text"
-          className="form-control"
-          id="slogan"
-          placeholder="Slogan"
+        <InputGroup
           name="slogan"
+          placeholder={'Slogan'}
+          onChange={onChange}
+          labels={sloganLabel}
+          value={slogan}
+          error={errors}
         />
-      </div>
 
-      <div className="form-group col-md-12 mt-4">
-        <label htmlFor="gender">Gender</label>
-        <select className="form-control" id="gender" name="gender">
-          {genderList.map((item, index) => {
+        <SelectListGroup
+          name="gender"
+          value={gender}
+          onChange={onChange}
+          error={errors}
+          options={genderList}
+          labels={genderLabel}
+        />
+
+        <div className="form-group">
+          <label htmlFor="Services" className="form-check-label">
+            Services *
+          </label>
+          <br />
+          {servicesList.map((service, index) => {
             return (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-
-      <div className="form-group col-md-12">
-        <label htmlFor="Services" className="form-check-label">
-          Services *
-        </label>
-        <br />
-        {servicesList.map((service, index) => {
-          return (
-            <div
-              className="form-check form-check-inline dynamic-checkbox"
-              key={index}
-            >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value={service}
-                name="services"
-              />
-              <label
-                className="form-check-label dynamic-checkbox-label ml-2"
-                htmlFor={service}
+              <div
+                className="form-check form-check-inline dynamic-checkbox"
+                key={index}
               >
-                {service}
-              </label>
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="form-group col-md-12 mt-3">
-        <label htmlFor="category">Category</label>
-        <select className="form-control" id="category" name="category">
-          {categoryList.map((item, index) => {
-            return (
-              <option key={index} value={item}>
-                {item}
-              </option>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value={service}
+                  name="services"
+                  onChange={e => onCheckBoxServ(e, service)}
+                />
+                <label
+                  className="form-check-label dynamic-checkbox-label ml-2"
+                  htmlFor={service}
+                >
+                  {service}
+                </label>
+              </div>
             );
           })}
-        </select>
-      </div>
+        </div>
 
-      <div className="form-group col-md-12 mt-3">
-        <label htmlFor="sexual_orientation">Sexual_orientation</label>
-        <select
-          className="form-control"
-          id="sexual_orientation"
+        <SelectListGroup
+          name="category"
+          value={category}
+          onChange={onChange}
+          error={errors}
+          options={categoryList}
+          labels={categoryLabel}
+        />
+        <SelectListGroup
           name="sexual_orientation"
-        >
-          {sexual_orientationList.map((item, index) => {
-            return (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-
-      <div className="form-group col-md-12">
-        <label htmlFor="age">Age *</label>
-        <input
-          type="text"
-          className="form-control"
-          id="age"
-          placeholder="18"
+          value={sexual_orientation}
+          onChange={onChange}
+          error={errors}
+          options={sexual_orientationList}
+          labels={sexualOrientationLabel}
+        />
+        <InputGroup
           name="age"
+          placeholder={'18'}
+          onChange={onChange}
+          labels={ageLabel}
+          value={age}
+          error={errors}
         />
-      </div>
-
-      <div className="form-group col-md-12">
-        <label htmlFor="silhoue">Silhouette *</label>
-        <select className="form-control" id="silhoue" name="silhouette">
-          {silhouetteList.map((item, index) => {
-            return (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-
-      <div className="form-group col-md-12">
-        <label htmlFor="origin">Origin *</label>
-        <select
-          className="form-control"
-          id="origin"
-          value={origin}
+        <SelectListGroup
+          name="silhouette"
+          value={silhouette}
+          onChange={onChange}
+          error={errors}
+          options={silhouetteList}
+          labels={silhouetteLabel}
+        />
+        <SelectListGroup
           name="origin"
-        >
-          {originList.map((item, index) => {
-            return (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-
-      <div className="form-group col-md-12">
-        <label htmlFor="description">Description *</label>
-        <textarea
-          className="form-control"
-          rows="3"
-          name="description"
-        ></textarea>
-      </div>
-
-      <div className="form-group col-md-12 mt-3">
-        <label htmlFor="canton">Canton</label>
-        <select className="form-control" name="canton">
-          {cantonsList.map((item, index) => {
-            return (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-
-      <div className="form-group col-md-12 mt-3">
-        <label htmlFor="city">City</label>
-        <select className="form-control" id="city" name="city">
-          {cityList.map((item, index) => {
-            return (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-
-      <div className="form-group col-md-12">
-        <label htmlFor="zip">City Zip</label>
-        <input
-          type="text"
-          className="form-control"
-          id="zip"
-          placeholder="8000"
-          name="zip"
+          value={origin}
+          onChange={onChange}
+          error={errors}
+          options={originList}
+          labels={originLabel}
         />
-      </div>
 
-      <div className="form-group col-md-12">
-        <label htmlFor="coverPicture">Cover picture</label>
-        <input
+        <TextAreaGroup
+          placeholder="Short Bio "
+          name="description"
+          value={description}
+          onChange={onChange}
+          // error={error}
+          info="Tell us a little about yourself"
+          labels={descriptionLabel}
+        />
+
+        <SelectListGroup
+          name="canton"
+          value={canton}
+          onChange={onChange}
+          error={errors}
+          options={cantonsList}
+          labels={cantonLabel}
+        />
+        <SelectListGroup
+          name="city"
+          value={city}
+          onChange={onChange}
+          error={errors}
+          options={cityList}
+          labels={cityLabel}
+        />
+        <InputGroup
+          name="zip"
+          placeholder={'8000'}
+          onChange={onChange}
+          labels={cityzipLabel}
+          value={zip}
+          error={errors}
+        />
+        <InputGroup
           type="file"
-          className="form-control-file"
-          id="coverPicture"
           name="cover_photo"
+          onChange={onChange}
+          labels={coverLabel}
         />
         <p className="text-center">
           <small className="tip">Add a cover photo</small>
         </p>
-      </div>
 
-      <div className="form-group col-md-12">
-        <label htmlFor="gallery">Upload your photographs (max. 10)</label>
-        <input
+        <input type="file" name="photos" onChange={onChange} multiple />
+
+        {/* <InputGroup
           type="file"
-          className="form-control-file"
-          id="gallery"
           name="photos"
+          onChange={onChange}
+          labels={galleryLabel}
           multiple
-        />
+        /> */}
         <p className="text-center">
           <small className="tip">
             The first picture will be displayed as the hand.
           </small>
         </p>
-      </div>
 
-      <div className="form-group col-md-12">
-        <label htmlFor="businessHours">Business hours</label>
-        <textarea
-          className="form-control"
-          id="businessHours"
-          rows="3"
-          placeholder="21:00-05:00"
+        <TextAreaGroup
+          placeholder="21:00 - 05:00"
           name="hours"
-        ></textarea>
-      </div>
+          value={hours}
+          onChange={onChange}
+          // error={error}
+          labels={businesshoursLabel}
+        />
 
-      <div className="form-group col-md-12">
-        <label htmlFor="minimumRate">Minmum Rate</label>
-        <textarea
-          className="form-control"
-          id="minimumRate"
-          rows="3"
+        <TextAreaGroup
           placeholder="200CHF"
           name="rate"
-        ></textarea>
-      </div>
+          value={rate}
+          onChange={onChange}
+          // error={error}
 
-      <div className="form-group col-md-12">
-        <label htmlFor="phone">Phone Number *</label>
-        <input
-          type="text"
-          className="form-control"
-          id="phone"
-          placeholder="+41 79 000 00 00"
+          labels={rateLabel}
+        />
+        <InputGroup
           name="phone"
+          placeholder={'+41 79 000 00 00'}
+          onChange={onChange}
+          labels={phonenumberLabel}
+          value={phone}
+          error={errors}
         />
-      </div>
-
-      <div className="form-group col-md-12">
-        <label htmlFor="website">Personal Website</label>
-        <input
-          type="text"
-          className="form-control"
-          id="website"
+        <InputGroup
           name="website"
-          placeholder="https://www.site.com"
+          placeholder={'https://www.site.com'}
+          onChange={onChange}
+          labels={websiteLabel}
+          value={website}
+          error={errors}
         />
-      </div>
-      <button
-        type="submit"
-        className="btn btn-primary btn-lg btn-block main-theme-btn"
-      >
-        Submit
-      </button>
-    </form>
+        <button
+          type="submit"
+          className="btn btn-primary btn-lg btn-block main-theme-btn"
+        >
+          Submit
+        </button>
+      </form>
+    </Fragment>
   );
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile,
-  auth: state.auth
+  profile: state.profile
 });
 
-export default connect(mapStateToProps)(EditAdForm);
+export default connect(
+  mapStateToProps,
+  { createProfile, uploadCover, uploadGallery, getCurrentProfile }
+)(withRouter(EditAdForm));

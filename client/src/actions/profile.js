@@ -11,6 +11,23 @@ import {
   UPDATE_PROFILE
 } from './type';
 
+//Get Current User
+export const getCurrentProfile = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/profile/me');
+
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
 // GET All Profiles
 export const getProfiles = () => async dispatch => {
   dispatch({ type: CLEAR_PROFILE });
@@ -71,9 +88,10 @@ export const createProfile = (
 
     history.push('/');
     window.location.reload();
-    // if(!edit){
-    //   history.push('/')
-    // }
+
+    if (!edit) {
+      history.push('/');
+    }
   } catch (err) {
     const errors = err.response.data.errors;
 
