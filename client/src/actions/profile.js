@@ -86,11 +86,9 @@ export const createProfile = (
 
     dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
-    // history.push('/');
-
     if (!edit) {
-      history.push('/');
-      window.location.reload();
+      history.push('/postanad');
+      // window.location.reload();
     }
   } catch (err) {
     const errors = err.response.data.errors;
