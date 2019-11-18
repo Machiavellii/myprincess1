@@ -21,7 +21,6 @@ let storage = multer.diskStorage({
     cb(null, dirPath);
   },
   filename: (req, file, cb) => {
-    const nickname = req.user.nickname;
     cb(null, Date.now() + file.originalname);
   }
 });
@@ -51,9 +50,6 @@ const fileFilter = (req, file, cb) => {
 };
 
 const uploadCover = multer({ storage, fileFilter }).single('cover_photo');
-// const uploadGallery = multer({ storage, fileFilter }).array('photos', 10);
-
-/* end upload image logic */
 
 // @route    POST api/profile
 // @desc     Create or update user profile
@@ -78,7 +74,7 @@ router.post(
     check('city', 'City is required')
       .not()
       .isEmpty(),
-    check('zip', 'zip is required')
+    check('zip', 'Zip is required')
       .not()
       .isEmpty(),
     // check('subscription_plan', 'Subscription plan is required')
@@ -99,7 +95,7 @@ router.post(
     check('silhouette', 'Category is required')
       .not()
       .isEmpty(),
-    check('origin', 'Field is required')
+    check('origin', 'Origin is required')
       .not()
       .isEmpty()
   ],
@@ -139,9 +135,6 @@ router.post(
     } = req.body;
 
     const cover_photo = req.file;
-    // const photos = req.files;
-
-    // console.log(photos, 'photos');
 
     /* Profile Object */
     const profileFields = {};
@@ -288,7 +281,7 @@ router.delete('/', auth, async (req, res) => {
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     // Remove User
-    // await User.findOneAndRemove({ _id: req.user.id });
+    await User.findOneAndRemove({ _id: req.user.id });
 
     res.json({ msg: 'User Deleted' });
   } catch (err) {
@@ -313,6 +306,7 @@ router.post('/upload-cover', auth, async (req, res) => {
       var file = req.file;
 
       const coverUrl = path.join(file.destination, file.filename);
+
       const profile = await Profile.findOne({
         user: mongoose.Types.ObjectId(req.user._id)
       });
@@ -356,7 +350,7 @@ router.post(
 
       const photoUrls = reqFiles.map((item, index) => {
         const photoLink = path.join(item.destination, item.filename);
-        return photoLink
+        return photoLink;
       });
 
       const profile = await Profile.findOne({
@@ -368,7 +362,7 @@ router.post(
           console.log('error', err);
         });
       }
-      
+
       const photo = await Profile.findOne({
         user: req.user.id
       });

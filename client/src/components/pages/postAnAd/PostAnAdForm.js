@@ -39,12 +39,11 @@ import {
   cantonLabel,
   cityLabel,
   cityzipLabel,
-  coverLabel,
-  // galleryLabel,
   businesshoursLabel,
   rateLabel,
   phonenumberLabel,
-  websiteLabel
+  websiteLabel,
+  coverLabel
 } from '../../common/consts';
 
 const PostAnAdForm = ({
@@ -104,6 +103,7 @@ const PostAnAdForm = ({
   } = formData;
 
   useEffect(() => {
+    console.log(error);
     if (error.error.length > 1) {
       setFormData({ ...formData, errors: error.error });
       setTimeout(() => setFormData({ ...formData, errors: '' }), 5000);
@@ -157,6 +157,7 @@ const PostAnAdForm = ({
 
     uploadGallery(formGallery);
     uploadCover(formCover);
+    // console.log(formData)
     createProfile(formData, history);
   };
 
@@ -166,9 +167,9 @@ const PostAnAdForm = ({
       <form
         className="container mb-5"
         onSubmit={onSubmit}
-        encType="multipart/form-data"
+        // encType="multipart/form-data"
       >
-        {!isAuthenticated.token ? (
+        {/* {!isAuthenticated.token ? (
           <div className="card mb-4 mt-5">
             <div className="card-body">
               <h5 className="card-title">Already have an account?</h5>
@@ -193,7 +194,7 @@ const PostAnAdForm = ({
               </div>
             </div>
           </div>
-        ) : null}
+        ) : null} */}
 
         <div className="form-group">
           <p>Job Activity</p>
@@ -243,7 +244,7 @@ const PostAnAdForm = ({
 
         <div className="form-group">
           <label htmlFor=" Spoken languages" className="form-check-label">
-            Spoken languages
+            Spoken languages *
           </label>
           <br />
           {spokenLanguageList.map((item, index) => {
@@ -402,19 +403,37 @@ const PostAnAdForm = ({
           onChange={onChange}
           labels={coverLabel}
         />
+        <div className="holder-img">
+          {cover_photo === null ? (
+            ''
+          ) : (
+            <div>
+              <img src={URL.createObjectURL(cover_photo)} alt="" />
+            </div>
+          )}
+        </div>
         <p className="text-center">
           <small className="tip">Add a cover photo</small>
         </p>
 
-        <input type="file" name="photos" onChange={onChange} multiple />
-
-        {/* <InputGroup
+        <input
           type="file"
           name="photos"
           onChange={onChange}
-          labels={galleryLabel}
           multiple
-        /> */}
+          className="mb-1"
+        />
+
+        <div className="holder-gallery">
+          {photos === ''
+            ? ''
+            : Object.keys(photos).map(photo => (
+                <div key={photo}>
+                  <img src={URL.createObjectURL(photos[photo])} alt="" />
+                </div>
+              ))}
+        </div>
+
         <p className="text-center">
           <small className="tip">
             The first picture will be displayed as the hand.

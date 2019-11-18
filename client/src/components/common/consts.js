@@ -83,16 +83,11 @@ export const cityzipLabel = [
 ];
 export const coverLabel = [
   {
-    htmlFor: 'coverPicture ',
-    text: 'Cover Picture '
+    htmlFor: 'cover_photo ',
+    text: 'Add new profile photo'
   }
 ];
-export const galleryLabel = [
-  {
-    htmlFor: 'gallery ',
-    text: 'Upload your photographs (max. 10)'
-  }
-];
+
 export const businesshoursLabel = [
   {
     htmlFor: 'business_hours ',

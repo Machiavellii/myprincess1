@@ -8,7 +8,8 @@ import {
   FILTER_PROFILE,
   SEARCHPAGE_FILTER,
   CLEAR_PROFILE,
-  UPDATE_PROFILE
+  UPDATE_PROFILE,
+  ACCOUNT_DELETED
 } from './type';
 
 //Get Current User
@@ -50,8 +51,6 @@ export const getProfileById = userId => async dispatch => {
   try {
     const res = await axios.get(`/api/profile/user/${userId}`);
 
-    console.log(res.data);
-
     dispatch({
       type: GET_PROFILE,
       payload: res.data
@@ -86,31 +85,33 @@ export const createProfile = (
 
     dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
-    if (!edit) {
-      history.push('/postanad');
-      // window.location.reload();
-    }
+    history.push('/dashboard');
+    window.location.reload();
   } catch (err) {
     const errors = err.response.data.errors;
 
+    // if (errors) {
+    //   errors.forEach(error =>
+    //     dispatch({
+    //       type: PROFILE_ERROR,
+    //       payload: error.msg
+    //     })
+    //   );
+    // }
+
     if (errors) {
-      errors.forEach(error =>
-        dispatch({
-          type: PROFILE_ERROR,
-          payload: error.msg
-        })
-      );
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
-    // dispatch({
-    //   type: PROFILE_ERROR,
-    //   payload: { msg: err.response.statusText, status: err.response.status }
-    // });
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
 };
 
 // UPLOAD COVER
-export const uploadCover = (formFile, formGallery) => async dispatch => {
+export const uploadCover = (formFile, history) => async dispatch => {
   try {
     const config = {
       headers: {
@@ -124,25 +125,20 @@ export const uploadCover = (formFile, formGallery) => async dispatch => {
       type: GET_PROFILE,
       payload: res.data
     });
+
+    dispatch(setAlert('Profile Photo Added', 'success'));
+
+    // history.push('/upload-gallery');
   } catch (err) {
     const errors = err.response.data.errors;
 
-    // if (errors) {
-    //   errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-    // }
-
     if (errors) {
-      errors.forEach(error =>
-        dispatch({
-          type: UPDATE_PROFILE,
-          payload: error.msg
-        })
-      );
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
   }
 };
 
-export const uploadGallery = formFile => async dispatch => {
+export const uploadGallery = (formFile, history, edit) => async dispatch => {
   try {
     const config = {
       headers: {
@@ -156,9 +152,11 @@ export const uploadGallery = formFile => async dispatch => {
     );
 
     dispatch({
-      type: UPDATE_PROFILE,
+      type: GET_PROFILE,
       payload: res.data
     });
+
+    // history.push('/');
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -196,4 +194,23 @@ export const filterSearchPage = value => dispatch => {
     type: SEARCHPAGE_FILTER,
     payload: value
   });
+};
+
+// Delete account & profile
+export const deleteAccount = () => async dispatch => {
+  if (window.confirm('Are you sure? This can not be undone!')) {
+    try {
+      await axios.delete('/api/profile');
+
+      dispatch({ type: CLEAR_PROFILE });
+      dispatch({ type: ACCOUNT_DELETED });
+
+      dispatch(setAlert('Your account has been permanantly deleted', 'danger'));
+    } catch (err) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: err.reponse.statusText, status: err.reponse.status }
+      });
+    }
+  }
 };
