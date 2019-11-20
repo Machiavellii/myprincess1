@@ -222,6 +222,7 @@ router.get('/', async (req, res) => {
       'nickname',
       'email'
     ]);
+  
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
