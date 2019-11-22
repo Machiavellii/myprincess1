@@ -3,7 +3,7 @@ import {
   AUTH_ADMIN_ERROR,
   LOGIN_ADMIN_SUCCESS,
   LOGIN_ADMIN_FAIL,
-  LOGOUT
+  LOGOUT,
 } from "../actions/type";
 
 const initialState = {

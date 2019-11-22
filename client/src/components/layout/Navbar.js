@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { NavLink, Link, Redirect } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import "../../styles/navbar.css";
 import Logo from "../../img/logo.png";
 
@@ -21,12 +21,6 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, filterFunc }) => {
     filterFunc(filter);
   };
 
-  const rightClick = () => {
-    window.open("http://localhost:3000/adminLogin");
-    console.log(123);
-    // return <Redirect to="/adminLogin" />;
-  };
-
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark" id="top">
       {!loading && (
@@ -44,7 +38,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, filterFunc }) => {
             </div>
           ) : null}
           <div className="container">
-            <Link to="/" className="navbar-brand" onContextMenu={rightClick}>
+            <Link to="/" className="navbar-brand">
               <img src={Logo} className="img-fluid" alt="logo.png" />
             </Link>
             <div className="search-bar mr-5">

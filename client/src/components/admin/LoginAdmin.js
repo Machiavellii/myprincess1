@@ -22,7 +22,7 @@ const LoginAdmin = ({ authenticatedAdmin, loginAdmin }) => {
   };
 
   if (authenticatedAdmin) {
-    return <Redirect to="/admin" />;
+    return <Redirect to="/superadmin" />;
   }
 
   return (

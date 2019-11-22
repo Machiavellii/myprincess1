@@ -66,7 +66,7 @@ router.post(
 
       const payload = {
         admin: {
-          id: admin._id
+          id: admin.id
         }
       };
 
