@@ -1,19 +1,47 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { logout } from "../../actions/adminAuth";
+import {
+  deleteAccountAdmin,
+  getCurrentProfileAdmin1
+} from "../../actions/adminControl";
 import { getProfiles } from "../../actions/profile";
 import Spinner from "../layout/Spinner";
-// import Modal from "./deleteAdmin";
+import { filterFunc } from "../../actions/profile";
+import Moment from "react-moment";
+import * as moment from "moment";
 
-const Admin = ({ logout, getProfiles, profile }) => {
+const Admin = ({
+  logout,
+  getProfiles,
+  profile,
+  deleteAccountAdmin,
+  filterFunc,
+  getCurrentProfileAdmin1
+}) => {
+  const [filter, setFilter] = useState("");
+
   useEffect(() => {
     getProfiles();
   }, [getProfiles]);
 
+  const onChange = e => {
+    setFilter(e.target.value);
+    filterFunc(filter);
+  };
+
   const { profiles } = profile;
+
+  const filterGirls =
+    profile.profileFilter.length >= 1 ? profile.profileFilter : profiles;
+
+  const hours = moment.duration(7, "days").asHours();
+
+  console.log(hours);
+
   return (
     <Fragment>
       {profile.profiles.length < 1 ? (
@@ -23,11 +51,13 @@ const Admin = ({ logout, getProfiles, profile }) => {
           <div className="input-group mb-3">
             <input
               type="text"
+              value={filter}
               className="form-control mt-2"
               placeholder="Search by names"
+              onChange={e => onChange(e)}
             />
           </div>
-          {profiles.map(profile => (
+          {filterGirls.map(profile => (
             <div className="card mb-3" key={profile._id}>
               <div className="card-header">
                 <div className="expire-holder">
@@ -40,16 +70,39 @@ const Admin = ({ logout, getProfiles, profile }) => {
                     )}{" "}
                   </span>
                   <br />
-                  <span>
+                  <span style={{ fontSize: ".8rem", fontWeight: "800" }}>
                     This profile will be online until
                     <i className="far fa-clock ml-1" />
-                    <span className=" ml-1">25/11/2019</span>
+                    <span className=" ml-1">
+                      <Moment
+                        format="YYYY/MM/DD"
+                        add={{ days: profile.subscription_plan }}
+                      >
+                        {profile.date}
+                      </Moment>{" "}
+                      Or{" "}
+                      {moment
+                        .duration(parseInt(profile.subscription_plan), "days")
+                        .asHours()}{" "}
+                      hours
+                    </span>
                   </span>
                 </div>
                 <div className="btn-holder">
-                  <Link to="!#" className="btn btn-danger">
-                    <i className="fas fa-user-minus" /> Delete Profile
+                  <Link
+                    to="/editprofileAdmin"
+                    className="btn btn-primary mr-1"
+                    onClick={() => getCurrentProfileAdmin1(profile)}
+                  >
+                    <i className="fas fa-user-edit" /> Edit Profile
                   </Link>
+                  <button
+                    type="button"
+                    className="btn btn-danger "
+                    onClick={() => deleteAccountAdmin(profile.user._id)}
+                  >
+                    <i className="fas fa-user-minus" /> Delete Profile
+                  </button>
                 </div>
               </div>
               <div className="row">
@@ -90,4 +143,10 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { logout, getProfiles })(Admin);
+export default connect(mapStateToProps, {
+  logout,
+  getProfiles,
+  deleteAccountAdmin,
+  filterFunc,
+  getCurrentProfileAdmin1
+})(Admin);

@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const mongoose = require("mongoose");
 const auth = require("../../middleware/auth");
+const authAdmin = require("../../middleware/authAdmin");
 const { check, validationResult } = require("express-validator");
 
 const Profile = require("../../models/profile");
@@ -67,7 +68,6 @@ router.post(
     check("type", "Account type is required")
       .not()
       .isEmpty(),
-
     check("canton", "Canton is required")
       .not()
       .isEmpty(),
@@ -96,6 +96,9 @@ router.post(
       .not()
       .isEmpty(),
     check("origin", "Origin is required")
+      .not()
+      .isEmpty(),
+    check("cover_photo", "Profile Picture is required")
       .not()
       .isEmpty()
   ],
@@ -130,8 +133,8 @@ router.post(
       hours,
       rate,
       website,
-      ratings, // array
-      opinions
+      ratings // array
+      // opinions
     } = req.body;
 
     const cover_photo = req.file;
@@ -148,7 +151,7 @@ router.post(
     if (canton) profileFields.canton = canton;
     if (city) profileFields.city = city;
     if (zip) profileFields.zip = zip;
-    // if (subscription_plan) profileFields.subscription_plan = subscription_plan;
+    if (subscription_plan) profileFields.subscription_plan = subscription_plan;
     if (start_of_subscription)
       profileFields.start_of_subscription = start_of_subscription;
     if (end_of_subscription)
@@ -170,9 +173,9 @@ router.post(
     // Array items
     if (photos) profileFields.photos = photos;
 
-    if (opinions) {
-      profileFields.opinions = opinions;
-    }
+    // if (opinions) {
+    //   profileFields.opinions = opinions;
+    // }
     if (favorites) {
       profileFields.favorites = favorites;
     }
@@ -222,7 +225,6 @@ router.get("/", async (req, res) => {
       "nickname",
       "email"
     ]);
-
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
@@ -303,7 +305,7 @@ router.post("/upload-cover", auth, async (req, res) => {
       } else if (err) {
         return res.status(500).json(err);
       }
-      var file = req.file;
+      let file = req.file;
 
       const coverUrl = path.join(file.destination, file.filename);
 
@@ -328,6 +330,38 @@ router.post("/upload-cover", auth, async (req, res) => {
       );
       return res.status(200).json({ cover_photo: coverUrl });
     });
+  } catch (err) {
+    console.log("create dish err:", err);
+    return res.status(500).json();
+  }
+});
+
+// @route    POST api/profile/subscription
+// @desc     Subscription_plan
+// @access   Private
+router.post("/subscription", auth, async (req, res) => {
+  try {
+    const { subscription_plan } = req.body;
+
+    const profile = await Profile.findOne({
+      user: mongoose.Types.ObjectId(req.user._id)
+    });
+
+    if (profile) {
+      profile.subscription_plan;
+    }
+
+    await Profile.findOneAndUpdate(
+      { user: req.user.id },
+      {
+        subscription_plan
+      },
+      {
+        new: true,
+        upsert: true
+      }
+    );
+    return res.status(200).json({ subscription_plan });
   } catch (err) {
     console.log("create dish err:", err);
     return res.status(500).json();
@@ -385,55 +419,6 @@ router.post(
       res.status(200).json({ photos: photoUrls });
     } catch (err) {
       console.log(err);
-    }
-  }
-);
-
-// @route    PUT api/profile/opinions
-// @desc     Add opinions
-// @access   Private
-router.post(
-  "/opinions",
-  [
-    auth,
-    [
-      check("review", "Review is required")
-        .not()
-        .isEmpty(),
-      check("title", "Title is required")
-        .not()
-        .isEmpty(),
-      check("name", "Name is required")
-        .not()
-        .isEmpty(),
-      check("email", "Please include a valid email").isEmail()
-    ]
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { review, title, name, email, user } = req.body;
-
-    const newOpinion = {
-      review,
-      title,
-      name,
-      email
-    };
-
-    try {
-      const profile = await Profile.findOne({ user: user });
-
-      profile.opinions.unshift(newOpinion);
-
-      await profile.save();
-      res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
     }
   }
 );

@@ -8,7 +8,6 @@ import {
   FILTER_PROFILE,
   SEARCHPAGE_FILTER,
   CLEAR_PROFILE,
-  UPDATE_PROFILE,
   ACCOUNT_DELETED
 } from "./type";
 
@@ -89,16 +88,6 @@ export const createProfile = (
     window.location.reload();
   } catch (err) {
     const errors = err.response.data.errors;
-
-    // if (errors) {
-    //   errors.forEach(error =>
-    //     dispatch({
-    //       type: PROFILE_ERROR,
-    //       payload: error.msg
-    //     })
-    //   );
-    // }
-
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
@@ -107,6 +96,26 @@ export const createProfile = (
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
+  }
+};
+
+// SUBSCRIPTION PLAN
+export const subscribePlan = time => async dispatch => {
+  try {
+    const res = await axios.post("api/profile/subscription", time);
+
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data
+    });
+
+    // history.push('/upload-gallery');
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
   }
 };
 
@@ -158,20 +167,11 @@ export const uploadGallery = (formFile, history, edit) => async dispatch => {
 
     // history.push('/');
   } catch (err) {
-    const errors = err.response.data.errors;
-
+    // const errors = err.response.data.errors;
+    console.log(err);
     // if (errors) {
-    //   errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    //   errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     // }
-
-    if (errors) {
-      errors.forEach(error =>
-        dispatch({
-          type: PROFILE_ERROR,
-          payload: error.msg
-        })
-      );
-    }
   }
 };
 

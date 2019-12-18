@@ -45,12 +45,12 @@ export const loginAdmin = (username, password) => async dispatch => {
 
 // LOAD ADMIN
 export const loadAdmin = () => async dispatch => {
-  if (localStorage.token) {
-    setAdminToken(localStorage.token);
+  if (localStorage.tokenAdmin) {
+    setAdminToken(localStorage.tokenAdmin);
   }
 
   try {
-    const res = await axios.get("/api/admin");
+    const res = await axios.get("/api/auth/admin");
 
     dispatch({
       type: ADMIN_LOADED,

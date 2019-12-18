@@ -31,7 +31,7 @@ import EscortsGirls from "./components/pages/EscortsGirls";
 import Alert from "./components/layout/Alert";
 import Dashboard from "./components/dashboard/Dashboard";
 import Admin from "./components/admin/admin";
-import DeleteProfile from "./components/admin/deleteAdmin";
+import EditAdmin from "./components/admin/editAdmin";
 // import UploadCover from './components/pages/postAnAd/UploadCover';
 // import UploadGallery from './components/pages/postAnAd/UploadGallery';
 import PrivateRoute from "./components/routing/PrivateRoute";
@@ -44,8 +44,8 @@ if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
-if (localStorage.token) {
-  setAdminToken(localStorage.token);
+if (localStorage.tokenAdmin) {
+  setAdminToken(localStorage.tokenAdmin);
 }
 
 const App = () => {
@@ -60,7 +60,7 @@ const App = () => {
         <div className="App">
           <MiniHeader />
           <Navbar />
-          {/* <Alert /> */}
+          <Alert />
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
@@ -68,7 +68,7 @@ const App = () => {
             <Route exact path="/register" component={Register} />
             <Route exact path="/faq" component={Faq} />
             <Route exact path="/contact" component={Contact} />
-            <Route exact path="/postanad" component={Postanad} />
+            <PrivateRoute exact path="/postanad" component={Postanad} />
             <PrivateRoute exact path="/postanadform" component={PostAnAdForm} />
             <Route exact path="/search" component={Search} />
             <Route exact path="/profile/user/:id" component={DescribeContent} />
@@ -81,7 +81,12 @@ const App = () => {
             />
 
             <AdminRoute exact path="/superadmin" component={Admin} />
-            <AdminRoute exact path="/deleteProfile" component={DeleteProfile} />
+            <AdminRoute exact path="/editprofileAdmin" component={EditAdmin} />
+            {/* <AdminRoute
+              exact
+              path="/editprofileAdmin/:id"
+              component={EditAdmin}
+            /> */}
 
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute exact path="/edit-profile" component={EditAdForm} />
