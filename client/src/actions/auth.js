@@ -8,20 +8,27 @@ import {
   LOGOUT,
   USER_LOADED,
   AUTH_ERROR,
-  CLEAR_PROFILE
+  CLEAR_PROFILE,
+  GET_USERS,
+  USERS_ERROR
 } from "./type";
 
 import setAuthToken from "../utills/setAuthToken";
 
 //REGISTER USER
-export const register = ({ nickname, email, password }) => async dispatch => {
+export const register = ({
+  nickname,
+  email,
+  password,
+  block
+}) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
 
-  const body = JSON.stringify({ nickname, email, password });
+  const body = JSON.stringify({ nickname, email, password, block });
 
   try {
     const res = await axios.post("/api/users", body, config);
@@ -91,6 +98,24 @@ export const loadUser = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: AUTH_ERROR
+    });
+  }
+};
+
+// GET USERS
+export const getUsers = () => async dispatch => {
+  try {
+    const res = await axios.get("/api/users");
+
+    dispatch({
+      type: GET_USERS,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log(err);
+    dispatch({
+      type: USERS_ERROR,
+      payload: { msg: err.response.statuText, status: err.response.status }
     });
   }
 };

@@ -22,6 +22,8 @@ const Dashboard = ({
     getCurrentProfile();
   }, [getCurrentProfile]);
 
+  console.log(profile);
+
   return loading && profile === null ? (
     <Spinner />
   ) : (
@@ -59,8 +61,12 @@ const Dashboard = ({
         <Fragment>
           <div className="container m-5 dashboard-create">
             <p>You have not yet setup a profile, please add some info</p>
-            <Link to="/postanad" className="btn btn-primary my-3">
-              Create Profile
+            <Link
+              to="/postanad"
+              className="btn  my-3 rose-border"
+              style={{ backgroundColor: "#2b2b2b", color: "#fff" }}
+            >
+              Post an Ad
             </Link>
           </div>
         </Fragment>

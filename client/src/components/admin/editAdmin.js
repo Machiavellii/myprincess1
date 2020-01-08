@@ -97,6 +97,8 @@ const EditAdmin = ({ editProfile, history, profile: { profile, loading } }) => {
   //   gender: !profile ? "" : profile.gender
   // });
 
+  // console.log(profile);
+
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -229,7 +231,7 @@ const EditAdmin = ({ editProfile, history, profile: { profile, loading } }) => {
                     <input
                       className="form-check-input"
                       type="checkbox"
-                      id="item"
+                      id={item}
                       value={item}
                       name="languages"
                       onChange={e => onCheckBox(e, item)}
@@ -280,6 +282,7 @@ const EditAdmin = ({ editProfile, history, profile: { profile, loading } }) => {
                       className="form-check-input"
                       type="checkbox"
                       value={service}
+                      id={service}
                       name="services"
                       onChange={e => onCheckBoxServ(e, service)}
                       checked={getCheckStatus(service, "services")}

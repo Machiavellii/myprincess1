@@ -223,7 +223,8 @@ router.get("/", async (req, res) => {
   try {
     const profiles = await Profile.find().populate("user", [
       "nickname",
-      "email"
+      "email",
+      "block"
     ]);
     res.json(profiles);
   } catch (err) {
@@ -336,6 +337,8 @@ router.post("/upload-cover", auth, async (req, res) => {
   }
 });
 
+
+
 // @route    POST api/profile/subscription
 // @desc     Subscription_plan
 // @access   Private
@@ -367,6 +370,8 @@ router.post("/subscription", auth, async (req, res) => {
     return res.status(500).json();
   }
 });
+
+
 
 // @route    POST api/profile/upload-gallery
 // @desc     Upload gallery photos

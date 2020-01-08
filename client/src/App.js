@@ -17,6 +17,7 @@ import Login from "./components/auth/Login";
 import LoginAdmin from "./components/admin/LoginAdmin";
 
 import Register from "./components/auth/Register";
+import BlockedAccount from "./components/auth/BlockedAccount";
 import Landing from "./components/landing/Landing";
 import DescribeContent from "./components/landing/landingpages/landingcontent/singleGirl/Describe";
 import Links from "./components/landing/landingpages/Links";
@@ -36,8 +37,9 @@ import EditAdmin from "./components/admin/editAdmin";
 // import UploadGallery from './components/pages/postAnAd/UploadGallery';
 import PrivateRoute from "./components/routing/PrivateRoute";
 import AdminRoute from "./components/routing/AdminRoute";
+import Terms from "./components/layout/Terms";
 
-import { loadUser } from "./actions/auth";
+import { loadUser, getUsers } from "./actions/auth";
 import { loadAdmin } from "./actions/adminAuth";
 
 if (localStorage.token) {
@@ -52,6 +54,7 @@ const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
     store.dispatch(loadAdmin());
+    store.dispatch(getUsers());
   }, []);
 
   return (
@@ -64,6 +67,7 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/blocked" component={BlockedAccount} />
             <Route exact path="/superadminlogin" component={LoginAdmin} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/faq" component={Faq} />
@@ -79,14 +83,10 @@ const App = () => {
               path="/escorts-girls/:canton"
               component={EscortsGirls}
             />
+            <Route exact path="/terms" component={Terms} />
 
             <AdminRoute exact path="/superadmin" component={Admin} />
             <AdminRoute exact path="/editprofileAdmin" component={EditAdmin} />
-            {/* <AdminRoute
-              exact
-              path="/editprofileAdmin/:id"
-              component={EditAdmin}
-            /> */}
 
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute exact path="/edit-profile" component={EditAdForm} />

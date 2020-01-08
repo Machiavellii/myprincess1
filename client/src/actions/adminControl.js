@@ -5,27 +5,12 @@ import {
   PROFILE_ERROR,
   ACCOUNT_DELETED_ADMIN,
   GET_PROFILE_ADMIN,
-  UPDATE_PROFILE_ADMIN
+  UPDATE_PROFILE_ADMIN,
+  BLOCK_ACCOUNT
 } from "./type";
 
-// export const getCurrentProfileAdmin = id => async dispatch => {
-//   try {
-//     const res = await axios.get(`/api/admin/profile/${id}`);
-
-//     dispatch({
-//       type: GET_PROFILE_ADMIN,
-//       payload: res.data
-//     });
-//   } catch (err) {
-//     dispatch({
-//       type: PROFILE_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
-
 //Get Current User
-export const getCurrentProfileAdmin1 = profile => async dispatch => {
+export const getCurrentProfileAdmin = profile => async dispatch => {
   dispatch({
     type: GET_PROFILE_ADMIN,
     payload: profile
@@ -62,6 +47,33 @@ export const editProfile = (formData, history) => async dispatch => {
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
+};
+
+// Block Account
+export const blockAccount = (id, block, history) => async dispatch => {
+  // if (window.confirm("Not finish yet!")) {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    const res = await axios.post(`/api/users/${id}`, block, config);
+    const { data } = res;
+    dispatch({
+      type: BLOCK_ACCOUNT,
+      payload: data
+    });
+
+    history.push("/superadminlogin");
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+  }
+  // }
 };
 
 // Delete account & profile

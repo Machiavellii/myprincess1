@@ -6,13 +6,14 @@ import { connect } from "react-redux";
 import { logout } from "../../actions/adminAuth";
 import {
   deleteAccountAdmin,
-  getCurrentProfileAdmin1
+  getCurrentProfileAdmin,
+  blockAccount
 } from "../../actions/adminControl";
 import { getProfiles } from "../../actions/profile";
 import Spinner from "../layout/Spinner";
 import { filterFunc } from "../../actions/profile";
 import Moment from "react-moment";
-import * as moment from "moment";
+// import * as moment from "moment";
 
 const Admin = ({
   logout,
@@ -20,9 +21,12 @@ const Admin = ({
   profile,
   deleteAccountAdmin,
   filterFunc,
-  getCurrentProfileAdmin1
+  getCurrentProfileAdmin,
+  blockAccount,
+  history
 }) => {
   const [filter, setFilter] = useState("");
+  const [block, setBlock] = useState("");
 
   useEffect(() => {
     getProfiles();
@@ -38,9 +42,14 @@ const Admin = ({
   const filterGirls =
     profile.profileFilter.length >= 1 ? profile.profileFilter : profiles;
 
-  const hours = moment.duration(7, "days").asHours();
+  const onBlock = block => {
+    setBlock(!block);
+  };
 
-  console.log(hours);
+  const onSubmit = (e, id) => {
+    e.preventDefault();
+    blockAccount(id, { block }, history);
+  };
 
   return (
     <Fragment>
@@ -75,24 +84,48 @@ const Admin = ({
                     <i className="far fa-clock ml-1" />
                     <span className=" ml-1">
                       <Moment
-                        format="YYYY/MM/DD"
+                        format="DD/MM/YYYY"
                         add={{ days: profile.subscription_plan }}
                       >
                         {profile.date}
                       </Moment>{" "}
-                      Or{" "}
-                      {moment
+                      {/* {moment
                         .duration(parseInt(profile.subscription_plan), "days")
                         .asHours()}{" "}
-                      hours
+                      hours */}
                     </span>
                   </span>
+                </div>
+                <div className="block-holder">
+                  <form onSubmit={e => onSubmit(e, profile.user._id)}>
+                    {/* <input
+                      type="text"
+                      value={false}
+                      className={`btn btn-${
+                        profile.user.block ? "danger" : "success"
+                      }`}
+                    /> */}
+                    <button
+                      type="submit"
+                      className={`btn btn-${
+                        profile.user.block ? "danger" : "success"
+                      }`}
+                      onClick={() => onBlock(profile.user.block)}
+                    >
+                      <i
+                        className={`fas fa-user-${
+                          profile.user.block ? "plus" : "minus"
+                        }`}
+                      />{" "}
+                      {profile.user.block ? "Block" : "Unblock"} Profile
+                    </button>
+                  </form>
                 </div>
                 <div className="btn-holder">
                   <Link
                     to="/editprofileAdmin"
                     className="btn btn-primary mr-1"
-                    onClick={() => getCurrentProfileAdmin1(profile)}
+                    onClick={() => getCurrentProfileAdmin(profile)}
                   >
                     <i className="fas fa-user-edit" /> Edit Profile
                   </Link>
@@ -148,5 +181,6 @@ export default connect(mapStateToProps, {
   getProfiles,
   deleteAccountAdmin,
   filterFunc,
-  getCurrentProfileAdmin1
+  getCurrentProfileAdmin,
+  blockAccount
 })(Admin);

@@ -19,9 +19,6 @@ const ProfileSchema = new Schema({
     trim: true,
     required: true
   },
-
-  // User type (should probably be in user) =>
-
   type: {
     type: String,
     required: true
@@ -54,20 +51,10 @@ const ProfileSchema = new Schema({
   favorites: {
     type: [String]
   },
-
-  // Profile activity  =>
   is_active: {
     type: Boolean,
     default: false
   },
-
-  /* Ad activity  =>
-    
-    ad_is_active: {
-        type: Boolean,
-        default: true
-    },*/
-
   languages: {
     type: [String],
     required: true
@@ -120,12 +107,6 @@ const ProfileSchema = new Schema({
     type: Date,
     default: Date.now
   },
-
-  // U kontroleru sabrati sve vrijednosti koje su dodate u niz i podijeliti sa array length =>
-  // rating: {
-  //   type: [Number]
-  // },
-
   opinions: [
     {
       review: {
