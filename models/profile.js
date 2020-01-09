@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ProfileSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user"
+    ref: 'user'
   },
   gender: {
     type: String,
@@ -31,6 +31,10 @@ const ProfileSchema = new Schema({
     type: String,
     required: true
   },
+  // address: {
+  //   type: String,
+  //   required: true
+  // },
   city: {
     type: String,
     required: true
@@ -132,4 +136,4 @@ const ProfileSchema = new Schema({
   ]
 });
 
-module.exports = Profile = mongoose.model("profile", ProfileSchema);
+module.exports = Profile = mongoose.model('profile', ProfileSchema);
