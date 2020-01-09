@@ -1,15 +1,15 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const multer = require("multer");
-const fs = require("fs");
-const path = require("path");
-const mongoose = require("mongoose");
-const auth = require("../../middleware/auth");
-const authAdmin = require("../../middleware/authAdmin");
-const { check, validationResult } = require("express-validator");
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+const mongoose = require('mongoose');
+const auth = require('../../middleware/auth');
+const authAdmin = require('../../middleware/authAdmin');
+const { check, validationResult } = require('express-validator');
 
-const Profile = require("../../models/profile");
-const User = require("../../models/User");
+const Profile = require('../../models/profile');
+const User = require('../../models/User');
 
 /* start upload image logic */
 let storage = multer.diskStorage({
@@ -30,67 +30,66 @@ const uploadGallery = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     if (
-      file.mimetype == "image/png" ||
-      file.mimetype == "image/jpg" ||
-      file.mimetype == "image/jpeg"
+      file.mimetype == 'image/png' ||
+      file.mimetype == 'image/jpg' ||
+      file.mimetype == 'image/jpeg'
     ) {
       cb(null, true);
     } else {
       cb(null, false);
-      return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
     }
   }
 });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true);
   } else {
     cb(null, false);
   }
 };
 
-const uploadCover = multer({ storage, fileFilter }).single("cover_photo");
+const uploadCover = multer({ storage, fileFilter }).single('cover_photo');
 
 // @route    POST api/profile
 // @desc     Create or update user profile
 // @access   Private
 router.post(
-  "/",
+  '/',
   auth,
   [
-    check("gender", "Gender is required")
+    check('gender', 'Gender is required')
       .not()
       .isEmpty(),
-    check("sexual_orientation", "Sexual orientation is required")
+    check('sexual_orientation', 'Sexual orientation is required')
       .not()
       .isEmpty(),
-    check("type", "Account type is required")
+    check('type', 'Account type is required')
       .not()
       .isEmpty(),
-    check("address", "Address is required")
+    check('address', 'Address is required')
       .not()
       .isEmpty(),
-
-    check("subscription_plan", "Subscription plan is required")
+    check('subscription_plan', 'Subscription plan is required')
       .not()
       .isEmpty(),
-    check("languages", "Spoken languages are required")
+    check('languages', 'Spoken languages are required')
       .not()
       .isEmpty(),
-    check("category", "Category is required")
+    check('category', 'Category is required')
       .not()
       .isEmpty(),
-    check("services", "Services are required")
+    check('services', 'Services are required')
       .not()
       .isEmpty(),
-    check("age", "Age is required")
+    check('age', 'Age is required')
       .not()
       .isEmpty(),
-    check("silhouette", "Category is required")
+    check('silhouette', 'Category is required')
       .not()
       .isEmpty(),
-    check("origin", "Origin is required")
+    check('origin', 'Origin is required')
       .not()
       .isEmpty()
     // check("cover_photo", "Profile Picture is required")
@@ -140,8 +139,7 @@ router.post(
       profileFields.sexual_orientation = sexual_orientation;
     if (phone) profileFields.phone = phone;
     if (type) profileFields.type = type;
-    // if (country) profileFields.country = country;
-    if (address) profileFields.address = address;
+     if (address) profileFields.address = address;
 
     if (subscription_plan) profileFields.subscription_plan = subscription_plan;
     if (start_of_subscription)
@@ -203,7 +201,7 @@ router.post(
       res.json(profile);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server Error");
+      res.status(500).send('Server Error');
     }
   }
 );
@@ -211,77 +209,77 @@ router.post(
 // @route    GET api/profile
 // @desc     Get all profiles
 // @access   Public
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const profiles = await Profile.find().populate("user", [
-      "nickname",
-      "email",
-      "block"
+    const profiles = await Profile.find().populate('user', [
+      'nickname',
+      'email',
+      'block'
     ]);
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 // @route    GET api/profile/user/:user_id
 // @desc     Get profile by user ID
 // @access   Public
-router.get("/user/:user_id", async (req, res) => {
+router.get('/user/:user_id', async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.user_id
-    }).populate("user", ["nickname"]);
+    }).populate('user', ['nickname']);
 
     if (!profile) {
-      return res.status(400).json({ msg: "Profile not found!" });
+      return res.status(400).json({ msg: 'Profile not found!' });
     }
 
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    if (err.kind == "ObjectId") {
-      return res.status(400).json({ msg: "Profile not found!" });
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Profile not found!' });
     }
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 // @route    GET api/profile/me
 // @desc     Get current users profile
 // @access   Private
-router.get("/me", auth, async (req, res) => {
+router.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.user.id
-    }).populate("user", ["nickname"]);
+    }).populate('user', ['nickname']);
 
     if (!profile) {
-      return res.status(400).json({ msg: "There is no profile for this user" });
+      return res.status(400).json({ msg: 'There is no profile for this user' });
     }
 
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 // @route    DELETE api/profile
 // @desc     Delete profile, user & posts
 // @access   Private
-router.delete("/", auth, async (req, res) => {
+router.delete('/', auth, async (req, res) => {
   try {
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     // Remove User
     await User.findOneAndRemove({ _id: req.user.id });
 
-    res.json({ msg: "User Deleted" });
+    res.json({ msg: 'User Deleted' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
@@ -290,7 +288,7 @@ router.delete("/", auth, async (req, res) => {
 // @route    POST api/profile/upload-cover
 // @desc     Upload cover photo
 // @access   Private
-router.post("/upload-cover", auth, async (req, res) => {
+router.post('/upload-cover', auth, async (req, res) => {
   try {
     uploadCover(req, res, async function(err) {
       if (err instanceof multer.MulterError) {
@@ -308,7 +306,7 @@ router.post("/upload-cover", auth, async (req, res) => {
       if (profile) {
         const coverUrl = profile.coverUrl;
         fs.unlink(coverUrl, err => {
-          console.log("error", err);
+          console.log('error', err);
         });
       }
       await Profile.findOneAndUpdate(
@@ -324,7 +322,7 @@ router.post("/upload-cover", auth, async (req, res) => {
       return res.status(200).json({ cover_photo: coverUrl });
     });
   } catch (err) {
-    console.log("create dish err:", err);
+    console.log('create dish err:', err);
     return res.status(500).json();
   }
 });
@@ -332,7 +330,7 @@ router.post("/upload-cover", auth, async (req, res) => {
 // @route    POST api/profile/subscription
 // @desc     Subscription_plan
 // @access   Private
-router.post("/subscription", auth, async (req, res) => {
+router.post('/subscription', auth, async (req, res) => {
   try {
     const { subscription_plan } = req.body;
 
@@ -356,7 +354,7 @@ router.post("/subscription", auth, async (req, res) => {
     );
     return res.status(200).json({ subscription_plan });
   } catch (err) {
-    console.log("create dish err:", err);
+    console.log('create dish err:', err);
     return res.status(500).json();
   }
 });
@@ -365,9 +363,9 @@ router.post("/subscription", auth, async (req, res) => {
 // @desc     Upload gallery photos
 // @access   Private
 router.post(
-  "/upload-gallery",
+  '/upload-gallery',
   auth,
-  uploadGallery.array("photos", 10),
+  uploadGallery.array('photos', 10),
   async (req, res) => {
     try {
       let reqFiles = [];
@@ -386,7 +384,7 @@ router.post(
       if (profile) {
         const photoUrls = profile.photoUrls;
         fs.unlink(photoUrls, err => {
-          console.log("error", err);
+          console.log('error', err);
         });
       }
 
@@ -419,7 +417,7 @@ router.post(
 // @route    POST api/profile/rating
 // @desc     Add rating
 // @access   Private
-router.post("/rating", [auth, []], async (req, res) => {
+router.post('/rating', [auth, []], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -437,14 +435,14 @@ router.post("/rating", [auth, []], async (req, res) => {
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 // @route    POST api/profile/rating
 // @desc     Add rating
 // @access   Private
-router.post("/favorites", [auth, []], async (req, res) => {
+router.post('/favorites', [auth, []], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -462,7 +460,7 @@ router.post("/favorites", [auth, []], async (req, res) => {
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
