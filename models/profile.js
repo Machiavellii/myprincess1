@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const geocoder = require("../utills/geocoder");
+
 const ProfileSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -23,25 +25,21 @@ const ProfileSchema = new Schema({
     type: String,
     required: true
   },
-  // country: {
-  //   type: String,
-  //   required: true
-  // },
-  canton: {
+  address: {
     type: String,
     required: true
   },
-  // address: {
-  //   type: String,
-  //   required: true
-  // },
-  city: {
-    type: String,
-    required: true
-  },
-  zip: {
-    type: String,
-    required: true
+
+  location: {
+    type: {
+      type: String,
+      enum: ["Point"]
+    },
+    coordinates: {
+      type: [Number],
+      index: "2dsphere"
+    },
+    formattedAddress: String
   },
   subscription_plan: {
     type: String
@@ -136,4 +134,20 @@ const ProfileSchema = new Schema({
   ]
 });
 
-module.exports = Profile = mongoose.model('profile', ProfileSchema);
+
+// Geocode & create location
+ProfileSchema.pre("save", async function(next) {
+  const loc = await geocoder.geocode(this.address);
+
+  console.log(loc);
+
+  this.location = {
+    type: "Point",
+    coordinates: [loc[0].longitude, loc[0].latitude],
+    formattedAddress: loc[0].formattedAddress
+  };
+  next();
+});
+
+module.exports = Profile = mongoose.model("profile", ProfileSchema);
+

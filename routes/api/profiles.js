@@ -68,21 +68,12 @@ router.post(
     check('type', 'Account type is required')
       .not()
       .isEmpty(),
-    check('canton', 'Canton is required')
+    check('address', 'Address is required')
       .not()
       .isEmpty(),
-    // check('address', 'Address is required')
-    //   .not()
-    //   .isEmpty(),
-    check('city', 'City is required')
+    check('subscription_plan', 'Subscription plan is required')
       .not()
       .isEmpty(),
-    check('zip', 'Zip is required')
-      .not()
-      .isEmpty(),
-    // check('subscription_plan', 'Subscription plan is required')
-    //   .not()
-    //   .isEmpty(),
     check('languages', 'Spoken languages are required')
       .not()
       .isEmpty(),
@@ -100,10 +91,10 @@ router.post(
       .isEmpty(),
     check('origin', 'Origin is required')
       .not()
-      .isEmpty(),
-    check('cover_photo', 'Profile Picture is required')
-      .not()
       .isEmpty()
+    // check("cover_photo", "Profile Picture is required")
+    //   .not()
+    //   .isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -116,10 +107,7 @@ router.post(
       sexual_orientation,
       phone,
       type,
-      canton,
-      city,
-      // address,
-      zip,
+      address,
       subscription_plan,
       start_of_subscription,
       end_of_subscription,
@@ -151,11 +139,8 @@ router.post(
       profileFields.sexual_orientation = sexual_orientation;
     if (phone) profileFields.phone = phone;
     if (type) profileFields.type = type;
-    // if (country) profileFields.country = country;
-    if (canton) profileFields.canton = canton;
-    // if (address) profileFields.address = address;
-    if (city) profileFields.city = city;
-    if (zip) profileFields.zip = zip;
+     if (address) profileFields.address = address;
+
     if (subscription_plan) profileFields.subscription_plan = subscription_plan;
     if (start_of_subscription)
       profileFields.start_of_subscription = start_of_subscription;
@@ -429,7 +414,7 @@ router.post(
   }
 );
 
-// @route    PUT api/profile/rating
+// @route    POST api/profile/rating
 // @desc     Add rating
 // @access   Private
 router.post('/rating', [auth, []], async (req, res) => {
@@ -454,7 +439,7 @@ router.post('/rating', [auth, []], async (req, res) => {
   }
 });
 
-// @route    PUT api/profile/rating
+// @route    POST api/profile/rating
 // @desc     Add rating
 // @access   Private
 router.post('/favorites', [auth, []], async (req, res) => {
@@ -478,5 +463,33 @@ router.post('/favorites', [auth, []], async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// @desc Create location
+// @route POST api/profile/location
+// @access Private
+// router.post("/location", auth, async (req, res, next) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   const { address } = req.body;
+
+//   try {
+//     const profile = await Profile.findOne({ user: req.user.id });
+
+//     profile.address = address;
+
+//     await profile.save();
+
+//     return res.status(200).json({ success: true, data: profile });
+//   } catch (err) {
+//     console.error(err);
+//     // if (err.code === 11000) {
+//     //   return res.status(400).json({ error: "This location already exists" });
+//     // }
+//     res.status(500).json({ error: "Server error" });
+//   }
+// });
 
 module.exports = router;
