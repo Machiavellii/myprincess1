@@ -66,9 +66,9 @@ const EditAdForm = ({
     origin: '',
     description: '',
     address: '',
-    city: '',
-    canton: '',
-    zip: '',
+    // city: '',
+    // canton: '',
+    // zip: '',
     is_active: '',
     languages: [],
     silhouette: '',
@@ -99,10 +99,10 @@ const EditAdForm = ({
       type: loading || !profile.type ? ' ' : profile.type,
       origin: loading || !profile.origin ? ' ' : profile.origin,
       description: loading || !profile.description ? ' ' : profile.description,
-      city: loading || !profile.city ? ' ' : profile.city,
+      // city: loading || !profile.city ? ' ' : profile.city,
       address: loading || !profile.address ? ' ' : profile.address,
-      canton: loading || !profile.canton ? ' ' : profile.canton,
-      zip: loading || !profile.zip ? ' ' : profile.zip,
+      // canton: loading || !profile.canton ? ' ' : profile.canton,
+      // zip: loading || !profile.zip ? ' ' : profile.zip,
       languages: loading || !profile.languages ? ' ' : profile.languages,
       silhouette: loading || !profile.silhouette ? ' ' : profile.silhouette,
       rate: loading || !profile.rate ? ' ' : profile.rate,
@@ -129,9 +129,9 @@ const EditAdForm = ({
     origin,
     description,
     address,
-    city,
-    canton,
-    zip,
+    // city,
+    // canton,
+    // zip,
     languages,
     silhouette,
     rate,
@@ -416,14 +416,14 @@ const EditAdForm = ({
           labels={descriptionLabel}
         />
 
-        <SelectListGroup
+        {/* <SelectListGroup
           name="canton"
           value={canton}
           onChange={onChange}
           error={errors}
           options={cantonsList}
           labels={cantonLabel}
-        />
+        /> */}
         <InputGroup
           name="address"
           value={address}
@@ -431,7 +431,7 @@ const EditAdForm = ({
           onChange={onChange}
           labels={addressLabel}
         />
-        <SelectListGroup
+        {/* <SelectListGroup
           name="city"
           value={city}
           onChange={onChange}
@@ -446,7 +446,7 @@ const EditAdForm = ({
           labels={cityzipLabel}
           value={zip}
           error={errors}
-        />
+        /> */}
 
         <InputGroup
           type="file"

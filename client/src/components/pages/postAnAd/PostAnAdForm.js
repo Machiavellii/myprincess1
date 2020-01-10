@@ -65,9 +65,9 @@ const PostAnAdForm = ({
     origin: '',
     description: '',
     address: '',
-    city: '',
-    canton: '',
-    zip: '',
+    // city: '',
+    // canton: '',
+    // zip: '',
     is_active: '',
     languages: [],
     silhouette: '',
@@ -91,9 +91,9 @@ const PostAnAdForm = ({
     origin,
     description,
     address,
-    city,
-    canton,
-    zip,
+    // city,
+    // canton,
+    // zip,
     languages,
     silhouette,
     rate,
@@ -366,13 +366,13 @@ const PostAnAdForm = ({
           labels={descriptionLabel}
         />
 
-        <SelectListGroup
+        {/* <SelectListGroup
           name="canton"
           value={canton}
           onChange={onChange}
           options={cantonsList}
           labels={cantonLabel}
-        />
+        /> */}
         <InputGroup
           name="address"
           placeholder={
@@ -382,7 +382,7 @@ const PostAnAdForm = ({
           labels={addressLabel}
           value={address}
         />
-        <SelectListGroup
+        {/* <SelectListGroup
           name="city"
           value={city}
           onChange={onChange}
@@ -395,7 +395,7 @@ const PostAnAdForm = ({
           onChange={onChange}
           labels={cityzipLabel}
           value={zip}
-        />
+        /> */}
         <InputGroup
           type="file"
           name="cover_photo"
