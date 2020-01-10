@@ -71,10 +71,9 @@ router.post(
     check("address", "Address is required")
       .not()
       .isEmpty(),
-
-    check("subscription_plan", "Subscription plan is required")
-      .not()
-      .isEmpty(),
+    // check("subscription_plan", "Subscription plan is required")
+    //   .not()
+    //   .isEmpty(),
     check("languages", "Spoken languages are required")
       .not()
       .isEmpty(),

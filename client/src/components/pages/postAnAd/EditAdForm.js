@@ -37,9 +37,10 @@ import {
   silhouetteLabel,
   originLabel,
   descriptionLabel,
-  cantonLabel,
-  cityLabel,
-  cityzipLabel,
+  // cantonLabel,
+  // cityLabel,
+  // cityzipLabel,
+  addressLabel,
   businesshoursLabel,
   rateLabel,
   phonenumberLabel,
@@ -64,9 +65,10 @@ const EditAdForm = ({
     age: "",
     origin: "",
     description: "",
-    city: "",
-    canton: "",
-    zip: "",
+    address: "",
+    // city: "",
+    // canton: "",
+    // zip: "",
     is_active: "",
     languages: [],
     silhouette: "",
@@ -97,9 +99,9 @@ const EditAdForm = ({
       type: loading || !profile.type ? " " : profile.type,
       origin: loading || !profile.origin ? " " : profile.origin,
       description: loading || !profile.description ? " " : profile.description,
-      city: loading || !profile.city ? " " : profile.city,
-      canton: loading || !profile.canton ? " " : profile.canton,
-      zip: loading || !profile.zip ? " " : profile.zip,
+      address: loading || !profile.address ? " " : profile.address,
+      // canton: loading || !profile.canton ? " " : profile.canton,
+      // zip: loading || !profile.zip ? " " : profile.zip,
       languages: loading || !profile.languages ? " " : profile.languages,
       silhouette: loading || !profile.silhouette ? " " : profile.silhouette,
       rate: loading || !profile.rate ? " " : profile.rate,
@@ -125,9 +127,9 @@ const EditAdForm = ({
     age,
     origin,
     description,
-    city,
-    canton,
-    zip,
+    address,
+    // canton,
+    // zip,
     languages,
     silhouette,
     rate,
@@ -411,32 +413,13 @@ const EditAdForm = ({
           info="Tell us a little about yourself"
           labels={descriptionLabel}
         />
-
-        <SelectListGroup
-          name="canton"
-          value={canton}
-          onChange={onChange}
-          error={errors}
-          options={cantonsList}
-          labels={cantonLabel}
-        />
-        <SelectListGroup
-          name="city"
-          value={city}
-          onChange={onChange}
-          error={errors}
-          options={cityList}
-          labels={cityLabel}
-        />
         <InputGroup
-          name="zip"
-          placeholder={"8000"}
+          name="address"
+          placeholder="Building 36, Rue de Montchoisy, Eaux-Vives, Geneva, 1027, Switzerland"
           onChange={onChange}
-          labels={cityzipLabel}
-          value={zip}
-          error={errors}
+          labels={addressLabel}
+          value={address}
         />
-
         <InputGroup
           type="file"
           name="cover_photo"

@@ -15,8 +15,8 @@ import {
   servicesList,
   silhouetteList,
   originList,
-  cantonsList,
-  cityList,
+  // cantonsList,
+  // cityList,
   genderList,
   sexual_orientationList,
   typeList
@@ -36,15 +36,18 @@ import {
   silhouetteLabel,
   originLabel,
   descriptionLabel,
-  cantonLabel,
-  cityLabel,
-  cityzipLabel,
+  // cantonLabel,
+  // addressLabel,
+  // cityLabel,
+  // cityzipLabel,
   businesshoursLabel,
   rateLabel,
   phonenumberLabel,
   websiteLabel,
   coverLabel
 } from "../../common/consts";
+
+import MapboxAutocomplete from "react-mapbox-autocomplete";
 
 const PostAnAdForm = ({
   createProfile,
@@ -63,9 +66,12 @@ const PostAnAdForm = ({
     age: "",
     origin: "",
     description: "",
-    city: "",
-    canton: "",
-    zip: "",
+    address: "",
+    address_results: [],
+    address_isLoading: false,
+    // city: '',
+    // canton: '',
+    // zip: '',
     is_active: "",
     languages: [],
     silhouette: "",
@@ -88,9 +94,12 @@ const PostAnAdForm = ({
     age,
     origin,
     description,
-    city,
-    canton,
-    zip,
+    address,
+    address_results,
+    address_isLoading,
+    // city,
+    // canton,
+    // zip,
     languages,
     silhouette,
     rate,
@@ -114,6 +123,7 @@ const PostAnAdForm = ({
     if (e.target.name === "photos") {
       setGalleryphoto(e.target.files);
     }
+
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -154,8 +164,13 @@ const PostAnAdForm = ({
 
     uploadGallery(formGallery);
     uploadCover(formCover);
-    // console.log(formData)
+    console.log(formData);
     createProfile(formData, history);
+  };
+
+  const suggestionSelect = (result, lat, lng, text) => {
+    console.log(result);
+    setFormData({ ...formData, address: result });
   };
 
   return (
@@ -363,14 +378,31 @@ const PostAnAdForm = ({
           labels={descriptionLabel}
         />
 
-        <SelectListGroup
+        {/* <SelectListGroup
           name="canton"
           value={canton}
           onChange={onChange}
           options={cantonsList}
           labels={cantonLabel}
+        /> */}
+        {/* <InputGroup
+          name="address"
+          placeholder="Building 36, Rue de Montchoisy, Eaux-Vives, Geneva, 1027, Switzerland"
+          onChange={onChange}
+          labels={addressLabel}
+          value={address}
+        /> */}
+        <label htmlFor="Address">Address *</label>
+        <MapboxAutocomplete
+          publicKey="pk.eyJ1Ijoic2VydmFsbGwiLCJhIjoiY2pndjRqejV2MWV1azMzcnRvYWVjazBrNCJ9.4FgwICwFPNnW58okWFoBww"
+          inputClass="form-control"
+          onSuggestionSelect={suggestionSelect}
+          country="ch"
+          placeholder="Rue de Montchoisy, Geneva, 1207"
+          resetSearch={true}
         />
-        <SelectListGroup
+
+        {/* <SelectListGroup
           name="city"
           value={city}
           onChange={onChange}
@@ -379,11 +411,11 @@ const PostAnAdForm = ({
         />
         <InputGroup
           name="zip"
-          placeholder={"8000"}
+          placeholder={'8000'}
           onChange={onChange}
           labels={cityzipLabel}
           value={zip}
-        />
+        /> */}
         <InputGroup
           type="file"
           name="cover_photo"
