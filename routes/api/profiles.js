@@ -465,32 +465,4 @@ router.post("/favorites", [auth, []], async (req, res) => {
   }
 });
 
-// @desc Create location
-// @route POST api/profile/location
-// @access Private
-// router.post("/location", auth, async (req, res, next) => {
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     return res.status(400).json({ errors: errors.array() });
-//   }
-
-//   const { address } = req.body;
-
-//   try {
-//     const profile = await Profile.findOne({ user: req.user.id });
-
-//     profile.address = address;
-
-//     await profile.save();
-
-//     return res.status(200).json({ success: true, data: profile });
-//   } catch (err) {
-//     console.error(err);
-//     // if (err.code === 11000) {
-//     //   return res.status(400).json({ error: "This location already exists" });
-//     // }
-//     res.status(500).json({ error: "Server error" });
-//   }
-// });
-
 module.exports = router;
