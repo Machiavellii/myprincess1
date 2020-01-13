@@ -11,6 +11,8 @@ const { check, validationResult } = require("express-validator");
 const Profile = require("../../models/profile");
 const User = require("../../models/User");
 
+const geocoder = require("../../utills/geocoder");
+
 /* start upload image logic */
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -68,10 +70,7 @@ router.post(
     check("type", "Account type is required")
       .not()
       .isEmpty(),
-    check("address", "Address is required")
-      .not()
-      .isEmpty(),
-    // check("subscription_plan", "Subscription plan is required")
+    // check("address", "Address is required")
     //   .not()
     //   .isEmpty(),
     check("languages", "Spoken languages are required")
@@ -360,6 +359,54 @@ router.post("/subscription", auth, async (req, res) => {
   }
 });
 
+// @desc Create location
+// @route POST api/profile/location
+// @access Private
+router.post("/location", auth, async (req, res) => {
+  try {
+    const { address } = req.body;
+
+    const profile = await Profile.findOne({
+      user: req.user.id
+    });
+
+    const loc = await geocoder.geocode(address);
+
+    console.log(loc[0]);
+
+    // if (profile) {
+    //   profile.loc[0].formattedAddress;
+    // }
+
+    await Profile.findOneAndUpdate(
+      { user: req.user.id },
+      {
+        address: loc[0].formattedAddress
+      },
+      {
+        new: true,
+        upsert: true
+      }
+    );
+
+    // profile.location = {
+    //   type: "Point",
+    //   coordinates: [loc[0].longitude, loc[0].latitude],
+    //   formattedAddress: loc[0].formattedAddress
+    // };
+
+    // console.log(profile);
+
+    return res.status(200).json({ address: loc.formattedAddress });
+  } catch (err) {
+    console.error(err);
+    // if (err.code === 11000) {
+    //   return res.status(400).json({ error: "This location already exists" });
+    // }
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // @route    POST api/profile/upload-gallery
 // @desc     Upload gallery photos
 // @access   Private
@@ -414,31 +461,6 @@ router.post(
     }
   }
 );
-
-// @route    POST api/profile/rating
-// @desc     Add rating
-// @access   Private
-router.post("/rating", [auth, []], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  const { num, user } = req.body;
-
-  const newRating = Number(num);
-
-  try {
-    const profile = await Profile.findOne({ user: user });
-
-    profile.rating.unshift(newRating);
-
-    await profile.save();
-    res.json(profile);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
 
 // @route    POST api/profile/rating
 // @desc     Add rating

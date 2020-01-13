@@ -6,7 +6,8 @@ import { withRouter } from "react-router-dom";
 import {
   createProfile,
   uploadCover,
-  uploadGallery
+  uploadGallery,
+  addLocation
 } from "../../../actions/profile";
 
 import {
@@ -37,7 +38,7 @@ import {
   originLabel,
   descriptionLabel,
   // cantonLabel,
-  // addressLabel,
+  addressLabel,
   // cityLabel,
   // cityzipLabel,
   businesshoursLabel,
@@ -55,7 +56,8 @@ const PostAnAdForm = ({
   uploadCover,
   uploadGallery,
   auth: isAuthenticated,
-  profile: error
+  profile: error,
+  addLocation
 }) => {
   const [formData, setFormData] = useState({
     gender: "",
@@ -69,9 +71,6 @@ const PostAnAdForm = ({
     address: "",
     address_results: [],
     address_isLoading: false,
-    // city: '',
-    // canton: '',
-    // zip: '',
     is_active: "",
     languages: [],
     silhouette: "",
@@ -97,9 +96,6 @@ const PostAnAdForm = ({
     address,
     address_results,
     address_isLoading,
-    // city,
-    // canton,
-    // zip,
     languages,
     silhouette,
     rate,
@@ -123,6 +119,9 @@ const PostAnAdForm = ({
     if (e.target.name === "photos") {
       setGalleryphoto(e.target.files);
     }
+    // if (e.target.name === "address") {
+    //   addLocation(e.target.value);
+    // }
 
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -162,16 +161,17 @@ const PostAnAdForm = ({
       formGallery.append("photos", photos[key]);
     }
 
-    uploadGallery(formGallery);
-    uploadCover(formCover);
+    // uploadGallery(formGallery);
+    // uploadCover(formCover);
     console.log(formData);
+    addLocation(address);
     createProfile(formData, history);
   };
 
-  const suggestionSelect = (result, lat, lng, text) => {
-    console.log(result);
-    setFormData({ ...formData, address: result });
-  };
+  // const suggestionSelect = (result, lat, lng, text) => {
+  //   console.log(result);
+  //   setFormData({ ...formData, address: result });
+  // };
 
   return (
     <Fragment>
@@ -181,33 +181,6 @@ const PostAnAdForm = ({
         onSubmit={onSubmit}
         // encType="multipart/form-data"
       >
-        {/* {!isAuthenticated.token ? (
-          <div className="card mb-4 mt-5">
-            <div className="card-body">
-              <h5 className="card-title">Already have an account?</h5>
-              <hr />
-              <p className="card-text">
-                <sup>
-                  <a href="!#">Login</a>
-                </sup>{' '}
-                If you do not-have an account, you can create it by below
-                Reviews entering your e-mail address / username. The account
-                details will be confirmed by email.
-              </p>
-
-              <div className="form-group">
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  placeholder="Email"
-                  name="email"
-                />
-              </div>
-            </div>
-          </div>
-        ) : null} */}
-
         <div className="form-group">
           <p>Job Activity</p>
           <div className="form-check form-check-inline">
@@ -242,9 +215,6 @@ const PostAnAdForm = ({
             </small>
           </p>
         </div>
-
-        {/* <InputGroup placeholder={'Nickname'} labels={nickname} required /> */}
-
         <SelectListGroup
           name="type"
           value={type}
@@ -378,21 +348,14 @@ const PostAnAdForm = ({
           labels={descriptionLabel}
         />
 
-        {/* <SelectListGroup
-          name="canton"
-          value={canton}
-          onChange={onChange}
-          options={cantonsList}
-          labels={cantonLabel}
-        /> */}
-        {/* <InputGroup
+        <InputGroup
           name="address"
           placeholder="Building 36, Rue de Montchoisy, Eaux-Vives, Geneva, 1027, Switzerland"
           onChange={onChange}
           labels={addressLabel}
           value={address}
-        /> */}
-        <label htmlFor="Address">Address *</label>
+        />
+        {/* <label htmlFor="Address">Address *</label>
         <MapboxAutocomplete
           publicKey="pk.eyJ1Ijoic2VydmFsbGwiLCJhIjoiY2pndjRqejV2MWV1azMzcnRvYWVjazBrNCJ9.4FgwICwFPNnW58okWFoBww"
           inputClass="form-control"
@@ -400,22 +363,11 @@ const PostAnAdForm = ({
           country="ch"
           placeholder="Rue de Montchoisy, Geneva, 1207"
           resetSearch={true}
-        />
-
-        {/* <SelectListGroup
-          name="city"
-          value={city}
           onChange={onChange}
-          options={cityList}
-          labels={cityLabel}
-        />
-        <InputGroup
-          name="zip"
-          placeholder={'8000'}
-          onChange={onChange}
-          labels={cityzipLabel}
-          value={zip}
+          value={address}
+          name="address"
         /> */}
+
         <InputGroup
           type="file"
           name="cover_photo"
@@ -510,5 +462,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   createProfile,
   uploadCover,
-  uploadGallery
+  uploadGallery,
+  addLocation
 })(withRouter(PostAnAdForm));

@@ -84,8 +84,8 @@ export const createProfile = (
 
     dispatch(setAlert(edit ? "Profile Updated" : "Profile Created", "success"));
 
-    history.push("/dashboard");
-    window.location.reload();
+    // history.push("/dashboard");
+    // window.location.reload();
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -108,8 +108,25 @@ export const subscribePlan = time => async dispatch => {
       type: GET_PROFILE,
       payload: res.data
     });
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-    // history.push('/upload-gallery');
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+  }
+};
+
+// LOCATION
+export const addLocation = address => async dispatch => {
+  console.log(address);
+  try {
+    const res = await axios.post("api/profile/location", address);
+
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data
+    });
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -177,6 +194,7 @@ export const uploadGallery = (formFile, history, edit) => async dispatch => {
 
 export const filterFunc = value => dispatch => {
   const valueV = value.toLowerCase();
+
   if (value.length >= 3) {
     dispatch({
       type: FILTER_PROFILE,
