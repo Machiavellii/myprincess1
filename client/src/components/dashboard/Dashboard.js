@@ -1,16 +1,16 @@
-import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Spinner from '../layout/Spinner';
-import DashboardAction from './DashboardActions';
+import React, { Fragment, useEffect } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Spinner from "../layout/Spinner";
+import DashboardAction from "./DashboardActions";
 
-import Carousel from '../landing/landingpages/landingcontent/singleGirl/carousel/Carousel';
-import Header from '../landing/landingpages/landingcontent/singleGirl/describeGirl/componentGirls/HeaderGirl';
-import DescribeGirl from '../landing/landingpages/landingcontent/singleGirl/describeGirl/Girl';
-import GalleryHolder from '../landing/landingpages/landingcontent/singleGirl/gallery/GalleryHolder';
+import Carousel from "../landing/landingpages/landingcontent/singleGirl/carousel/Carousel";
+import Header from "../landing/landingpages/landingcontent/singleGirl/describeGirl/componentGirls/HeaderGirl";
+import DescribeGirl from "../landing/landingpages/landingcontent/singleGirl/describeGirl/Girl";
+import GalleryHolder from "../landing/landingpages/landingcontent/singleGirl/gallery/GalleryHolder";
 
-import { getCurrentProfile, deleteAccount } from '../../actions/profile';
+import { getCurrentProfile, deleteAccount } from "../../actions/profile";
 
 const Dashboard = ({
   getCurrentProfile,
@@ -64,7 +64,7 @@ const Dashboard = ({
             <Link
               to="/postanad"
               className="btn  my-3 rose-border"
-              style={{ backgroundColor: '#2b2b2b', color: '#fff' }}
+              style={{ backgroundColor: "#2b2b2b", color: "#fff" }}
             >
               Post an Ad
             </Link>

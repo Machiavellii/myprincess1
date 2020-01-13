@@ -1,15 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '../../../styles/PricingCard.css';
-import { connect } from 'react-redux';
+import React from "react";
+import { Link } from "react-router-dom";
+import "../../../styles/PricingCard.css";
+import { connect } from "react-redux";
 
-import { subscribePlan } from '../../../actions/profile';
+import { subscribePlan } from "../../../actions/profile";
 
-import StripeCheckout from 'react-stripe-checkout';
+import StripeCheckout from 'react-stripe-checkout'
 
 const PricingCard = ({
   subscribePlan,
-  hours,
+  days,
   subscription_plan,
   price,
   badge,
@@ -24,9 +24,11 @@ const PricingCard = ({
     subscribePlan(time);
   };
 
+  
+
   // const Checkout = ({ name, description, amount }) =>
   // <StripeCheckout
-
+  
   //   // description={description}
   //   amount
   //   label='Start'
@@ -39,9 +41,9 @@ const PricingCard = ({
     <div className="card mb-5">
       <div className="card-body text-center">
         <span className="badge badge-secondary mt-2 mb-3 p-2 ">{badge}</span>
-        <h6 className="card-title pb-3 time">{hours}</h6>
+        <h6 className="card-title pb-3 time">{days}</h6>
         <h3 className="card-title pricing">
-          {price} <sup>{currency}</sup>{' '}
+          {price} <sup>{currency}</sup>{" "}
         </h3>
         <p className="card-text description">Quick and easy registration</p>
         <strong>{extra}</strong> <br />
@@ -55,10 +57,10 @@ const PricingCard = ({
         <br />
         <Link
           to="/postanadform"
-          className={'btn ' + (buttonStyle ? 'full' : 'empty')}
+          className={"btn " + (buttonStyle ? "full" : "empty")}
           onClick={() => onClick()}
         >
-          {/* <Checkout /> */}
+        {/* <Checkout /> */}
           Start
           <i className="fas fa-caret-right right-icon" />
         </Link>

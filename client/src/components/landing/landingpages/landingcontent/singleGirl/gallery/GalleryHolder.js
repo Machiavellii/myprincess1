@@ -1,9 +1,9 @@
-import React from 'react';
-import Describe from './galleryComponent/Describe';
+import React from "react";
+import Describe from "./galleryComponent/Describe";
 // import Gallery from './galleryComponent/Gallery';
 
 const GalleryHolder = ({ profile }) => {
-  const { cover_photo, is_active, city, address } = profile;
+  const { cover_photo, is_active, city } = profile;
 
   return (
     <div className="gallery-holder">
@@ -16,10 +16,10 @@ const GalleryHolder = ({ profile }) => {
       </div>
       <div className="location mb-5">
         <h6>Job Activity</h6>
-        <p>{is_active ? 'Active' : 'Inactive'}</p>
+        <p>{is_active ? "Active" : "Inactive"}</p>
         <p>{city}</p>
         <div className="map mb-4">Google Maps</div>
-        <p>{address}</p>
+        <p>Rue Uttins 20VD CH</p>
         <a href="!#">Get directions</a>
       </div>
       <Describe profile={profile} />

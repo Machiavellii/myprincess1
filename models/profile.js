@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const geocoder = require("../utills/geocoder");
@@ -6,7 +6,7 @@ const geocoder = require("../utills/geocoder");
 const ProfileSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: "user"
   },
   gender: {
     type: String,
@@ -29,7 +29,6 @@ const ProfileSchema = new Schema({
     type: String,
     required: true
   },
-
   location: {
     type: {
       type: String,
@@ -134,7 +133,6 @@ const ProfileSchema = new Schema({
   ]
 });
 
-
 // Geocode & create location
 ProfileSchema.pre("save", async function(next) {
   const loc = await geocoder.geocode(this.address);
@@ -150,4 +148,3 @@ ProfileSchema.pre("save", async function(next) {
 });
 
 module.exports = Profile = mongoose.model("profile", ProfileSchema);
-
