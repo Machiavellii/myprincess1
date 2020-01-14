@@ -37,7 +37,10 @@ export default function(state = initialState, action) {
 		case TOGGLE_ACTIVE:
 			return {
 				...state,
-				profile: state.profile,
+				profile: {
+					...state.profile,
+					is_active: payload
+				},
 				loading: false
 			};
 		case GET_PROFILES:
