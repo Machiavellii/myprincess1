@@ -38,7 +38,6 @@ const PricingCard = ({
 	return (
 		<div className='card mb-5'>
 			<div className='card-body text-center'>
-				<span className='badge badge-secondary mt-2 mb-3 p-2 '>{badge}</span>
 				<h6 className='card-title pb-3 time'>{days}</h6>
 				<h3 className='card-title pricing'>
 					{price} <sup>{currency}</sup>{' '}
@@ -53,6 +52,15 @@ const PricingCard = ({
 				<br />
 				<strong>Support </strong> <span>free</span>
 				<br />
+				<Link
+					//to='/postanadform'
+					className={'btn ' + (buttonStyle ? 'full' : 'empty')}
+					//onClick={() => onClick()}
+				>
+					{/* <Checkout /> */}
+					Buy now
+					<i className='fas fa-caret-right right-icon' />
+				</Link>
 			</div>
 		</div>
 	);
