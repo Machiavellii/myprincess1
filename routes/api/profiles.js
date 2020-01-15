@@ -180,18 +180,18 @@ router.post(
     }
 
     try {
-      let profile = await Profile.findOne({ user: req.user.id });
+      // let profile = await Profile.findOne({ user: req.user.id });
 
-      if (profile) {
-        //Update
-        profile = await Profile.findOneAndUpdate(
-          { user: req.user.id },
-          { $set: profileFields },
-          { new: true }
-        );
+      // if (profile) {
+      //   //Update
+      //   profile = await Profile.findOneAndUpdate(
+      //     { user: req.user.id },
+      //     { $set: profileFields },
+      //     { new: true }
+      //   );
 
-        return res.json(profile);
-      }
+      //   return res.json(profile);
+      // }
 
       //Create
       profile = new Profile(profileFields);
@@ -367,12 +367,13 @@ router.post("/location", auth, async (req, res) => {
     const { address } = req.body;
 
     const profile = await Profile.findOne({
-      user: req.user.id
+      user: mongoose.Types.ObjectId(req.user._id)
     });
 
-    const loc = await geocoder.geocode(address);
+    // const loc = await geocoder.geocode(address);
 
-    console.log(loc[0]);
+    // console.log(loc[0]);
+    console.log(profile);
 
     // if (profile) {
     //   profile.loc[0].formattedAddress;
@@ -381,7 +382,7 @@ router.post("/location", auth, async (req, res) => {
     await Profile.findOneAndUpdate(
       { user: req.user.id },
       {
-        address: loc[0].formattedAddress
+        address
       },
       {
         new: true,
@@ -397,7 +398,7 @@ router.post("/location", auth, async (req, res) => {
 
     // console.log(profile);
 
-    return res.status(200).json({ address: loc.formattedAddress });
+    return res.status(200).json({ address });
   } catch (err) {
     console.error(err);
     // if (err.code === 11000) {

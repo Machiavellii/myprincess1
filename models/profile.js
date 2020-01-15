@@ -38,7 +38,9 @@ const ProfileSchema = new Schema({
       type: [Number],
       index: "2dsphere"
     },
-    formattedAddress: String
+    formattedAddress: String,
+    city: String,
+    zipcode: String
   },
   subscription_plan: {
     type: String
@@ -137,13 +139,15 @@ const ProfileSchema = new Schema({
 ProfileSchema.pre("save", async function(next) {
   const loc = await geocoder.geocode(this.address);
 
-  // console.log(loc);
+  console.log(loc);
   // console.log(this.address);
 
   this.location = {
     type: "Point",
     coordinates: [loc[0].longitude, loc[0].latitude],
-    formattedAddress: loc[0].formattedAddress
+    formattedAddress: loc[0].formattedAddress,
+    city: loc[0].city,
+    zipcode: loc[0].zipcode
   };
 
   // Do not save address
