@@ -39,8 +39,13 @@ const ProfileSchema = new Schema({
       index: "2dsphere"
     },
     formattedAddress: String,
+    countryCode: String,
+    country: String,
     city: String,
-    zipcode: String
+    streetName: String,
+    streetNumber: String,
+    zipcode: String,
+    neighbourhood: String
   },
   subscription_plan: {
     type: String
@@ -137,20 +142,20 @@ const ProfileSchema = new Schema({
 
 // Geocode & create location
 ProfileSchema.pre("save", async function(next) {
-  await geocoder.geocode("mapbox", this.address, function(err, geoData) {
-    console.log(geoData);
-  });
+  const loc = await geocoder.geocode(this.address);
 
-  // console.log(loc);
-  // console.log(this.address);
-
-  // this.location = {
-  //   type: "Point",
-  //   coordinates: [loc[0].longitude, loc[0].latitude],
-  //   formattedAddress: loc[0].formattedAddress,
-  //   city: loc[0].city,
-  //   zipcode: loc[0].zipcode
-  // };
+  this.location = {
+    type: "Point",
+    coordinates: [loc[0].longitude, loc[0].latitude],
+    formattedAddress: loc[0].formattedAddress,
+    city: loc[0].city,
+    zipcode: loc[0].zipcode,
+    neighbourhood: loc[0].neighbourhood,
+    country: loc[0].country,
+    streetName: loc[0].streetName,
+    streetNumber: loc[0].streetNumber,
+    countryCode: loc[0].countryCode
+  };
 
   // Do not save address
   // this.address = undefined;

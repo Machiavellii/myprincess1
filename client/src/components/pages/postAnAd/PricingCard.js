@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { subscribePlan } from "../../../actions/profile";
 
-import StripeCheckout from 'react-stripe-checkout'
+import StripeCheckout from "react-stripe-checkout";
 
 const PricingCard = ({
   subscribePlan,
@@ -24,11 +24,9 @@ const PricingCard = ({
     subscribePlan(time);
   };
 
-  
-
   // const Checkout = ({ name, description, amount }) =>
   // <StripeCheckout
-  
+
   //   // description={description}
   //   amount
   //   label='Start'
@@ -60,7 +58,7 @@ const PricingCard = ({
           className={"btn " + (buttonStyle ? "full" : "empty")}
           onClick={() => onClick()}
         >
-        {/* <Checkout /> */}
+          {/* <Checkout /> */}
           Start
           <i className="fas fa-caret-right right-icon" />
         </Link>

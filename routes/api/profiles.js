@@ -180,18 +180,18 @@ router.post(
     }
 
     try {
-      // let profile = await Profile.findOne({ user: req.user.id });
+      let profile = await Profile.findOne({ user: req.user.id });
 
-      // if (profile) {
-      //   //Update
-      //   profile = await Profile.findOneAndUpdate(
-      //     { user: req.user.id },
-      //     { $set: profileFields },
-      //     { new: true }
-      //   );
+      if (profile) {
+        //Update
+        profile = await Profile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileFields },
+          { new: true }
+        );
 
-      //   return res.json(profile);
-      // }
+        return res.json(profile);
+      }
 
       //Create
       profile = new Profile(profileFields);
@@ -283,8 +283,6 @@ router.delete("/", auth, async (req, res) => {
   }
 });
 
-// TODO: upload photo gallery and upload cover photo and check ovo ispod
-
 // @route    POST api/profile/upload-cover
 // @desc     Upload cover photo
 // @access   Private
@@ -366,23 +364,45 @@ router.post("/location", auth, async (req, res) => {
   try {
     const { address } = req.body;
 
-    const profile = await Profile.findOne({
-      user: mongoose.Types.ObjectId(req.user._id)
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    const loc = await geocoder.geocode(address);
+
+    console.log(loc);
+
+    if (profile) {
+      profile.location = {
+        type: "Point",
+        coordinates: [loc[0].longitude, loc[0].latitude],
+        formattedAddress: loc[0].formattedAddress,
+        city: loc[0].city,
+        zipcode: loc[0].zipcode,
+        neighbourhood: loc[0].neighbourhood,
+        country: loc[0].country,
+        streetName: loc[0].streetName,
+        streetNumber: loc[0].streetNumber,
+        countryCode: loc[0].countryCode
+      };
+    }
+
+    const location = (profile.location = {
+      type: "Point",
+      coordinates: [loc[0].longitude, loc[0].latitude],
+      formattedAddress: loc[0].formattedAddress,
+      city: loc[0].city,
+      zipcode: loc[0].zipcode,
+      neighbourhood: loc[0].neighbourhood,
+      country: loc[0].country,
+      streetName: loc[0].streetName,
+      streetNumber: loc[0].streetNumber,
+      countryCode: loc[0].countryCode
     });
-
-    // const loc = await geocoder.geocode(address);
-
-    // console.log(loc[0]);
-    console.log(profile);
-
-    // if (profile) {
-    //   profile.loc[0].formattedAddress;
-    // }
 
     await Profile.findOneAndUpdate(
       { user: req.user.id },
       {
-        address
+        address,
+        location
       },
       {
         new: true,
@@ -390,15 +410,7 @@ router.post("/location", auth, async (req, res) => {
       }
     );
 
-    // profile.location = {
-    //   type: "Point",
-    //   coordinates: [loc[0].longitude, loc[0].latitude],
-    //   formattedAddress: loc[0].formattedAddress
-    // };
-
-    // console.log(profile);
-
-    return res.status(200).json({ address });
+    return res.status(200).json({ location });
   } catch (err) {
     console.error(err);
     // if (err.code === 11000) {
