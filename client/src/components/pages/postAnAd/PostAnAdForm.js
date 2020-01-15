@@ -179,7 +179,7 @@ const PostAnAdForm = ({
       <form
         className="container mb-5"
         onSubmit={onSubmit}
-        // encType="multipart/form-data/"
+        // encType="multipart/form-data"
       >
         <div className="form-group">
           <p>Job Activity</p>
