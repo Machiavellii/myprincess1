@@ -137,18 +137,20 @@ const ProfileSchema = new Schema({
 
 // Geocode & create location
 ProfileSchema.pre("save", async function(next) {
-  const loc = await geocoder.geocode(this.address);
+  await geocoder.geocode("mapbox", this.address, function(err, geoData) {
+    console.log(geoData);
+  });
 
-  console.log(loc);
+  // console.log(loc);
   // console.log(this.address);
 
-  this.location = {
-    type: "Point",
-    coordinates: [loc[0].longitude, loc[0].latitude],
-    formattedAddress: loc[0].formattedAddress,
-    city: loc[0].city,
-    zipcode: loc[0].zipcode
-  };
+  // this.location = {
+  //   type: "Point",
+  //   coordinates: [loc[0].longitude, loc[0].latitude],
+  //   formattedAddress: loc[0].formattedAddress,
+  //   city: loc[0].city,
+  //   zipcode: loc[0].zipcode
+  // };
 
   // Do not save address
   // this.address = undefined;
