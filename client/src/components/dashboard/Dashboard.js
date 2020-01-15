@@ -62,7 +62,7 @@ const Dashboard = ({
           <div className="container m-5 dashboard-create">
             <p>You have not yet setup a profile, please add some info</p>
             <Link
-              to="/postanad"
+              to="/postanadform"
               className="btn  my-3 rose-border"
               style={{ backgroundColor: "#2b2b2b", color: "#fff" }}
             >
