@@ -233,8 +233,8 @@ const EditAdForm = ({
     // uploadGallery(formGallery);
     // uploadCover(formCover);
 
-    addLocation(address);
     editProfile(formData, history, _id);
+    addLocation(address);
   };
 
   return (

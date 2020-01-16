@@ -152,8 +152,13 @@ export const subscribePlan = time => async dispatch => {
 
 // LOCATION
 export const addLocation = address => async dispatch => {
-  console.log(address);
   try {
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   }
+    // };
+    console.log(address);
     const res = await axios.post("api/profile/location", address);
 
     dispatch({

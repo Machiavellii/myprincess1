@@ -165,7 +165,7 @@ const PostAnAdForm = ({
     // uploadGallery(formGallery);
     // uploadCover(formCover);
     console.log(formData);
-    addLocation(address);
+    // addLocation(address);
     createProfile(formData, history);
   };
 

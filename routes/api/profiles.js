@@ -393,11 +393,11 @@ router.post("/location", auth, async (req, res) => {
     const loc = await geocoder.geocode(address);
 
     console.log(loc, "aaaaa");
-    console.log(profile);
+    console.log(address);
 
-    if (profile) {
-      profile.address;
-    }
+    // if (profile) {
+    //   profile.address;
+    // }
 
     const location = (profile.location = {
       type: "Point",

@@ -161,7 +161,7 @@ ProfileSchema.pre("save", async function(next) {
 
   // Do not save address
   // this.address = undefined;
-  // next();
+  next();
 });
 
 module.exports = Profile = mongoose.model("profile", ProfileSchema);
