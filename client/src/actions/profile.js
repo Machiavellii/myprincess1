@@ -65,8 +65,8 @@ export const getProfileById = userId => async dispatch => {
 // CREATE PROFIL
 export const createProfile = (
   formData,
-  history,
-  edit = false
+  history
+  // edit = false
 ) => async dispatch => {
   try {
     const config = {
@@ -82,9 +82,42 @@ export const createProfile = (
       payload: res.data
     });
 
-    dispatch(setAlert(edit ? "Profile Updated" : "Profile Created", "success"));
+    dispatch(setAlert("Profile Created", "success"));
 
-    // history.push("/dashboard");
+    history.push("/dashboard");
+    // window.location.reload();
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// EDIT PROFIL
+export const editProfile = (formData, history, id) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    const res = await axios.put(`/api/profile/${id}`, formData, config);
+
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data
+    });
+
+    dispatch(setAlert("Profile Updated", "success"));
+
+    history.push("/");
     // window.location.reload();
   } catch (err) {
     const errors = err.response.data.errors;
@@ -154,7 +187,7 @@ export const uploadCover = (formFile, history) => async dispatch => {
 
     dispatch(setAlert("Profile Photo Added", "success"));
 
-    // history.push('/upload-gallery');
+    history.push("/upload-gallery");
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -182,7 +215,7 @@ export const uploadGallery = (formFile, history, edit) => async dispatch => {
       payload: res.data
     });
 
-    // history.push('/');
+    history.push("/");
   } catch (err) {
     // const errors = err.response.data.errors;
     console.log(err);

@@ -107,7 +107,7 @@ router.post(
       phone,
       type,
       address,
-      // subscription_plan,
+      subscription_plan,
       start_of_subscription,
       end_of_subscription,
       favorites, // array
@@ -124,8 +124,8 @@ router.post(
       hours,
       rate,
       website,
-      ratings // array
-      // opinions
+      ratings, // array
+      opinions
     } = req.body;
 
     const cover_photo = req.file;
@@ -138,14 +138,13 @@ router.post(
       profileFields.sexual_orientation = sexual_orientation;
     if (phone) profileFields.phone = phone;
     if (type) profileFields.type = type;
-    // if (country) profileFields.country = country;
     if (address) profileFields.address = address;
 
-    // if (subscription_plan) profileFields.subscription_plan = subscription_plan;
-    if (start_of_subscription)
-      profileFields.start_of_subscription = start_of_subscription;
-    if (end_of_subscription)
-      profileFields.end_of_subscription = end_of_subscription;
+    if (subscription_plan) profileFields.subscription_plan = subscription_plan;
+    // if (start_of_subscription)
+    //   profileFields.start_of_subscription = start_of_subscription;
+    // if (end_of_subscription)
+    //   profileFields.end_of_subscription = end_of_subscription;
     if (is_active) profileFields.is_active = is_active;
     if (slogan) profileFields.slogan = slogan;
     if (category) profileFields.category = category;
@@ -209,7 +208,7 @@ router.post(
 // @route    PUT  api/profile/:id
 // @desc     Get all profiles
 // @access   private
-router.put("/", auth, async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   try {
     let profile = await Profile.findById(req.params.id);
 
@@ -217,19 +216,12 @@ router.put("/", auth, async (req, res) => {
       return res.status(400).json({ msg: "There is no profile for this user" });
     }
 
-    const { subscription_plan } = req.body;
+    profile = await Profile.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
 
-    profile = await Profile.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      subscription_plan,
-      {
-        new: true,
-        runValidators: true
-      }
-    );
-
-    res.status(200).json({ success: true, data: bootcamp });
+    res.status(200).json({ success: true, data: profile });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -362,27 +354,26 @@ router.post("/subscription", auth, async (req, res) => {
   try {
     const { subscription_plan } = req.body;
 
-    // const profile = await Profile.findOne({
-    //   user: mongoose.Types.ObjectId(req.user._id)
-    // });
-    const profile = await Profile.findOne({ user: req.user.id });
+    const profile = await Profile.findOne({
+      user: mongoose.Types.ObjectId(req.user._id)
+    });
 
-    console.log(profile);
+    // const profile = await Profile.findOne({ user: req.user.id });
 
-    // if (profile) {
-    //   profile.subscription_plan;
-    // }
+    if (profile) {
+      profile.subscription_plan;
+    }
 
-    // await Profile.findOneAndUpdate(
-    //   { user: req.user.id },
-    //   {
-    //     $set: { subscription_plan }
-    //   },
-    //   {
-    //     new: true,
-    //     upsert: true
-    //   }
-    // );
+    await Profile.findOneAndUpdate(
+      { user: req.user.id },
+      {
+        subscription_plan
+      },
+      {
+        new: true,
+        upsert: true
+      }
+    );
     return res.status(200).json({ subscription_plan });
   } catch (err) {
     console.log("create dish err:", err);
@@ -401,21 +392,11 @@ router.post("/location", auth, async (req, res) => {
 
     const loc = await geocoder.geocode(address);
 
-    // console.log(loc);
+    console.log(loc, "aaaaa");
+    console.log(profile);
 
     if (profile) {
-      profile.location = {
-        type: "Point",
-        coordinates: [loc[0].longitude, loc[0].latitude],
-        formattedAddress: loc[0].formattedAddress,
-        city: loc[0].city,
-        zipcode: loc[0].zipcode,
-        neighbourhood: loc[0].neighbourhood,
-        country: loc[0].country,
-        streetName: loc[0].streetName,
-        streetNumber: loc[0].streetNumber,
-        countryCode: loc[0].countryCode
-      };
+      profile.address;
     }
 
     const location = (profile.location = {
@@ -507,6 +488,31 @@ router.post(
     }
   }
 );
+
+// @route    POST api/profile/rating
+// @desc     Add rating
+// @access   Private
+router.post("/rating", [auth, []], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { num, user } = req.body;
+
+  const newRating = Number(num);
+
+  try {
+    const profile = await Profile.findOne({ user: user });
+
+    profile.rating.unshift(newRating);
+
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 // @route    POST api/profile/rating
 // @desc     Add rating

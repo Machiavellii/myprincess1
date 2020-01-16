@@ -13,8 +13,6 @@ const GalleryHolder = ({ profile }) => {
     zoom: 12
   });
 
-  console.log(location.formattedAddress);
-
   return (
     <div className="gallery-holder">
       <div className="img-holder mb-4">

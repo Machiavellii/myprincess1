@@ -144,6 +144,8 @@ const ProfileSchema = new Schema({
 ProfileSchema.pre("save", async function(next) {
   const loc = await geocoder.geocode(this.address);
 
+  // console.log(loc);
+
   this.location = {
     type: "Point",
     coordinates: [loc[0].longitude, loc[0].latitude],
@@ -159,7 +161,7 @@ ProfileSchema.pre("save", async function(next) {
 
   // Do not save address
   // this.address = undefined;
-  next();
+  // next();
 });
 
 module.exports = Profile = mongoose.model("profile", ProfileSchema);

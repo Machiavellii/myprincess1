@@ -382,7 +382,7 @@ const PostAnAdForm = ({
           name="address"
         /> */}
 
-        <InputGroup
+        {/* <InputGroup
           type="file"
           name="cover_photo"
           onChange={onChange}
@@ -423,7 +423,7 @@ const PostAnAdForm = ({
           <small className="tip">
             The first picture will be displayed as the hand.
           </small>
-        </p>
+        </p> */}
 
         <TextAreaGroup
           placeholder="21:00 - 05:00"

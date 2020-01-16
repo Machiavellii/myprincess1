@@ -4,10 +4,11 @@ import "../../../styles/PostAnAdForm.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import {
-  createProfile,
+  editProfile,
   getCurrentProfile,
   uploadCover,
-  uploadGallery
+  uploadGallery,
+  addLocation
 } from "../../../actions/profile";
 
 import {
@@ -49,9 +50,10 @@ import {
 } from "../../common/consts";
 
 const EditAdForm = ({
-  createProfile,
+  editProfile,
   uploadCover,
   uploadGallery,
+  addLocation,
   history,
   getCurrentProfile,
   profile: { profile, loading }
@@ -212,8 +214,12 @@ const EditAdForm = ({
     // console.log(profile.photos);
   };
 
+  console.log(profile);
+
   const onSubmit = e => {
     e.preventDefault();
+
+    const { _id } = profile;
 
     let formCover = new FormData();
     formCover.append("cover_photo", cover_photo);
@@ -224,10 +230,11 @@ const EditAdForm = ({
       formGallery.append("photos", photos[key]);
     }
 
-    uploadGallery(formGallery);
-    uploadCover(formCover);
+    // uploadGallery(formGallery);
+    // uploadCover(formCover);
 
-    createProfile(formData, history, true);
+    addLocation(address);
+    editProfile(formData, history, _id);
   };
 
   return (
@@ -420,7 +427,8 @@ const EditAdForm = ({
           labels={addressLabel}
           value={address}
         />
-        <InputGroup
+
+        {/* <InputGroup
           type="file"
           name="cover_photo"
           onChange={onChange}
@@ -466,7 +474,7 @@ const EditAdForm = ({
           <small className="tip">
             You need upload new gallery before finish editing profile!
           </small>
-        </p>
+        </p> */}
 
         <TextAreaGroup
           placeholder="21:00 - 05:00"
@@ -517,8 +525,9 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  createProfile,
+  editProfile,
   getCurrentProfile,
   uploadCover,
-  uploadGallery
+  uploadGallery,
+  addLocation
 })(withRouter(EditAdForm));
