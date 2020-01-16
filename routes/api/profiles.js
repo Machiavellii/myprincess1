@@ -107,7 +107,7 @@ router.post(
       phone,
       type,
       address,
-      subscription_plan,
+      // subscription_plan,
       start_of_subscription,
       end_of_subscription,
       favorites, // array
@@ -141,7 +141,7 @@ router.post(
     // if (country) profileFields.country = country;
     if (address) profileFields.address = address;
 
-    if (subscription_plan) profileFields.subscription_plan = subscription_plan;
+    // if (subscription_plan) profileFields.subscription_plan = subscription_plan;
     if (start_of_subscription)
       profileFields.start_of_subscription = start_of_subscription;
     if (end_of_subscription)
@@ -180,18 +180,18 @@ router.post(
     }
 
     try {
-      let profile = await Profile.findOne({ user: req.user.id });
+      // let profile = await Profile.findOne({ user: req.user.id });
 
-      if (profile) {
-        //Update
-        profile = await Profile.findOneAndUpdate(
-          { user: req.user.id },
-          { $set: profileFields },
-          { new: true }
-        );
+      // if (profile) {
+      //   //Update
+      //   profile = await Profile.findOneAndUpdate(
+      //     { user: req.user.id },
+      //     { $set: profileFields },
+      //     { new: true }
+      //   );
 
-        return res.json(profile);
-      }
+      //   return res.json(profile);
+      // }
 
       //Create
       profile = new Profile(profileFields);
@@ -205,6 +205,36 @@ router.post(
     }
   }
 );
+
+// @route    PUT  api/profile/:id
+// @desc     Get all profiles
+// @access   private
+router.put("/", auth, async (req, res) => {
+  try {
+    let profile = await Profile.findById(req.params.id);
+
+    if (!profile) {
+      return res.status(400).json({ msg: "There is no profile for this user" });
+    }
+
+    const { subscription_plan } = req.body;
+
+    profile = await Profile.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      subscription_plan,
+      {
+        new: true,
+        runValidators: true
+      }
+    );
+
+    res.status(200).json({ success: true, data: bootcamp });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 // @route    GET api/profile
 // @desc     Get all profiles
@@ -332,24 +362,27 @@ router.post("/subscription", auth, async (req, res) => {
   try {
     const { subscription_plan } = req.body;
 
-    const profile = await Profile.findOne({
-      user: mongoose.Types.ObjectId(req.user._id)
-    });
+    // const profile = await Profile.findOne({
+    //   user: mongoose.Types.ObjectId(req.user._id)
+    // });
+    const profile = await Profile.findOne({ user: req.user.id });
 
-    if (profile) {
-      profile.subscription_plan;
-    }
+    console.log(profile);
 
-    await Profile.findOneAndUpdate(
-      { user: req.user.id },
-      {
-        subscription_plan
-      },
-      {
-        new: true,
-        upsert: true
-      }
-    );
+    // if (profile) {
+    //   profile.subscription_plan;
+    // }
+
+    // await Profile.findOneAndUpdate(
+    //   { user: req.user.id },
+    //   {
+    //     $set: { subscription_plan }
+    //   },
+    //   {
+    //     new: true,
+    //     upsert: true
+    //   }
+    // );
     return res.status(200).json({ subscription_plan });
   } catch (err) {
     console.log("create dish err:", err);
@@ -368,7 +401,7 @@ router.post("/location", auth, async (req, res) => {
 
     const loc = await geocoder.geocode(address);
 
-    console.log(loc);
+    // console.log(loc);
 
     if (profile) {
       profile.location = {

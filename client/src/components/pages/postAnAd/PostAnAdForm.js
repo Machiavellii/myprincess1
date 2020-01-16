@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import "../../../styles/PostAnAdForm.css";
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -164,7 +165,7 @@ const PostAnAdForm = ({
     // uploadGallery(formGallery);
     // uploadCover(formCover);
     console.log(formData);
-    // addLocation(address);
+    addLocation(address);
     createProfile(formData, history);
   };
 
@@ -175,7 +176,20 @@ const PostAnAdForm = ({
 
   return (
     <Fragment>
-      <h1 className="text-center">Post an ad - 7 days</h1>
+      <h1 className="text-center">168 hours of free Ad.</h1>
+      <blockquote className="blockquote text-center">
+        <p className="mb-0">
+          <strong>Note: </strong> We provide you 168 hours free ad. You can
+          always buy more hours to keep your ad active, and also deactivate your
+          ad and keep remaining hours while your ad is not active.
+        </p>
+        <div className="blockquote-footer">
+          For more information about our offers and pricing{" "}
+          <Link to={"/postanad"}>
+            <cite title="Source Title">click here</cite>
+          </Link>
+        </div>
+      </blockquote>
       <form
         className="container mb-5"
         onSubmit={onSubmit}
