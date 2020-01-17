@@ -152,25 +152,27 @@ export const subscribePlan = time => async dispatch => {
 
 // LOCATION
 export const addLocation = address => async dispatch => {
+  const address1 = JSON.stringify(address);
+  // console.log(typeof address1);
+  // console.log(typeof address);
   try {
-    // const config = {
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   }
-    // };
-    console.log(address);
-    const res = await axios.post("api/profile/location", address);
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
 
-    dispatch({
-      type: GET_PROFILE,
-      payload: res.data
-    });
+    // const res = await axios.post("api/profile/location", address1);
+
+    // dispatch({
+    //   type: GET_PROFILE,
+    //   payload: res.data
+    // });
   } catch (err) {
-    const errors = err.response.data.errors;
-
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
-    }
+    // const errors = err.response.data.errors;
+    // if (errors) {
+    //   errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    // }
   }
 };
 

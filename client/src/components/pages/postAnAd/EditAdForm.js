@@ -214,7 +214,7 @@ const EditAdForm = ({
     // console.log(profile.photos);
   };
 
-  console.log(profile);
+  // console.log(profile);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -233,7 +233,8 @@ const EditAdForm = ({
     // uploadGallery(formGallery);
     // uploadCover(formCover);
 
-    editProfile(formData, history, _id);
+    // editProfile(formData, history, _id);
+    console.log(typeof address);
     addLocation(address);
   };
 
