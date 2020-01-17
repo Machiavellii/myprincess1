@@ -108,3 +108,10 @@ img {
 .girl-popup-age {
 	font-weight: 400;
 }
+
+.scrollable-menu {
+	height: auto;
+	max-height: 400px;
+	width: 300px;
+	overflow-x: hidden;
+}
