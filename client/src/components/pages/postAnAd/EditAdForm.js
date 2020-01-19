@@ -8,7 +8,7 @@ import {
   getCurrentProfile,
   uploadCover,
   uploadGallery,
-  addLocation
+  createProfile
 } from "../../../actions/profile";
 
 import {
@@ -53,7 +53,7 @@ const EditAdForm = ({
   editProfile,
   uploadCover,
   uploadGallery,
-  addLocation,
+  createProfile,
   history,
   getCurrentProfile,
   profile: { profile, loading }
@@ -232,10 +232,8 @@ const EditAdForm = ({
 
     // uploadGallery(formGallery);
     // uploadCover(formCover);
-
+    createProfile(formData, history, true);
     // editProfile(formData, history, _id);
-    console.log(typeof address);
-    addLocation(address);
   };
 
   return (
@@ -530,5 +528,5 @@ export default connect(mapStateToProps, {
   getCurrentProfile,
   uploadCover,
   uploadGallery,
-  addLocation
+  createProfile
 })(withRouter(EditAdForm));

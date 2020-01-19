@@ -7,8 +7,7 @@ import { withRouter } from "react-router-dom";
 import {
   createProfile,
   uploadCover,
-  uploadGallery,
-  addLocation
+  uploadGallery
 } from "../../../actions/profile";
 
 import {
@@ -57,8 +56,7 @@ const PostAnAdForm = ({
   uploadCover,
   uploadGallery,
   auth: isAuthenticated,
-  profile: error,
-  addLocation
+  profile: error
 }) => {
   const [formData, setFormData] = useState({
     gender: "",
@@ -120,9 +118,6 @@ const PostAnAdForm = ({
     if (e.target.name === "photos") {
       setGalleryphoto(e.target.files);
     }
-    // if (e.target.name === "address") {
-    //   addLocation(e.target.value);
-    // }
 
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -165,7 +160,7 @@ const PostAnAdForm = ({
     // uploadGallery(formGallery);
     // uploadCover(formCover);
     console.log(formData);
-    // addLocation(address);
+
     createProfile(formData, history);
   };
 
@@ -476,6 +471,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   createProfile,
   uploadCover,
-  uploadGallery,
-  addLocation
+  uploadGallery
 })(withRouter(PostAnAdForm));

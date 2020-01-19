@@ -164,4 +164,29 @@ ProfileSchema.pre("save", async function(next) {
   next();
 });
 
+// ProfileSchema.pre("findOneAndUpdate", async function(next) {
+//   const loc = await geocoder.geocode(this.getUpdate().address);
+//   const profile = await mongoose.models["profile"].findById(this.getQuery());
+
+//   const loc1 = {
+//     type: "Point",
+//     coordinates: [loc[0].longitude, loc[0].latitude],
+//     formattedAddress: loc[0].formattedAddress,
+//     city: loc[0].city,
+//     zipcode: loc[0].zipcode,
+//     neighbourhood: loc[0].neighbourhood,
+//     country: loc[0].country,
+//     streetName: loc[0].streetName,
+//     streetNumber: loc[0].streetNumber,
+//     countryCode: loc[0].countryCode
+//   };
+//   await profile.updateOne({ $set: { location: loc1 } });
+
+//   // console.log(loc);
+
+//   // Do not save address
+//   // this.address = undefined;
+//   // next();
+// });
+
 module.exports = Profile = mongoose.model("profile", ProfileSchema);

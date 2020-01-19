@@ -70,9 +70,9 @@ router.post(
     check("type", "Account type is required")
       .not()
       .isEmpty(),
-    // check("address", "Address is required")
-    //   .not()
-    //   .isEmpty(),
+    check("address", "Address is required")
+      .not()
+      .isEmpty(),
     check("languages", "Spoken languages are required")
       .not()
       .isEmpty(),
@@ -179,18 +179,36 @@ router.post(
     }
 
     try {
-      // let profile = await Profile.findOne({ user: req.user.id });
+      let profile = await Profile.findOne({ user: req.user.id });
 
-      // if (profile) {
-      //   //Update
-      //   profile = await Profile.findOneAndUpdate(
-      //     { user: req.user.id },
-      //     { $set: profileFields },
-      //     { new: true }
-      //   );
+      if (profile) {
+        //Update
 
-      //   return res.json(profile);
-      // }
+        const locat = await geocoder.geocode(address);
+
+        console.log(locat);
+
+        profileFields.location = {
+          type: "Point",
+          coordinates: [locat[0].longitude, locat[0].latitude],
+          formattedAddress: locat[0].formattedAddress,
+          city: locat[0].city,
+          zipcode: locat[0].zipcode,
+          neighbourhood: locat[0].neighbourhood,
+          country: locat[0].country,
+          streetName: locat[0].streetName,
+          streetNumber: locat[0].streetNumber,
+          countryCode: locat[0].countryCode
+        };
+
+        profile = await Profile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileFields },
+          { new: true }
+        );
+
+        return res.json(profile);
+      }
 
       //Create
       profile = new Profile(profileFields);
@@ -204,29 +222,6 @@ router.post(
     }
   }
 );
-
-// @route    PUT  api/profile/:id
-// @desc     Get all profiles
-// @access   private
-router.put("/:id", auth, async (req, res) => {
-  try {
-    let profile = await Profile.findById(req.params.id);
-
-    if (!profile) {
-      return res.status(400).json({ msg: "There is no profile for this user" });
-    }
-
-    profile = await Profile.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true
-    });
-
-    res.status(200).json({ success: true, data: profile });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
 
 // @route    GET api/profile
 // @desc     Get all profiles
@@ -323,6 +318,7 @@ router.post("/upload-cover", auth, async (req, res) => {
       const profile = await Profile.findOne({
         user: mongoose.Types.ObjectId(req.user._id)
       });
+
       if (profile) {
         const coverUrl = profile.coverUrl;
         fs.unlink(coverUrl, err => {
@@ -378,59 +374,6 @@ router.post("/subscription", auth, async (req, res) => {
   } catch (err) {
     console.log("create dish err:", err);
     return res.status(500).json();
-  }
-});
-
-// @desc Create location
-// @route POST api/profile/location
-// @access Private
-router.post("/location", auth, async (req, res) => {
-  try {
-    const { address } = req.body;
-
-    const profile = await Profile.findOne({ user: req.user.id });
-
-    const loc = await geocoder.geocode(address);
-
-    console.log(loc, "aaaaa");
-    console.log(address);
-
-    // if (profile) {
-    //   profile.address;
-    // }
-
-    const location = (profile.location = {
-      type: "Point",
-      coordinates: [loc[0].longitude, loc[0].latitude],
-      formattedAddress: loc[0].formattedAddress,
-      city: loc[0].city,
-      zipcode: loc[0].zipcode,
-      neighbourhood: loc[0].neighbourhood,
-      country: loc[0].country,
-      streetName: loc[0].streetName,
-      streetNumber: loc[0].streetNumber,
-      countryCode: loc[0].countryCode
-    });
-
-    await Profile.findOneAndUpdate(
-      { user: req.user.id },
-      {
-        address,
-        location
-      },
-      {
-        new: true,
-        upsert: true
-      }
-    );
-
-    return res.status(200).json({ location });
-  } catch (err) {
-    console.error(err);
-    // if (err.code === 11000) {
-    //   return res.status(400).json({ error: "This location already exists" });
-    // }
-    res.status(500).json({ error: "Server error" });
   }
 });
 
