@@ -432,6 +432,21 @@ router.post(
   }
 );
 
+
+// @route PUT api/profile/isActive
+// @desc Toggle active hours
+// @access Private
+router.put('/me/isActive', auth, async (req, res) => {
+  try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      profile.is_active = !profile.is_active;
+      profile.save();
+      return res.json(profile.is_active);
+  } catch (err) {
+      res.status(500).send('Server Error');
+  }
+});
+
 // @route    POST api/profile/rating
 // @desc     Add rating
 // @access   Private
