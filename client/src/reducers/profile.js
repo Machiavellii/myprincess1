@@ -91,13 +91,15 @@ export default function(state = initialState, action) {
           });
 
           if (
-            typeof profile.canton === "string" &&
-            profile.canton.toLowerCase().includes(payload.canton.toLowerCase())
+            typeof profile.location.canton === "string" &&
+            profile.location.canton
+              .toLowerCase()
+              .includes(payload.canton.toLowerCase())
           ) {
             return profile;
           } else if (
-            typeof profile.canton === "string" &&
-            profile.canton
+            typeof profile.location.canton === "string" &&
+            profile.location.canton
               .toLowerCase()
               .includes(payload.canton.toLowerCase()) &&
             profile.category

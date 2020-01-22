@@ -7,7 +7,7 @@ import {
 import { connect } from "react-redux";
 import { filterSearchPage } from "../../../actions/profile";
 
-const FilterForm = ({ filterSearchPage }) => {
+const FilterForm = ({ filterSearchPage, profiles: { profiles } }) => {
   const [formData, setFormData] = useState({
     canton: "",
     services: [],
@@ -18,23 +18,25 @@ const FilterForm = ({ filterSearchPage }) => {
     filterSearchPage(formData);
   }, [formData, filterSearchPage]);
 
+  // console.log(profiles);
+
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     // setFormData(e.target.value);
     // filterSearchPage(e.target.value);
   };
 
-  const onCheckBoxServ = (e, service) => {
-    if (services.indexOf(e.target.value) < 1 && e.target.checked) {
-      services.push(service);
-    }
+  // const onCheckBoxServ = (e, service) => {
+  //   if (services.indexOf(e.target.value) < 1 && e.target.checked) {
+  //     services.push(service);
+  //   }
 
-    services.map((serv, i) => {
-      if (!e.target.checked) {
-        return e.target.value === serv ? services.splice(i, 1) : services;
-      }
-    });
-  };
+  //   services.map((serv, i) => {
+  //     if (!e.target.checked) {
+  //       return e.target.value === serv ? services.splice(i, 1) : services;
+  //     }
+  //   });
+  // };
 
   const { canton, category, services } = formData;
 
@@ -47,10 +49,13 @@ const FilterForm = ({ filterSearchPage }) => {
         name="canton"
       >
         <option value="0"> - Canton - </option>
-        {cantonsList.map((item, index) => {
+
+        {profiles.map((profile, index) => {
           return (
-            <option key={index} value={item}>
-              {item}
+            <option key={index} value={profile.location.canton}>
+              {profile.location.canton === undefined
+                ? ""
+                : profile.location.canton}
             </option>
           );
         })}
@@ -70,7 +75,30 @@ const FilterForm = ({ filterSearchPage }) => {
           );
         })}
       </select>
-      <div className="dropdown">
+
+      <select
+        className="form-control"
+        name="services"
+        onChange={e => onChange(e)}
+        value={services}
+      >
+        <option value="0"> - Prestations - </option>
+        {servicesList.map((item, index) => {
+          return (
+            <option key={index} value={item}>
+              {item}
+            </option>
+          );
+        })}
+      </select>
+    </div>
+  );
+};
+
+export default connect(null, { filterSearchPage })(FilterForm);
+
+{
+  /* <div className="dropdown">
         <a
           className="nav-link dropdown-toggle form-control"
           href="#"
@@ -108,9 +136,5 @@ const FilterForm = ({ filterSearchPage }) => {
             );
           })}
         </div>
-      </div>
-    </div>
-  );
-};
-
-export default connect(null, { filterSearchPage })(FilterForm);
+      </div> */
+}
