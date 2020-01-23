@@ -10,21 +10,35 @@ import Header from "../landing/landingpages/landingcontent/singleGirl/describeGi
 import DescribeGirl from "../landing/landingpages/landingcontent/singleGirl/describeGirl/Girl";
 import GalleryHolder from "../landing/landingpages/landingcontent/singleGirl/gallery/GalleryHolder";
 
-import { getCurrentProfile, deleteAccount } from "../../actions/profile";
+import {
+  getCurrentProfile,
+  deleteAccount,
+  typePlan
+} from "../../actions/profile";
 
 const Dashboard = ({
   getCurrentProfile,
   auth: { user },
   profile: { profile, loading },
-  deleteAccount
+  deleteAccount,
+  typePlan
 }) => {
   useEffect(() => {
     getCurrentProfile();
   }, [getCurrentProfile]);
 
-  const [type, setType] = useState(false);
+  const [kindtype, setType] = useState(false);
 
-  // console.log(profile);
+  const [type, setFormData] = useState("");
+
+  const onChange = e => {
+    setType(!kindtype);
+    setFormData({ type: e.target.value });
+  };
+
+  const onClick = e => {
+    typePlan(type);
+  };
 
   return loading && profile === null ? (
     <Spinner />
@@ -64,34 +78,37 @@ const Dashboard = ({
           <div className="container m-5 dashboard-create">
             <p>You have not yet setup a profile, please add some info</p>
             <p className="mt-4">Please tell us are you Escort or an Agency?</p>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="type"
-                id="escort"
-                value="escort"
-                onChange={() => setType(true)}
-              />
-              <label className="form-check-label" htmlFor="active">
-                Escort
-              </label>
+            <div className="form-group">
+              <div className="form-check form-check-inline radio">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="type"
+                  id="escort"
+                  value="escort"
+                  onClick={onChange}
+                />
+                <label className="form-check-label" htmlFor="escort">
+                  Escort
+                </label>
+              </div>
+              <div className="form-check form-check-inline mb-3 radio">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="type"
+                  id="agency"
+                  value="agency"
+                  onClick={onChange}
+                />
+                <label className="form-check-label" htmlFor="agency">
+                  Agency
+                </label>
+              </div>
             </div>
-            <div className="form-check form-check-inline mb-3">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="type"
-                id="agency"
-                value="agency"
-                onChange={() => setType(true)}
-              />
-              <label className="form-check-label" htmlFor="inactive">
-                Agency
-              </label>
-            </div>
+
             <br />
-            {!type ? (
+            {!kindtype ? (
               <Link
                 to="/postanad"
                 className="btn disabled"
@@ -104,6 +121,7 @@ const Dashboard = ({
                 to="/postanad"
                 className="btn  my-3 rose-border"
                 style={{ backgroundColor: "#2b2b2b", color: "#fff" }}
+                onClick={onClick}
               >
                 Post an Ad
               </Link>
@@ -125,6 +143,8 @@ const mapStateToProps = state => ({
   profile: state.profile,
   auth: state.auth
 });
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
-  Dashboard
-);
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  deleteAccount,
+  typePlan
+})(Dashboard);

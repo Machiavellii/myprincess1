@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   categoryList,
   servicesList,
-  cantonsList
 } from "../../../constants/data.json";
 import { connect } from "react-redux";
 import { filterSearchPage } from "../../../actions/profile";

@@ -10,8 +10,6 @@ const DashboardActions = ({ toggleActive, profile: { profile, loading } }) => {
 		getCurrentProfile();
 	}, [getCurrentProfile]);
 
-	console.log(profile);
-
 	const renderIsActiveButton = () => {
 		return !profile.is_active ? (
 			<button
@@ -29,6 +27,7 @@ const DashboardActions = ({ toggleActive, profile: { profile, loading } }) => {
 			</button>
 		);
 	};
+
 
 	return (
 		<div>
