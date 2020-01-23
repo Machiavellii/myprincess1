@@ -1,5 +1,4 @@
 const NodeGeocoder = require("node-geocoder");
-// const NodeGeocoder = require("mapbox-geocoding");
 
 const options = {
   provider: "openstreetmap",
@@ -11,6 +10,3 @@ const options = {
 const geocoder = NodeGeocoder(options);
 
 module.exports = geocoder;
-// module.exports = NodeGeocoder;
-
-//K47YANIC6nFwvD8Gq0gyHhvWdeLRLNSB
