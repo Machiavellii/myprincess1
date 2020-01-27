@@ -28,7 +28,6 @@ const DashboardActions = ({ toggleActive, profile: { profile, loading } }) => {
 		);
 	};
 
-
 	return (
 		<div>
 			<Link to='/edit-profile' className='btn btn-light'>
@@ -49,6 +48,9 @@ const DashboardActions = ({ toggleActive, profile: { profile, loading } }) => {
 			</p>
 
 			{renderIsActiveButton()}
+			<Link to='/pricingplan' className='btn btn-warning ml-2'>
+				Buy more hours
+			</Link>
 		</div>
 	);
 };
