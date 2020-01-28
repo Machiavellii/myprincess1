@@ -38,22 +38,32 @@ const DashboardActions = ({ toggleActive, profile: { profile, loading } }) => {
     );
   };
 
-  return (
-    <div>
-      <Link to="/edit-profile" className="btn btn-light">
-        <i className="fas fa-user-circle" /> Edit Profile
-      </Link>
-      <Link to="/upload-cover" className="btn btn-light">
-        <i className="fas fa-user-circle" /> Upload Profile Photo
-      </Link>
-      <Link to="/upload-gallery" className="btn btn-light">
-        <i className="fas fa-user-circle" /> Upload Gallery
-      </Link>
-      <br />
+	return (
+		<div>
+			<Link to='/edit-profile' className='btn btn-light'>
+				<i className='fas fa-user-circle' /> Edit Profile
+			</Link>
+			<Link to='/upload-cover' className='btn btn-light'>
+				<i className='fas fa-user-circle' /> Upload Profile Photo
+			</Link>
+			<Link to='/upload-gallery' className='btn btn-light'>
+				<i className='fas fa-user-circle' /> Upload Gallery
+			</Link>
+			<br />
+			<p className='lead'>
+				Your subscription is active until{' '}
+				<Moment format='DD/MM/YYYY' add={{ days: profile.subscription_plan }}>
+					{new Date()}
+				</Moment>
+			</p>
 
-      {renderIsActiveButton()}
-    </div>
-  );
+			{renderIsActiveButton()}
+			<Link to='/pricingplan' className='btn btn-warning ml-2'>
+				Buy more hours
+			</Link>
+		</div>
+	);
+
 };
 
 DashboardActions.propTypes = {
