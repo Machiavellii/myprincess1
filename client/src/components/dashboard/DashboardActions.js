@@ -1,90 +1,96 @@
-import React, { useEffect, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { toggleActive, getCurrentProfile } from '../../actions/profile';
-import Moment from 'react-moment';
+import React, { useEffect, Fragment } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { toggleActive, getCurrentProfile } from "../../actions/profile";
+import Moment from "react-moment";
 
 const DashboardActions = ({ toggleActive, profile: { profile, loading } }) => {
-	useEffect(() => {
-		getCurrentProfile();
-	}, []);
+  useEffect(() => {
+    getCurrentProfile();
+  }, []);
 
-	Date.prototype.addDays = function(days) {
-		var date = new Date(this.valueOf());
-		date.setDate(date.getDate() + days);
-		return date;
-	};
-	let remainingHours = new Date();
-	const dateOfExpiry = remainingHours.addDays(profile.subscription_plan);
+  Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+  };
+  let remainingHours = new Date();
+  const dateOfExpiry = remainingHours.addDays(profile.subscription_plan);
 
-	const diffTime = Math.abs(dateOfExpiry - Date.now());
-	const hoursUntilExpiry = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) * 60;
+  let diffTime = Math.abs(dateOfExpiry - Date.now());
 
-	const renderIsActiveButton = () => {
-		return !profile.is_active ? (
-			<button
-				type='button'
-				className='btn btn-success'
-				onClick={() => toggleActive()}>
-				Active Hours
-			</button>
-		) : (
-			<Fragment>
-				<button
-					type='button'
-					className='btn btn-danger'
-					onClick={() => toggleActive()}>
-					Deactivate Hours
-				</button>
-			</Fragment>
-		);
-	};
+  const hoursUntilExpiry = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) * 24;
 
-	return (
-		<div>
-			<Link to='/edit-profile' className='btn btn-light'>
-				<i className='fas fa-user-circle' /> Edit Profile
-			</Link>
-			<Link to='/upload-cover' className='btn btn-light'>
-				<i className='fas fa-user-circle' /> Upload Profile Photo
-			</Link>
-			<Link to='/upload-gallery' className='btn btn-light'>
-				<i className='fas fa-user-circle' /> Upload Gallery
-			</Link>
-			<br />
-			{profile.subscription_plan > 2 ? (
-				<p className='lead'>
-					Your subscription is active until{' '}
-					<Moment format='DD/MM/YYYY'>{dateOfExpiry}</Moment>
-				</p>
-			) : (
-				<p>
-					Your subscription will expire in {''}
-					{hoursUntilExpiry} hours
-				</p>
-			)}
+  const renderIsActiveButton = () => {
+    return !profile.is_active ? (
+      <button
+        type="button"
+        className="btn btn-success"
+        onClick={() => toggleActive()}
+      >
+        Active Hours
+      </button>
+    ) : (
+      <Fragment>
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={() => toggleActive()}
+        >
+          Deactivate Hours
+        </button>
+      </Fragment>
+    );
+  };
 
-			{renderIsActiveButton()}
+  return (
+    <div>
+      <Link to="/edit-profile" className="btn btn-light">
+        <i className="fas fa-user-circle" /> Edit Profile
+      </Link>
+      <Link to="/upload-cover" className="btn btn-light">
+        <i className="fas fa-user-circle" /> Upload Profile Photo
+      </Link>
+      <Link to="/upload-gallery" className="btn btn-light">
+        <i className="fas fa-user-circle" /> Upload Gallery
+      </Link>
+      <br />
+      {profile.subscription_plan > 2 ? (
+        <p className="lead">
+          Your subscription is active until{" "}
+          <Moment format="DD/MM/YYYY">{dateOfExpiry}</Moment>
+        </p>
+      ) : (
+        <p>
+          Your subscription will expire in {""}
+          <span className="bg-danger text-white p-1">
+            {hoursUntilExpiry}
+          </span>{" "}
+          hours
+        </p>
+      )}
 
-			{profile.subscription_plan < 2 ? (
-				<Link to='/pricingplan' className='btn btn-warning ml-2'>
-					Buy more hours
-				</Link>
-			) : null}
-		</div>
-	);
+      {renderIsActiveButton()}
+
+      {profile.subscription_plan < 2 ? (
+        <Link to="/pricingplan" className="btn btn-warning ml-2">
+          Buy more hours
+        </Link>
+      ) : null}
+    </div>
+  );
 };
 
 DashboardActions.propTypes = {
-	toggleActive: PropTypes.func.isRequired,
-	getCurrentProfile: PropTypes.func.isRequired
+  toggleActive: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	profile: state.profile
+  profile: state.profile
 });
 
 export default connect(mapStateToProps, { toggleActive, getCurrentProfile })(
-	DashboardActions
+  DashboardActions
 );
