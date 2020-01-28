@@ -57,12 +57,12 @@ const DashboardActions = ({ toggleActive, profile: { profile, loading } }) => {
       </Link>
       <br />
       {profile.subscription_plan > 2 ? (
-        <p className="lead">
+        <p className="font-weight-bold">
           Your subscription is active until{" "}
           <Moment format="DD/MM/YYYY">{dateOfExpiry}</Moment>
         </p>
       ) : (
-        <p>
+        <p className="font-weight-bold">
           Your subscription will expire in {""}
           <span className="bg-danger text-white p-1">
             {hoursUntilExpiry}
