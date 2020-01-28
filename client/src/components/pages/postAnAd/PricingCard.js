@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 import '../../../styles/PricingCard.css';
 import { connect } from 'react-redux';
 
+import Logo from '../../../img/logo.png';
+
 import { subscribePlan, getCurrentProfile } from '../../../actions/profile';
 
-// import StripeCheckout from "react-stripe-checkout";
+import StripeCheckout from 'react-stripe-checkout';
 
 const PricingCard = ({
 	subscribePlan,
@@ -30,16 +32,23 @@ const PricingCard = ({
 		subscribePlan(time);
 	};
 
-	// const Checkout = ({ name, description, amount }) =>
-	// <StripeCheckout
+	const onToken = token => {
+		console.log(token);
+		alert('Payment Succssful');
+	};
 
-	//   // description={description}
-	//   amount
-	//   label='Start'
-	//   // token={onToken(amount, description)}
-	//   currency
-	//   stripeKey={'pk_test_2QL8V6xKMDyfzQc87dCmfPXU'}
-	// />
+	const Checkout = ({ name, description, amount }) => (
+		<StripeCheckout
+			description={description}
+			name='MyPrincess.ch'
+			image={Logo}
+			amount={amount}
+			label='Start'
+			token={onToken}
+			currency='CHF'
+			stripeKey={'pk_test_2QL8V6xKMDyfzQc87dCmfPXU'}
+		/>
+	);
 
 	return (
 		<div className='card h-100'>
@@ -71,14 +80,14 @@ const PricingCard = ({
 						<i className='fas fa-caret-right right-icon' />
 					</Link>
 				) : (
-					<Link
-						to='/dashboard'
-						className={'btn ' + (buttonStyle ? 'full' : 'empty')}
-						onClick={() => onClick()}>
-						{/* <Checkout /> */}
-						Start
-						<i className='fas fa-caret-right right-icon' />
-					</Link>
+					// <Link
+					// 	to='/dashboard'
+					// 	className={'btn ' + (buttonStyle ? 'full' : 'empty')}
+					// 	onClick={() => onClick()}>
+					// 	Start
+					// 	<i className='fas fa-caret-right right-icon' />
+					// </Link>
+					<Checkout />
 				)}
 			</div>
 		</div>
