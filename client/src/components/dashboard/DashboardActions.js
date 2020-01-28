@@ -1,42 +1,45 @@
-import React, { useEffect, Fragment } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { toggleActive, getCurrentProfile } from "../../actions/profile";
-import Moment from "react-moment";
+import React, { useEffect, Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { toggleActive, getCurrentProfile } from '../../actions/profile';
+import Moment from 'react-moment';
 
 const DashboardActions = ({ toggleActive, profile: { profile, loading } }) => {
-  useEffect(() => {
-    getCurrentProfile();
-  }, []);
+	useEffect(() => {
+		getCurrentProfile();
+	}, []);
 
-  const renderIsActiveButton = () => {
-    return !profile.is_active ? (
-      <button
-        type="button"
-        className="btn btn-success"
-        onClick={() => toggleActive()}
-      >
-        Active Hours
-      </button>
-    ) : (
-      <Fragment>
-        <small className="d-block mb-1">
-          Your profile is active until{" "}
-          <Moment format="DD/MM/YYYY" add={{ days: profile.subscription_plan }}>
-            {profile.date}
-          </Moment>
-        </small>
-        <button
-          type="button"
-          className="btn btn-danger"
-          onClick={() => toggleActive()}
-        >
-          Deactivate Hours
-        </button>
-      </Fragment>
-    );
-  };
+	Date.prototype.addDays = function(days) {
+		var date = new Date(this.valueOf());
+		date.setDate(date.getDate() + days);
+		return date;
+	};
+	let remainingHours = new Date();
+	const dateOfExpiry = remainingHours.addDays(profile.subscription_plan);
+
+	const diffTime = Math.abs(dateOfExpiry - Date.now());
+	const hoursUntilExpiry = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) * 60;
+
+	const renderIsActiveButton = () => {
+		return !profile.is_active ? (
+			<button
+				type='button'
+				className='btn btn-success'
+				onClick={() => toggleActive()}>
+				Active Hours
+			</button>
+		) : (
+			<Fragment>
+				<button
+					type='button'
+					className='btn btn-danger'
+					onClick={() => toggleActive()}>
+					Deactivate Hours
+				</button>
+			</Fragment>
+		);
+	};
 
 	return (
 		<div>
@@ -50,31 +53,38 @@ const DashboardActions = ({ toggleActive, profile: { profile, loading } }) => {
 				<i className='fas fa-user-circle' /> Upload Gallery
 			</Link>
 			<br />
-			<p className='lead'>
-				Your subscription is active until{' '}
-				<Moment format='DD/MM/YYYY' add={{ days: profile.subscription_plan }}>
-					{new Date()}
-				</Moment>
-			</p>
+			{profile.subscription_plan > 2 ? (
+				<p className='lead'>
+					Your subscription is active until{' '}
+					<Moment format='DD/MM/YYYY'>{dateOfExpiry}</Moment>
+				</p>
+			) : (
+				<p>
+					Your subscription will expire in {''}
+					{hoursUntilExpiry} hours
+				</p>
+			)}
 
 			{renderIsActiveButton()}
-			<Link to='/pricingplan' className='btn btn-warning ml-2'>
-				Buy more hours
-			</Link>
+
+			{profile.subscription_plan < 2 ? (
+				<Link to='/pricingplan' className='btn btn-warning ml-2'>
+					Buy more hours
+				</Link>
+			) : null}
 		</div>
 	);
-
 };
 
 DashboardActions.propTypes = {
-  toggleActive: PropTypes.func.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired
+	toggleActive: PropTypes.func.isRequired,
+	getCurrentProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile
+	profile: state.profile
 });
 
 export default connect(mapStateToProps, { toggleActive, getCurrentProfile })(
-  DashboardActions
+	DashboardActions
 );
