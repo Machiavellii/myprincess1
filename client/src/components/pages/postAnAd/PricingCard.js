@@ -6,7 +6,11 @@ import { connect } from 'react-redux';
 
 import Logo from '../../../img/logo.png';
 
-import { subscribePlan, getCurrentProfile } from '../../../actions/profile';
+import {
+	subscribePlan,
+	getCurrentProfile,
+	payment
+} from '../../../actions/profile';
 
 import StripeCheckout from 'react-stripe-checkout';
 
@@ -15,6 +19,7 @@ const PricingCard = ({
 	profile: { profile, loading },
 	days,
 	subscription_plan,
+	payment,
 	price,
 	badge,
 	currency,
@@ -33,8 +38,7 @@ const PricingCard = ({
 	};
 
 	const onToken = token => {
-		console.log(token);
-		alert('Payment Succssful');
+		payment();
 	};
 
 	const Checkout = ({ name, description, amount }) => (
@@ -42,9 +46,9 @@ const PricingCard = ({
 			description={description}
 			name='MyPrincess.ch'
 			image={Logo}
-			amount={amount}
+			amount={amount * 100}
 			label='Start'
-			token={onToken}
+			token={payment.bind(amount, this)}
 			currency='CHF'
 			stripeKey={'pk_test_2QL8V6xKMDyfzQc87dCmfPXU'}
 		/>
@@ -102,6 +106,8 @@ const mapStateToProps = state => ({
 	profile: state.profile
 });
 
-export default connect(mapStateToProps, { subscribePlan, getCurrentProfile })(
-	PricingCard
-);
+export default connect(mapStateToProps, {
+	subscribePlan,
+	getCurrentProfile,
+	payment
+})(PricingCard);
