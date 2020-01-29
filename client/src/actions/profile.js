@@ -264,3 +264,13 @@ export const decreaseHours = () => async dispatch => {
 		});
 	}
 };
+
+// Stripe Payment Method
+export const payment = (amount, token) => async dispatch => {
+	try {
+		const res = await axios.post('/api/profile/payment', { amount, token });
+		dispatch({
+			payload: res.data
+		});
+	} catch (err) {}
+};

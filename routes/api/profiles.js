@@ -7,11 +7,14 @@ const mongoose = require('mongoose');
 const auth = require('../../middleware/auth');
 const authAdmin = require('../../middleware/authAdmin');
 const { check, validationResult } = require('express-validator');
+const uuid = require('uuid/v4');
 
 const Profile = require('../../models/profile');
 const User = require('../../models/User');
 
 const geocoder = require('../../utills/geocoder');
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 /* start upload image logic */
 let storage = multer.diskStorage({
@@ -526,6 +529,9 @@ router.post('/favorites', [auth, []], async (req, res) => {
 	}
 });
 
+// @route    POST api/profile/reduceSubscription
+// @desc     Reduce subscription by 1 for all active users
+// @access   Public
 router.put('/reduceSubscription', async (req, res) => {
 	try {
 		await Profile.updateMany(
@@ -538,6 +544,30 @@ router.put('/reduceSubscription', async (req, res) => {
 	} catch (err) {
 		res.status(500).send({ msg: err.message });
 	}
+});
+
+// @route POST api/profile/paymant
+// @Desc Paymant with Stripe
+// @access Private
+router.post('/paymant', async (req, res) => {
+	let error;
+	let status;
+
+	try {
+		const { amount, token } = req.body;
+
+		await stripe.charges.create({
+			source: token.id,
+			amount: amount * 100,
+			currency: 'chf'
+		});
+
+		status = 'success';
+	} catch (error) {
+		status = 'Failure';
+	}
+
+	res.json({ error, status });
 });
 
 module.exports = router;
