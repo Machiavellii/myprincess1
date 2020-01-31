@@ -39,7 +39,7 @@ import UploadGallery from "./components/pages/postAnAd/UploadGallery";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import AdminRoute from "./components/routing/AdminRoute";
 import Terms from "./components/layout/Terms";
-import Payment from "./components/pages/postAnAd/Payment";
+// import Payment from "./components/pages/postAnAd/Payment";
 
 import { loadUser, getUsers } from "./actions/auth";
 import { loadAdmin } from "./actions/adminAuth";
@@ -94,7 +94,7 @@ const App = () => {
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute exact path="/edit-profile" component={EditAdForm} />
             <PrivateRoute exact path="/upload-cover" component={UploadCover} />
-            <PrivateRoute exact path="/payment" component={Payment} />
+            {/* <PrivateRoute exact path="/payment" component={Payment} /> */}
             <PrivateRoute
               exact
               path="/upload-gallery"

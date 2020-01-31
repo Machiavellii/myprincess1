@@ -66,13 +66,13 @@ const UploadGallery = ({
             ? ""
             : profile.photos.map((photo, i) => (
                 <div key={i}>
-                  <button
+                  {/* <button
                     type="button"
                     className="close"
                     onClick={e => onClickImg(photo)}
                   >
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                  </button> */}
                   <img src={photo} alt="" />
                 </div>
               ))}

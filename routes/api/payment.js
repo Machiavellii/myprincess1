@@ -20,7 +20,6 @@ router.post("/", async (req, res) => {
       source: token.id
     });
 
-    console.log(token.card);
     const idempotencyKey = uuid();
 
     await stripe.charges.create(
@@ -40,6 +39,7 @@ router.post("/", async (req, res) => {
     status = "Failure";
   }
 
+  // res.render(`/postanadform`);
   res.json({ error, status });
 });
 
