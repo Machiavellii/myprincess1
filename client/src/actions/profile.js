@@ -6,16 +6,19 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {
-	GET_PROFILES,
-	PROFILE_ERROR,
-	GET_PROFILE,
-	FILTER_PROFILE,
-	SEARCHPAGE_FILTER,
-	CLEAR_PROFILE,
-	ACCOUNT_DELETED,
-	TOGGLE_ACTIVE,
-	DECREASE_HOURS
-} from './type';
+
+  GET_PROFILES,
+  PROFILE_ERROR,
+  GET_PROFILE,
+  FILTER_PROFILE,
+  SEARCHPAGE_FILTER,
+  CLEAR_PROFILE,
+  ACCOUNT_DELETED,
+  TOGGLE_ACTIVE,
+  DECREASE_HOURS,
+  UPLOAD_COVER,
+  UPLOAD_GALLERY
+} from "./type";
 
 toast.configure();
 
@@ -143,59 +146,88 @@ export const typePlan = value => async dispatch => {
 };
 
 // UPLOAD COVER
-export const uploadCover = (formFile, history) => async dispatch => {
-	try {
-		const config = {
-			headers: {
-				'Content-Type': 'multipart/form-data'
-			}
-		};
 
-		const res = await axios.post('api/profile/upload-cover', formFile, config);
+export const uploadCover = (
+  formFile,
+  history,
+  setUploadPercentage
+) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      onUploadProgress: progressEvent => {
+        setUploadPercentage(
+          parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )
+        );
 
-		dispatch({
-			type: GET_PROFILE,
-			payload: res.data
-		});
+        //Clear Progress bar
+        setTimeout(() => setUploadPercentage(0), 4000);
+      }
+    };
 
-		dispatch(setAlert('Profile Photo Added', 'success'));
+    const res = await axios.post("api/profile/upload-cover", formFile, config);
 
-		history.push('/upload-gallery');
-	} catch (err) {
-		const errors = err.response.data.errors;
+    dispatch({
+      type: UPLOAD_COVER,
+      payload: res.data
+    });
 
-		if (errors) {
-			errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-		}
-	}
+    dispatch(setAlert("Profile Photo Added", "success"));
+
+    setTimeout(() => history.push("/upload-gallery"), 5000);
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+  }
 };
 
-export const uploadGallery = (formFile, history, edit) => async dispatch => {
-	try {
-		const config = {
-			headers: {
-				'Content-Type': 'multipart/form-data'
-			}
-		};
-		const res = await axios.post(
-			'api/profile/upload-gallery',
-			formFile,
-			config
-		);
+export const uploadGallery = (
+  formFile,
+  history,
+  setUploadPercentage
+) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      onUploadProgress: progressEvent => {
+        setUploadPercentage(
+          parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )
+        );
 
-		dispatch({
-			type: GET_PROFILE,
-			payload: res.data
-		});
+        //Clear Progress bar
+        setTimeout(() => setUploadPercentage(0), 4000);
+      }
+    };
+    const res = await axios.post(
+      "api/profile/upload-gallery",
+      formFile,
+      config
+    );
 
-		history.push('/');
-	} catch (err) {
-		// const errors = err.response.data.errors;
-		console.log(err);
-		// if (errors) {
-		//   errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
-		// }
-	}
+    dispatch({
+      type: UPLOAD_GALLERY,
+      payload: res.data
+    });
+
+    setTimeout(() => history.push("/dashboard"), 5000);
+  } catch (err) {
+    // const errors = err.response.data.errors;
+    console.log(err);
+    // if (errors) {
+    //   errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    // }
+  }
 };
 
 export const filterFunc = value => dispatch => {

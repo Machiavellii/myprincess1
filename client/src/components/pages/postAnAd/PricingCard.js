@@ -82,6 +82,7 @@ const PricingCard = ({
 			</div>
 		</div>
 	);
+
 };
 
 PricingCard.propTypes = {
