@@ -14,7 +14,9 @@ import {
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
   TOGGLE_ACTIVE,
-  DECREASE_HOURS
+  DECREASE_HOURS,
+  UPLOAD_COVER,
+  UPLOAD_GALLERY
 } from "./type";
 
 toast.configure();
@@ -143,24 +145,38 @@ export const typePlan = value => async dispatch => {
 };
 
 // UPLOAD COVER
-export const uploadCover = (formFile, history) => async dispatch => {
+export const uploadCover = (
+  formFile,
+  history,
+  setUploadPercentage
+) => async dispatch => {
   try {
     const config = {
       headers: {
         "Content-Type": "multipart/form-data"
+      },
+      onUploadProgress: progressEvent => {
+        setUploadPercentage(
+          parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )
+        );
+
+        //Clear Progress bar
+        setTimeout(() => setUploadPercentage(0), 4000);
       }
     };
 
     const res = await axios.post("api/profile/upload-cover", formFile, config);
 
     dispatch({
-      type: GET_PROFILE,
+      type: UPLOAD_COVER,
       payload: res.data
     });
 
     dispatch(setAlert("Profile Photo Added", "success"));
 
-    history.push("/upload-gallery");
+    setTimeout(() => history.push("/upload-gallery"), 5000);
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -170,11 +186,25 @@ export const uploadCover = (formFile, history) => async dispatch => {
   }
 };
 
-export const uploadGallery = (formFile, history, edit) => async dispatch => {
+export const uploadGallery = (
+  formFile,
+  history,
+  setUploadPercentage
+) => async dispatch => {
   try {
     const config = {
       headers: {
         "Content-Type": "multipart/form-data"
+      },
+      onUploadProgress: progressEvent => {
+        setUploadPercentage(
+          parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )
+        );
+
+        //Clear Progress bar
+        setTimeout(() => setUploadPercentage(0), 4000);
       }
     };
     const res = await axios.post(
@@ -184,11 +214,11 @@ export const uploadGallery = (formFile, history, edit) => async dispatch => {
     );
 
     dispatch({
-      type: GET_PROFILE,
+      type: UPLOAD_GALLERY,
       payload: res.data
     });
 
-    history.push("/");
+    setTimeout(() => history.push("/dashboard"), 5000);
   } catch (err) {
     // const errors = err.response.data.errors;
     console.log(err);

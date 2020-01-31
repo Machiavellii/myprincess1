@@ -26,7 +26,6 @@ const PricingCard = ({
 
   const onClick = () => {
     const time = { subscription_plan };
-
     subscribePlan(time);
   };
 
@@ -51,7 +50,7 @@ const PricingCard = ({
       </div>
       <div className="card-footer text-center">
         <Link
-          to={subscription_plan === "7" ? "/postanadform" : "/payment"}
+          to="/postanadform"
           className={"btn " + (buttonStyle ? "full" : "empty")}
           onClick={() => onClick()}
         >
