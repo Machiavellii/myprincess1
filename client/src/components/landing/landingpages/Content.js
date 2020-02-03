@@ -31,7 +31,7 @@ const Content = ({ profile }) => {
                 <div className="contentHolder">
                   <div className="top-holder">
                     <Link to="/" className="links">
-                      {profile.location.canton}
+                      {profile.location ? profile.location.canton : "No canton"}
                     </Link>
                   </div>
 
