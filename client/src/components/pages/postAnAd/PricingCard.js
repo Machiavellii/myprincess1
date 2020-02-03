@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 // import { Link, Redirect } from 'react-router-dom';
 import "../../../styles/PricingCard.css";
@@ -13,22 +13,24 @@ import {
 
 const PricingCard = ({
   subscribePlan,
-  profile: { profile, loading },
+  profile: { profile },
   payment,
   days,
   subscription_plan,
   price,
   badge,
   currency,
-  extra,
-  buttonStyle,
   amount
 }) => {
   useEffect(() => {
     getCurrentProfile();
   }, [getCurrentProfile]);
 
+  const [checked, setDisabled] = useState(false);
+
   const onClick = () => {
+    setDisabled(!checked);
+
     const time = { subscription_plan };
 
     subscribePlan(time);
@@ -58,26 +60,30 @@ const PricingCard = ({
             className="form-group mr-2"
             type="checkbox"
             id="value"
-            //value={agree}
+            // value={true}
             onClick={() => onClick()}
             name="value"
-            required
+            defaultChecked={checked}
           />
         </div>
         <br />
       </div>
-      <div className="card-footer text-center">
-        <StripeCheckout
-          stripeKey="pk_test_2QL8V6xKMDyfzQc87dCmfPXU"
-          // description={description}
-          name="MyPrincess.ch"
-          //image={Logo}
-          billingAddress
-          amount={amount * 100}
-          label="Start"
-          token={payment.bind(this, profile)}
-        />
-      </div>
+      {checked ? (
+        <div className="card-footer text-center">
+          <StripeCheckout
+            stripeKey="pk_test_2QL8V6xKMDyfzQc87dCmfPXU"
+            // description={description}
+            name="MyPrincess.ch"
+            //image={Logo}
+            billingAddress
+            amount={amount * 100}
+            label="Start"
+            token={payment.bind(this, profile)}
+          />
+        </div>
+      ) : (
+        <small className="text-center">First checked agree buying</small>
+      )}
     </div>
   );
 };
