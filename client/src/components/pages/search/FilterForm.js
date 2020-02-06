@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  categoryList,
-  servicesList,
-} from "../../../constants/data.json";
+import { categoryList, servicesList } from "../../../constants/data.json";
 import { connect } from "react-redux";
 import { filterSearchPage } from "../../../actions/profile";
 
@@ -46,15 +43,17 @@ const FilterForm = ({ filterSearchPage, profiles: { profiles } }) => {
         onChange={e => onChange(e)}
         value={canton}
         name="canton"
+        multiple={false}
       >
         <option value="0"> - Canton - </option>
 
         {profiles.map((profile, index) => {
           return (
-            <option key={index} value={profile.location.canton}>
-              {profile.location.canton === undefined
-                ? ""
-                : profile.location.canton}
+            <option
+              key={index}
+              value={profile.location ? profile.location.canton : "No canton"}
+            >
+              {profile.location ? profile.location.canton : "No canton"}
             </option>
           );
         })}
@@ -64,6 +63,7 @@ const FilterForm = ({ filterSearchPage, profiles: { profiles } }) => {
         onChange={e => onChange(e)}
         value={category}
         name="category"
+        multiple={false}
       >
         <option value="0"> - Category - </option>
         {categoryList.map((item, index) => {
@@ -80,6 +80,7 @@ const FilterForm = ({ filterSearchPage, profiles: { profiles } }) => {
         name="services"
         onChange={e => onChange(e)}
         value={services}
+        multiple={false}
       >
         <option value="0"> - Prestations - </option>
         {servicesList.map((item, index) => {
