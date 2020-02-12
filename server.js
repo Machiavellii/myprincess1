@@ -3,6 +3,13 @@ const connectDB = require("./config/db");
 const path = require("path");
 const cors = require("cors");
 
+// Prevent attacks
+const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const rateLimit = require("express-rate-limit");
+const hpp = require("hpp");
+
 const app = express();
 
 //Database
@@ -14,6 +21,28 @@ app.use(express.urlencoded({ extended: false }));
 
 //Enable cors
 app.use(cors());
+
+// PROTECT
+// Sanitize data
+app.use(mongoSanitize());
+
+// Set security headers
+app.use(helmet());
+
+// Prevent XSS attacks
+app.use(xss());
+
+// Set express Rate Limiting
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 100
+});
+app.use(limiter);
+
+//Prevent HPP param polution
+app.use(hpp());
+
+// END PROTECT
 
 // Routes
 app.use("/api/auth", require("./routes/api/auth"));
