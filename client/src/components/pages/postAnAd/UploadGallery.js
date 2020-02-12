@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 
@@ -12,7 +12,6 @@ const UploadGallery = ({
   history,
   profile: { profile, loading }
 }) => {
-  // const photo = [];
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [formData, setGalleryphoto] = useState({
     photos: []
@@ -39,12 +38,20 @@ const UploadGallery = ({
         ...formData,
         photos: formData.photos.concat(files[i])
       });
-      // photo.push(files[i]);
       setFile({
         ...form,
         file: form.file.concat(URL.createObjectURL(files[i]))
       });
     }
+  };
+
+  const onClickImg = photo => {
+    const imgs = profile.photos.filter(img =>
+      img === photo ? profile.photos.splice(photo, 1) : img
+    );
+
+    // console.log(imgs);
+    setGalleryphoto({ photos: imgs });
   };
 
   const { file } = form;
@@ -60,15 +67,6 @@ const UploadGallery = ({
     uploadGallery(formGallery, history, setUploadPercentage);
   };
 
-  const onClickImg = photo => {
-    const imgs = profile.photos.map(img =>
-      img === photo ? profile.photos.splice(photo, 1) : photos
-    );
-    setGalleryphoto(imgs);
-  };
-
-  // console.log(profile.photos);
-
   return (
     <div className="container">
       <Link to="/dashboard" className="btn btn-light mt-3">
@@ -76,7 +74,6 @@ const UploadGallery = ({
       </Link>
       <form onSubmit={onSubmit} className="py-5 w-100">
         <h4 className="mb-3 text-center">Upload Gallery Photos</h4>
-        {/* <div className="d-flex  "> */}
         <div className="row justify-content-between">
           <div className="col-6 col-sm-3 col-md-auto">
             <input
@@ -99,7 +96,7 @@ const UploadGallery = ({
               {file.length === 0 ? (
                 <i className="fas fa-plus-circle" />
               ) : (
-                <img src={file[0]} />
+                <img src={file[0]} alt="" />
               )}
             </label>
           </div>
@@ -114,7 +111,7 @@ const UploadGallery = ({
             />
             <label htmlFor="file1">
               {file.length > 1 ? (
-                <img src={file[1]} />
+                <img src={file[1]} alt="" />
               ) : (
                 <i className="fas fa-plus-circle" />
               )}
@@ -131,7 +128,7 @@ const UploadGallery = ({
             />
             <label htmlFor="file2">
               {file.length > 2 ? (
-                <img src={file[2]} />
+                <img src={file[2]} alt="" />
               ) : (
                 <i className="fas fa-plus-circle" />
               )}
@@ -148,7 +145,7 @@ const UploadGallery = ({
             />
             <label htmlFor="file3">
               {file.length > 3 ? (
-                <img src={file[3]} />
+                <img src={file[3]} alt="" />
               ) : (
                 <i className="fas fa-plus-circle" />
               )}
@@ -165,14 +162,13 @@ const UploadGallery = ({
             />
             <label htmlFor="file4">
               {file.length > 4 ? (
-                <img src={file[4]} />
+                <img src={file[4]} alt="" />
               ) : (
                 <i className="fas fa-plus-circle" />
               )}
             </label>
           </div>
         </div>
-        {/* </div> */}
         <Progress percentage={uploadPercentage} />
 
         <div className="row my-3 justify-content-between">

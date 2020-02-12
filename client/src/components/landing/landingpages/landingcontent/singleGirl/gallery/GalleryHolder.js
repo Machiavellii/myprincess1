@@ -47,8 +47,6 @@ const GalleryHolder = ({ profile }) => {
               <Fragment>Loading...</Fragment>
             ) : (
               <Marker
-                latitude={latitude}
-                longitude={longitude}
                 latitude={
                   profile.location ? profile.location.coordinates[1] : latitude
                 }

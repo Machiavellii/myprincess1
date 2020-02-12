@@ -25,7 +25,7 @@ class EscortsGirls extends React.Component {
               <div className="contentHolder">
                 <div className="top-holder">
                   <Link to="/" className="links">
-                    {girl.canton}
+                    {girl.location.canton}
                   </Link>
                 </div>
                 <Link to={`/profile/user/${girl.user._id}`}>

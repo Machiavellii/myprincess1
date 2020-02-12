@@ -35,8 +35,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server Running on Port ${PORT}`));

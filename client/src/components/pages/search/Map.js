@@ -16,20 +16,7 @@ const Map = ({ profile: { profiles }, getProfiles }) => {
     getProfiles();
   }, [getProfiles]);
 
-  const [selectedGirl, setSelectedGirl] = useState(null);
-
-  // useEffect(() => {
-  //   const listener = e => {
-  //     if (e.key === "Escape") {
-  //       setSelectedGirl(null);
-  //     }
-  //   };
-  //   window.addEventListener("keydown", listener);
-
-  //   return () => {
-  //     window.removeEventListener("keydown", listener);
-  //   };
-  // }, []);
+  // const [selectedGirl, setSelectedGirl] = useState(true);
 
   const { latitude, longitude } = viewPort;
 
@@ -52,10 +39,9 @@ const Map = ({ profile: { profiles }, getProfiles }) => {
           >
             <button
               className="girl-button-marker"
-              onClick={e => {
-                e.preventDefault();
-                setSelectedGirl(girl);
-              }}
+              // onClick={e => {
+              //   setSelectedGirl(girl);
+              // }}
             >
               <i className="fas fa-map-marker-alt girl-button-marker-icon"></i>
             </button>

@@ -210,6 +210,7 @@ export const uploadGallery = (
         setTimeout(() => setUploadPercentage(0), 4000);
       }
     };
+
     const res = await axios.post(
       "api/profile/upload-gallery",
       formFile,
