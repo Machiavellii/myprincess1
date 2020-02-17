@@ -20,3 +20,5 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+
+//mongodb+srv://vjeko:123abc@princess-gebfh.mongodb.net/test?retryWrites=true&w=majority
