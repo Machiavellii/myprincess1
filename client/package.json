@@ -11,6 +11,7 @@
 		"react": "^16.10.1",
 		"react-dom": "^16.10.1",
 		"react-dropzone": "^10.1.10",
+		"react-ga": "^2.7.0",
 		"react-i18next": "^11.0.0",
 		"react-map-gl": "^5.2.1",
 		"react-mapbox-autocomplete": "^0.2.3",

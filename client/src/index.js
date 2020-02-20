@@ -7,10 +7,10 @@ import Spinner from './components/layout/Spinner';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-	<Suspense fallback={<Spinner />}>
-		<App />
-	</Suspense>,
-	document.getElementById('root')
+  <Suspense fallback={<Spinner />}>
+    <App />
+  </Suspense>,
+  document.getElementById('root')
 );
 
 serviceWorker.register();

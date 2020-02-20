@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 // import { Link, Redirect } from 'react-router-dom';
-import "../../../styles/PricingCard.css";
-import { connect } from "react-redux";
-import StripeCheckout from "react-stripe-checkout";
+import '../../../styles/PricingCard.css';
+import { connect } from 'react-redux';
+import StripeCheckout from 'react-stripe-checkout';
 
 import {
   subscribePlan,
   getCurrentProfile,
   payment
-} from "../../../actions/profile";
+} from '../../../actions/profile';
 
 const PricingCard = ({
   subscribePlan,
@@ -42,7 +42,7 @@ const PricingCard = ({
         <span className="badge badge-secondary mt-2 mb-3 p-2 ">{badge}</span>
         <h6 className="card-title pb-3 time">{days}</h6>
         <h3 className="card-title pricing">
-          {price} <sup>{currency}</sup>{" "}
+          {price} <sup>{currency}</sup>{' '}
         </h3>
         <p className="card-text description">Quick and easy registration</p>
         {/* <strong>{extra}</strong> <br /> */}
@@ -50,7 +50,7 @@ const PricingCard = ({
         <br />
         <strong>visibility </strong> <span>total</span>
         <br />
-        <strong>3000 visits / day </strong> <span>MyPrincess.ch</span>
+        <strong>3000 visits / day </strong> <span>Xanibis.ch</span>
         <br />
         <div className="form-group">
           <label htmlFor="value">
@@ -73,7 +73,7 @@ const PricingCard = ({
           <StripeCheckout
             stripeKey="pk_test_2QL8V6xKMDyfzQc87dCmfPXU"
             // description={description}
-            name="MyPrincess.ch"
+            name="Xanibis.ch"
             //image={Logo}
             billingAddress
             amount={amount * 100}

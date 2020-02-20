@@ -1,46 +1,49 @@
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "./App.css";
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './App.css';
 
-import store from "./store";
-import { Provider } from "react-redux";
+import store from './store';
+import { Provider } from 'react-redux';
 
-import setAuthToken from "./utills/setAuthToken";
-import setAdminToken from "./utills/setAdminToken";
+import setAuthToken from './utills/setAuthToken';
+import setAdminToken from './utills/setAdminToken';
 
-import MiniHeader from "./components/layout/MiniHeader";
-import Navbar from "./components/layout/Navbar";
-import Footer from "./components/layout/Footer";
+import MiniHeader from './components/layout/MiniHeader';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 
-import Login from "./components/auth/Login";
+import Login from './components/auth/Login';
 
-import LoginAdmin from "./components/admin/LoginAdmin";
+import LoginAdmin from './components/admin/LoginAdmin';
 
-import Register from "./components/auth/Register";
-import BlockedAccount from "./components/auth/BlockedAccount";
-import Landing from "./components/landing/Landing";
-import DescribeContent from "./components/landing/landingpages/landingcontent/singleGirl/Describe";
-import Links from "./components/landing/landingpages/Links";
-import Faq from "./components/pages/Faq";
-import Contact from "./components/pages/Contact";
-import Postanad from "./components/pages/postAnAd/Postanad";
-import PricingPlan from "./components/pages/postAnAd/PricingPlan";
-import PostAnAdForm from "./components/pages/postAnAd/PostAnAdForm";
-import EditAdForm from "./components/pages/postAnAd/EditAdForm";
-import Search from "./components/pages/search/Search";
-import EscortsGirls from "./components/pages/EscortsGirls";
-import Alert from "./components/layout/Alert";
-import Dashboard from "./components/dashboard/Dashboard";
-import Admin from "./components/admin/admin";
-import EditAdmin from "./components/admin/editAdmin";
-import UploadCover from "./components/pages/postAnAd/UploadCover";
-import UploadGallery from "./components/pages/postAnAd/UploadGallery";
-import PrivateRoute from "./components/routing/PrivateRoute";
-import AdminRoute from "./components/routing/AdminRoute";
-import Terms from "./components/layout/Terms";
+import Register from './components/auth/Register';
+import BlockedAccount from './components/auth/BlockedAccount';
+import Landing from './components/landing/Landing';
+import DescribeContent from './components/landing/landingpages/landingcontent/singleGirl/Describe';
+import Links from './components/landing/landingpages/Links';
+import Faq from './components/pages/Faq';
+import Contact from './components/pages/Contact';
+import Postanad from './components/pages/postAnAd/Postanad';
+import PricingPlan from './components/pages/postAnAd/PricingPlan';
+import PostAnAdForm from './components/pages/postAnAd/PostAnAdForm';
+import EditAdForm from './components/pages/postAnAd/EditAdForm';
+import Search from './components/pages/search/Search';
+import EscortsGirls from './components/pages/EscortsGirls';
+import Alert from './components/layout/Alert';
+import Dashboard from './components/dashboard/Dashboard';
+import Admin from './components/admin/admin';
+import EditAdmin from './components/admin/editAdmin';
+import UploadCover from './components/pages/postAnAd/UploadCover';
+import UploadGallery from './components/pages/postAnAd/UploadGallery';
+import PrivateRoute from './components/routing/PrivateRoute';
+import AdminRoute from './components/routing/AdminRoute';
+import Terms from './components/layout/Terms';
 
-import { loadUser, getUsers } from "./actions/auth";
-import { loadAdmin } from "./actions/adminAuth";
+import { loadUser, getUsers } from './actions/auth';
+import { loadAdmin } from './actions/adminAuth';
+
+import { createBrowserHistory } from 'history';
+import ReactGA from 'react-ga';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -49,6 +52,17 @@ if (localStorage.token) {
 if (localStorage.tokenAdmin) {
   setAdminToken(localStorage.tokenAdmin);
 }
+
+const history = createBrowserHistory();
+
+const trackingId = '158831824'; // Replace with your Google Analytics tracking ID
+ReactGA.initialize(trackingId);
+
+// Initialize google analytics page view tracking
+history.listen(location => {
+  ReactGA.set({ page: location.pathname }); // Update the user's current page
+  ReactGA.pageview(location.pathname); // Record a pageview for the given page
+});
 
 const App = () => {
   useEffect(() => {
