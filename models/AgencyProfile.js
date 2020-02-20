@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const geocoder = require('../utills/geocoder');
+const geocoder = require("../utills/geocoder");
 
 const AgencyProfileSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: "user"
   },
   phone: {
     type: String,
@@ -19,11 +19,11 @@ const AgencyProfileSchema = new Schema({
   location: {
     type: {
       type: String,
-      enum: ['Point']
+      enum: ["Point"]
     },
     coordinates: {
       type: [Number],
-      index: '2dsphere'
+      index: "2dsphere"
     },
     formattedAddress: String,
     countryCode: String,
@@ -113,11 +113,11 @@ const AgencyProfileSchema = new Schema({
 });
 
 // Geocode & create location
-AgencyProfileSchema.pre('save', async function(next) {
+AgencyProfileSchema.pre("save", async function(next) {
   const loc = await geocoder.geocode(this.address);
 
   this.location = {
-    type: 'Point',
+    type: "Point",
     coordinates: [loc[0].longitude, loc[0].latitude],
     formattedAddress: loc[0].formattedAddress,
     city: loc[0].city,
@@ -131,12 +131,10 @@ AgencyProfileSchema.pre('save', async function(next) {
 
   // console.log(loc);
 
-  // Do not save address
-  // this.address = undefined;
   next();
 });
 
 module.exports = AgencyProfile = mongoose.model(
-  'AgencyProfile',
+  "AgencyProfile",
   AgencyProfileSchema
 );
