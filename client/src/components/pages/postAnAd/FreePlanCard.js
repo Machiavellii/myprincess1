@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 // import { Link, Redirect } from 'react-router-dom';
-import "../../../styles/PricingCard.css";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import '../../../styles/PricingCard.css';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   subscribePlan,
   getCurrentProfile,
   payment
-} from "../../../actions/profile";
+} from '../../../actions/profile';
 
 const PricingCard = ({
   subscribePlan,
@@ -40,7 +40,7 @@ const PricingCard = ({
         <span className="badge badge-secondary mt-2 mb-3 p-2 ">{badge}</span>
         <h6 className="card-title pb-3 time">{days}</h6>
         <h3 className="card-title pricing">
-          {price} <sup>{currency}</sup>{" "}
+          {price} <sup>{currency}</sup>{' '}
         </h3>
         <p className="card-text description">Quick and easy registration</p>
         {/* <strong>{extra}</strong> <br /> */}
@@ -48,13 +48,13 @@ const PricingCard = ({
         <br />
         <strong>visibility </strong> <span>total</span>
         <br />
-        <strong>3000 visits / day </strong> <span>MyPrincess.ch</span>
+        <strong>3000 visits / day </strong> <span>Xanibis.ch</span>
         <br />
       </div>
       <div className="card-footer text-center">
         <Link
           to="/postanadform"
-          className={"btn " + (buttonStyle ? "full" : "empty")}
+          className={'btn ' + (buttonStyle ? 'full' : 'empty')}
           onClick={() => onClick()}
         >
           Start

@@ -1,11 +1,11 @@
-import React, { Fragment, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
-import "../../styles/navbar.css";
-import Logo from "../../img/logo.png";
+import React, { Fragment, useState } from 'react';
+import { NavLink, Link } from 'react-router-dom';
+import '../../styles/navbar.css';
+import Logo from '../../img/logo.png';
 
-import { connect } from "react-redux";
-import { logout } from "../../actions/auth";
-import { filterFunc } from "../../actions/profile";
+import { connect } from 'react-redux';
+import { logout } from '../../actions/auth';
+import { filterFunc } from '../../actions/profile';
 
 const Navbar = ({
   auth: { isAuthenticated, loading, user },
@@ -14,8 +14,8 @@ const Navbar = ({
   profile
 }) => {
   let [showHide, setShow] = useState(false);
-  let [showInput] = useState("");
-  const [filter, setFilter] = useState("");
+  let [showInput] = useState('');
+  const [filter, setFilter] = useState('');
 
   showInput = () => {
     setShow((showHide = !showHide));
@@ -58,7 +58,7 @@ const Navbar = ({
                   <i className="fas fa-search" />
                 </Link>
                 <a href="#!" className="small-size" onClick={showInput}>
-                  <i className={`fas fa-search ${showHide ? "opct" : ""}`} />
+                  <i className={`fas fa-search ${showHide ? 'opct' : ''}`} />
                 </a>
               </div>
             </div>
@@ -158,7 +158,7 @@ const Navbar = ({
 
                 <li className="nav-item">
                   <a
-                    href="https://m.facebook.com/myprincess.ch"
+                    href="https://m.facebook.com/Xanibis.ch"
                     className="nav-link rose-border"
                     activeclassname="active"
                     target="_blank"
