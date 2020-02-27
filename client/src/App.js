@@ -26,6 +26,7 @@ import Contact from './components/pages/Contact';
 import Postanad from './components/pages/postAnAd/Postanad';
 import PricingPlan from './components/pages/postAnAd/PricingPlan';
 import PostAnAdForm from './components/pages/postAnAd/PostAnAdForm';
+import AgencyAdForm from './components/pages/postAnAd/AgencyAdForm';
 import EditAdForm from './components/pages/postAnAd/EditAdForm';
 import Search from './components/pages/search/Search';
 import EscortsGirls from './components/pages/EscortsGirls';
@@ -46,11 +47,11 @@ import { createBrowserHistory } from 'history';
 import ReactGA from 'react-ga';
 
 if (localStorage.token) {
-  setAuthToken(localStorage.token);
+	setAuthToken(localStorage.token);
 }
 
 if (localStorage.tokenAdmin) {
-  setAdminToken(localStorage.tokenAdmin);
+	setAdminToken(localStorage.tokenAdmin);
 }
 
 const history = createBrowserHistory();
@@ -60,62 +61,63 @@ ReactGA.initialize(trackingId);
 
 // Initialize google analytics page view tracking
 history.listen(location => {
-  ReactGA.set({ page: location.pathname }); // Update the user's current page
-  ReactGA.pageview(location.pathname); // Record a pageview for the given page
+	ReactGA.set({ page: location.pathname }); // Update the user's current page
+	ReactGA.pageview(location.pathname); // Record a pageview for the given page
 });
 
 const App = () => {
-  useEffect(() => {
-    store.dispatch(loadUser());
-    store.dispatch(loadAdmin());
-    store.dispatch(getUsers());
-  }, []);
+	useEffect(() => {
+		store.dispatch(loadUser());
+		store.dispatch(loadAdmin());
+		store.dispatch(getUsers());
+	}, []);
 
-  return (
-    <Provider store={store}>
-      <Router>
-        <div className="App">
-          <MiniHeader />
-          <Navbar />
-          <Alert />
-          <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/blocked" component={BlockedAccount} />
-            <Route exact path="/superadminlogin" component={LoginAdmin} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/faq" component={Faq} />
-            <Route exact path="/contact" component={Contact} />
-            <PrivateRoute exact path="/postanad" component={Postanad} />
-            <PrivateRoute exact path="/pricingplan" component={PricingPlan} />
-            <PrivateRoute exact path="/postanadform" component={PostAnAdForm} />
-            <Route exact path="/search" component={Search} />
-            <Route exact path="/profile/user/:id" component={DescribeContent} />
-            <Route exact path="/links" component={Links} />
-            <Route
-              exact
-              path="/escorts-girls/:canton"
-              component={EscortsGirls}
-            />
-            <Route exact path="/terms" component={Terms} />
+	return (
+		<Provider store={store}>
+			<Router>
+				<div className='App'>
+					<MiniHeader />
+					<Navbar />
+					<Alert />
+					<Switch>
+						<Route exact path='/' component={Landing} />
+						<Route exact path='/login' component={Login} />
+						<Route exact path='/blocked' component={BlockedAccount} />
+						<Route exact path='/superadminlogin' component={LoginAdmin} />
+						<Route exact path='/register' component={Register} />
+						<Route exact path='/faq' component={Faq} />
+						<Route exact path='/contact' component={Contact} />
+						<PrivateRoute exact path='/postanad' component={Postanad} />
+						<PrivateRoute exact path='/pricingplan' component={PricingPlan} />
+						<PrivateRoute exact path='/postanadform' component={PostAnAdForm} />
+						<PrivateRoute exact path='/agencyadform' component={AgencyAdForm} />
+						<Route exact path='/search' component={Search} />
+						<Route exact path='/profile/user/:id' component={DescribeContent} />
+						<Route exact path='/links' component={Links} />
+						<Route
+							exact
+							path='/escorts-girls/:canton'
+							component={EscortsGirls}
+						/>
+						<Route exact path='/terms' component={Terms} />
 
-            <AdminRoute exact path="/superadmin" component={Admin} />
-            <AdminRoute exact path="/editprofileAdmin" component={EditAdmin} />
+						<AdminRoute exact path='/superadmin' component={Admin} />
+						<AdminRoute exact path='/editprofileAdmin' component={EditAdmin} />
 
-            <PrivateRoute exact path="/dashboard" component={Dashboard} />
-            <PrivateRoute exact path="/edit-profile" component={EditAdForm} />
-            <PrivateRoute exact path="/upload-cover" component={UploadCover} />
-            <PrivateRoute
-              exact
-              path="/upload-gallery"
-              component={UploadGallery}
-            />
-          </Switch>
-          <Footer />
-        </div>
-      </Router>
-    </Provider>
-  );
+						<PrivateRoute exact path='/dashboard' component={Dashboard} />
+						<PrivateRoute exact path='/edit-profile' component={EditAdForm} />
+						<PrivateRoute exact path='/upload-cover' component={UploadCover} />
+						<PrivateRoute
+							exact
+							path='/upload-gallery'
+							component={UploadGallery}
+						/>
+					</Switch>
+					<Footer />
+				</div>
+			</Router>
+		</Provider>
+	);
 };
 
 export default App;

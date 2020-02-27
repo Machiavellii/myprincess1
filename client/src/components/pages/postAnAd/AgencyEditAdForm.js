@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { createAgencyProfile } from '../../../actions/agencyProfile';
+
+import {
+	createAgencyProfile,
+	getCurrentAgency
+} from '../../../actions/agencyProfile';
 
 import {
 	agencyCategoryList,
@@ -22,15 +26,14 @@ import {
 	rateLabel,
 	phonenumberLabel,
 	websiteLabel,
-	numberOfGirlsLabel,
-	categoryLabel
+	numberOfGirlsLabel
 } from '../../common/consts';
 
-const AgencyAdForm = ({
+const AgencyEditAdForm = ({
 	createAgencyProfile,
 	history,
-	auth: isAuthenticated,
-	profile: error
+	getCurrentAgency,
+	profile: { profile, loading }
 }) => {
 	const [formData, setFormData] = useState({
 		phone: '',
@@ -44,8 +47,29 @@ const AgencyAdForm = ({
 		hours: '',
 		website: '',
 		recruitment: '',
-		numberOfGirls: ''
+		numberOfGirls: '',
+		errors: ''
 	});
+
+	useEffect(() => {
+		getCurrentAgency();
+
+		setFormData({
+			phone: loading || !profile.phone ? ' ' : profile.phone,
+			category: loading || !profile.category ? ' ' : profile.category,
+			services: loading || !profile.services ? ' ' : profile.services,
+			description: loading || !profile.description ? ' ' : profile.description,
+			address: loading || !profile.address ? ' ' : profile.address,
+			is_active: loading || !profile.is_active ? ' ' : profile.is_active,
+			rate: loading || !profile.rate ? ' ' : profile.rate,
+			slogan: loading || !profile.slogan ? ' ' : profile.slogan,
+			hours: loading || !profile.hours ? ' ' : profile.hours,
+			website: loading || !profile.website ? ' ' : profile.website,
+			recruitment: loading || !profile.recruitment ? ' ' : profile.recruitment,
+			numberOfGirls:
+				loading || !profile.numberOfGirls ? ' ' : profile.numberOfGirls
+		});
+	}, [loading, getCurrentAgency]);
 
 	const {
 		phone,
@@ -58,18 +82,36 @@ const AgencyAdForm = ({
 		hours,
 		website,
 		recruitment,
-		numberOfGirls
+		numberOfGirls,
+		errors
 	} = formData;
-
-	useEffect(() => {
-		if (error.error.length > 1) {
-			setFormData({ ...formData });
-			setTimeout(() => setFormData({ ...formData }), 5000);
-		}
-	}, [error]);
 
 	const onChange = e => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
+
+	const getCheckStatus = (value, type) => {
+		let list = null;
+
+		if (type === 'services') {
+			list = services;
+		}
+
+		if (value === is_active) {
+			return true;
+		}
+
+		if (value === recruitment) {
+			return true;
+		}
+
+		if (list) {
+			for (let i = 0; i < list.length; i++) {
+				if (list[i] === value) {
+					return true;
+				}
+			}
+		}
 	};
 
 	const onCheckBoxServ = (e, service) => {
@@ -86,12 +128,16 @@ const AgencyAdForm = ({
 
 	const onSubmit = e => {
 		e.preventDefault();
-		createAgencyProfile(formData, history);
+
+		createAgencyProfile(formData, history, true);
 	};
 
 	return (
 		<Fragment>
-			<form className='container mb-5'>
+			<form
+				className='container mb-5 edit-form'
+				onSubmit={onSubmit}
+				encType='multipart/form-data'>
 				<div className='form-group'>
 					<p>Job Activity</p>
 					<div className='form-check form-check-inline'>
@@ -102,6 +148,7 @@ const AgencyAdForm = ({
 							id='active'
 							value={true}
 							onChange={onChange}
+							checked={getCheckStatus(true)}
 						/>
 						<label className='form-check-label' htmlFor='active'>
 							active
@@ -115,6 +162,7 @@ const AgencyAdForm = ({
 							id='inactive'
 							value={false}
 							onChange={onChange}
+							checked={getCheckStatus(false)}
 						/>
 						<label className='form-check-label' htmlFor='inactive'>
 							inactive
@@ -133,6 +181,7 @@ const AgencyAdForm = ({
 					onChange={onChange}
 					labels={sloganLabel}
 					value={slogan}
+					error={errors}
 				/>
 
 				<div className='form-group'>
@@ -148,10 +197,10 @@ const AgencyAdForm = ({
 								<input
 									className='form-check-input'
 									type='checkbox'
-									id={service}
 									value={service}
 									name='services'
 									onChange={e => onCheckBoxServ(e, service)}
+									checked={getCheckStatus(service, 'services')}
 								/>
 								<label
 									className='form-check-label dynamic-checkbox-label ml-2'
@@ -167,6 +216,7 @@ const AgencyAdForm = ({
 					name='category'
 					value={category}
 					onChange={onChange}
+					error={errors}
 					options={agencyCategoryList}
 					labels={categoryLabel}
 				/>
@@ -206,6 +256,7 @@ const AgencyAdForm = ({
 							id='recruting'
 							value={true}
 							onChange={onChange}
+							checked={getCheckStatus(true)}
 						/>
 						<label className='form-check-label' htmlFor='recruting'>
 							Yes
@@ -219,6 +270,7 @@ const AgencyAdForm = ({
 							id='noRecruting'
 							value={false}
 							onChange={onChange}
+							checked={getCheckStatus(false)}
 						/>
 						<label className='form-check-label' htmlFor='noRecruting'>
 							No
@@ -258,20 +310,20 @@ const AgencyAdForm = ({
 				<button
 					type='submit'
 					className='btn btn-primary btn-lg btn-block main-theme-btn'>
-					Submit
+					Edit Profile
 				</button>
 			</form>
 		</Fragment>
 	);
 };
 
-AgencyAdForm.propTypes = {};
+AgencyEditAdForm.propTypes = {};
 
 const mapStateToProps = state => ({
-	auth: state.auth,
 	profile: state.profile
 });
 
 export default connect(mapStateToProps, {
+	getCurrentAgency,
 	createAgencyProfile
-})(withRouter(AgencyAdForm));
+})(AgencyEditAdForm);
