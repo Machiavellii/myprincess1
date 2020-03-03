@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb://XanibisAdmin:Admin100@node29224-myprincess.jcloud.ik-server.com:27017/xanibis?retryWrites=true&w=majority",
+  "mongoURI": "mongodb+srv://vjeko:123abc@princess-gebfh.mongodb.net/test?retryWrites=true&w=majority",
   "jwtSecret": "852E3BE9F1A3156E4CEAB0622965C06DBBDC7F852714CDADF940A6D25595DD63"
 }

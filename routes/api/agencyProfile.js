@@ -78,9 +78,6 @@ router.post(
     check("numberOfGirls", "Number of girls in your agency is required")
       .not()
       .isEmpty()
-    // check("cover_photo", "Profile Picture is required")
-    //   .not()
-    //   .isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -155,20 +152,32 @@ router.post(
     try {
       let agencyProfile = await AgencyProfile.findOne({ user: req.user.id });
 
-      // const locat = await geocoder.geocode(address);
+      if (agencyProfile) {
+        //Update
 
-      // profileFields.location = {
-      //   type: "Point",
-      //   coordinates: [locat[0].longitude, locat[0].latitude],
-      //   formattedAddress: locat[0].formattedAddress,
-      //   city: locat[0].city,
-      //   zipcode: locat[0].zipcode,
-      //   canton: locat[0].state,
-      //   country: locat[0].country,
-      //   streetName: locat[0].streetName,
-      //   streetNumber: locat[0].streetNumber,
-      //   countryCode: locat[0].countryCode
-      // };
+        const locat = await geocoder.geocode(address);
+
+        profileFields.location = {
+          type: "Point",
+          coordinates: [locat[0].longitude, locat[0].latitude],
+          formattedAddress: locat[0].formattedAddress,
+          city: locat[0].city,
+          zipcode: locat[0].zipcode,
+          canton: locat[0].state,
+          country: locat[0].country,
+          streetName: locat[0].streetName,
+          streetNumber: locat[0].streetNumber,
+          countryCode: locat[0].countryCode
+        };
+
+        agencyProfile = await AgencyProfile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileFields },
+          { new: true }
+        );
+
+        return res.json(agencyProfile);
+      }
 
       //Create
       agencyProfile = new AgencyProfile(profileFields);
@@ -186,127 +195,127 @@ router.post(
 // @route    POST api/agency/edit
 // @desc     Edit agency profile
 // @access   Private
-router.post(
-  "/edit",
-  auth,
-  [
-    check("address", "Address is required")
-      .not()
-      .isEmpty(),
-    check("languages", "Spoken languages are required")
-      .not()
-      .isEmpty(),
-    check("category", "Category is required")
-      .not()
-      .isEmpty(),
-    check("services", "Services are required")
-      .not()
-      .isEmpty(),
-    check("numberOfGirls", "Number of girls in your agency is required")
-      .not()
-      .isEmpty()
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+// router.post(
+//   "/edit",
+//   auth,
+//   [
+//     check("address", "Address is required")
+//       .not()
+//       .isEmpty(),
+//     check("languages", "Spoken languages are required")
+//       .not()
+//       .isEmpty(),
+//     check("category", "Category is required")
+//       .not()
+//       .isEmpty(),
+//     check("services", "Services are required")
+//       .not()
+//       .isEmpty(),
+//     check("numberOfGirls", "Number of girls in your agency is required")
+//       .not()
+//       .isEmpty()
+//   ],
+//   async (req, res) => {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({ errors: errors.array() });
+//     }
 
-    const {
-      phone,
-      type,
-      address,
-      subscription_plan,
-      favorites, // array
-      is_active,
-      languages, // array
-      slogan,
-      category,
-      services, // array
-      description,
-      photos,
-      hours,
-      rate,
-      website,
-      ratings, // array
-      recruitment,
-      numberOfGirls
-    } = req.body;
+//     const {
+//       phone,
+//       type,
+//       address,
+//       subscription_plan,
+//       favorites, // array
+//       is_active,
+//       languages, // array
+//       slogan,
+//       category,
+//       services, // array
+//       description,
+//       photos,
+//       hours,
+//       rate,
+//       website,
+//       ratings, // array
+//       recruitment,
+//       numberOfGirls
+//     } = req.body;
 
-    const cover_photo = req.file;
+//     const cover_photo = req.file;
 
-    /* Profile Object */
-    const profileFields = {};
-    profileFields.user = req.user.id;
-    if (phone) profileFields.phone = phone;
-    if (type) profileFields.type = type;
-    if (address) profileFields.address = address;
+//     /* Profile Object */
+//     const profileFields = {};
+//     profileFields.user = req.user.id;
+//     if (phone) profileFields.phone = phone;
+//     if (type) profileFields.type = type;
+//     if (address) profileFields.address = address;
 
-    if (subscription_plan) profileFields.subscription_plan = subscription_plan;
-    if (is_active) profileFields.is_active = is_active;
-    if (slogan) profileFields.slogan = slogan;
-    if (category) profileFields.category = category;
-    if (description) profileFields.description = description;
-    if (hours) profileFields.hours = hours;
-    if (rate) profileFields.rate = rate;
-    if (website) profileFields.website = website;
+//     if (subscription_plan) profileFields.subscription_plan = subscription_plan;
+//     if (is_active) profileFields.is_active = is_active;
+//     if (slogan) profileFields.slogan = slogan;
+//     if (category) profileFields.category = category;
+//     if (description) profileFields.description = description;
+//     if (hours) profileFields.hours = hours;
+//     if (rate) profileFields.rate = rate;
+//     if (website) profileFields.website = website;
 
-    //photo
-    if (cover_photo) profileFields.cover_photo = cover_photo;
+//     //photo
+//     if (cover_photo) profileFields.cover_photo = cover_photo;
 
-    // Array items
-    if (photos) profileFields.photos = photos;
+//     // Array items
+//     if (photos) profileFields.photos = photos;
 
-    if (favorites) {
-      profileFields.favorites = favorites;
-    }
-    if (languages) {
-      profileFields.languages = languages;
-    }
-    if (services) {
-      profileFields.services = services;
-    }
-    if (ratings) {
-      profileFields.ratings = ratings;
-    }
-    if (recruitment) {
-      profileFields.recruitment = recruitment;
-    }
-    if (numberOfGirls) {
-      profileFields.numberOfGirls = recruitment;
-    }
+//     if (favorites) {
+//       profileFields.favorites = favorites;
+//     }
+//     if (languages) {
+//       profileFields.languages = languages;
+//     }
+//     if (services) {
+//       profileFields.services = services;
+//     }
+//     if (ratings) {
+//       profileFields.ratings = ratings;
+//     }
+//     if (recruitment) {
+//       profileFields.recruitment = recruitment;
+//     }
+//     if (numberOfGirls) {
+//       profileFields.numberOfGirls = recruitment;
+//     }
 
-    try {
-      let agencyProfile = await AgencyProfile.findOneAndUpdate(
-        { user: req.body.user },
-        { $set: profileFields },
-        { new: true }
-      );
+//     try {
+//       let agencyProfile = await AgencyProfile.findOneAndUpdate(
+//         { user: req.body.user },
+//         { $set: profileFields },
+//         { new: true }
+//       );
 
-      const locat = await geocoder.geocode(address);
+//       const locat = await geocoder.geocode(address);
 
-      profileFields.location = {
-        type: "Point",
-        coordinates: [locat[0].longitude, locat[0].latitude],
-        formattedAddress: locat[0].formattedAddress,
-        city: locat[0].city,
-        zipcode: locat[0].zipcode,
-        canton: locat[0].state,
-        country: locat[0].country,
-        streetName: locat[0].streetName,
-        streetNumber: locat[0].streetNumber,
-        countryCode: locat[0].countryCode
-      };
+//       profileFields.location = {
+//         type: "Point",
+//         coordinates: [locat[0].longitude, locat[0].latitude],
+//         formattedAddress: locat[0].formattedAddress,
+//         city: locat[0].city,
+//         zipcode: locat[0].zipcode,
+//         canton: locat[0].state,
+//         country: locat[0].country,
+//         streetName: locat[0].streetName,
+//         streetNumber: locat[0].streetNumber,
+//         countryCode: locat[0].countryCode
+//       };
 
-      await agencyProfile.save();
+//       await agencyProfile.save();
 
-      res.json(agencyProfile);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
-    }
-  }
-);
+//       res.json(agencyProfile);
+//     } catch (err) {
+//       console.error(err.message);
+//       res.status(500).send("Server Error");
+//     }
+//   }
+// );
 
 // @route    GET api/agencies
 // @desc     Get all agency profiles

@@ -1,9 +1,9 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment, useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { createAgencyProfile } from '../../../actions/agencyProfile';
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { createAgencyProfile } from "../../../actions/agencyProfile";
 
 import {
   agencyCategoryList,
@@ -11,9 +11,10 @@ import {
   categoryList
 } from '../../../constants/data.json';
 
-import InputGroup from '../../common/InputGroup';
-import SelectListGroup from '../../common/SelectListGroup';
-import TextAreaGroup from '../../common/TextAreaGroup';
+
+import InputGroup from "../../common/InputGroup";
+import SelectListGroup from "../../common/SelectListGroup";
+import TextAreaGroup from "../../common/TextAreaGroup";
 import {
   sloganLabel,
   descriptionLabel,
@@ -24,7 +25,9 @@ import {
   websiteLabel,
   numberOfGirlsLabel,
   categoryLabel
-} from '../../common/consts';
+
+} from "../../common/consts";
+
 
 const AgencyAdForm = ({
   createAgencyProfile,
@@ -45,6 +48,8 @@ const AgencyAdForm = ({
     website: '',
     recruitment: '',
     numberOfGirls: ''
+  profile: error
+
   });
 
   const {
@@ -91,7 +96,9 @@ const AgencyAdForm = ({
 
   return (
     <Fragment>
-      <form className="container mb-5">
+
+      <form className="container mb-5" onSubmit={onSubmit}>
+
         <div className="form-group">
           <p>Job Activity</p>
           <div className="form-check form-check-inline">
@@ -129,7 +136,9 @@ const AgencyAdForm = ({
 
         <InputGroup
           name="slogan"
+
           placeholder={'Slogan'}
+
           onChange={onChange}
           labels={sloganLabel}
           value={slogan}
@@ -246,6 +255,7 @@ const AgencyAdForm = ({
         <InputGroup
           name="phone"
           placeholder={'+41 79 000 00 00'}
+
           onChange={onChange}
           labels={phonenumberLabel}
           value={phone}
@@ -253,6 +263,7 @@ const AgencyAdForm = ({
         <InputGroup
           name="website"
           placeholder={'https://www.site.com'}
+
           onChange={onChange}
           labels={websiteLabel}
           value={website}
@@ -273,6 +284,7 @@ AgencyAdForm.propTypes = {};
 const mapStateToProps = state => ({
   auth: state.auth,
   agency: state.agency
+
 });
 
 export default connect(mapStateToProps, {
