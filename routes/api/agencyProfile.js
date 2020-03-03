@@ -78,9 +78,6 @@ router.post(
     check("numberOfGirls", "Number of girls in your agency is required")
       .not()
       .isEmpty()
-    // check("cover_photo", "Profile Picture is required")
-    //   .not()
-    //   .isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -155,20 +152,32 @@ router.post(
     try {
       let agencyProfile = await AgencyProfile.findOne({ user: req.user.id });
 
-      // const locat = await geocoder.geocode(address);
+      if (agencyProfile) {
+        //Update
 
-      // profileFields.location = {
-      //   type: "Point",
-      //   coordinates: [locat[0].longitude, locat[0].latitude],
-      //   formattedAddress: locat[0].formattedAddress,
-      //   city: locat[0].city,
-      //   zipcode: locat[0].zipcode,
-      //   canton: locat[0].state,
-      //   country: locat[0].country,
-      //   streetName: locat[0].streetName,
-      //   streetNumber: locat[0].streetNumber,
-      //   countryCode: locat[0].countryCode
-      // };
+        const locat = await geocoder.geocode(address);
+
+        profileFields.location = {
+          type: "Point",
+          coordinates: [locat[0].longitude, locat[0].latitude],
+          formattedAddress: locat[0].formattedAddress,
+          city: locat[0].city,
+          zipcode: locat[0].zipcode,
+          canton: locat[0].state,
+          country: locat[0].country,
+          streetName: locat[0].streetName,
+          streetNumber: locat[0].streetNumber,
+          countryCode: locat[0].countryCode
+        };
+
+        agencyProfile = await AgencyProfile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileFields },
+          { new: true }
+        );
+
+        return res.json(agencyProfile);
+      }
 
       //Create
       agencyProfile = new AgencyProfile(profileFields);
