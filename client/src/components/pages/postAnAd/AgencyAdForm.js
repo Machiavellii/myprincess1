@@ -9,8 +9,7 @@ import {
   agencyCategoryList,
   servicesList,
   categoryList
-} from '../../../constants/data.json';
-
+} from "../../../constants/data.json";
 
 import InputGroup from "../../common/InputGroup";
 import SelectListGroup from "../../common/SelectListGroup";
@@ -25,9 +24,7 @@ import {
   websiteLabel,
   numberOfGirlsLabel,
   categoryLabel
-
 } from "../../common/consts";
-
 
 const AgencyAdForm = ({
   createAgencyProfile,
@@ -36,20 +33,18 @@ const AgencyAdForm = ({
   agency: error
 }) => {
   const [formData, setFormData] = useState({
-    phone: '',
-    category: '',
+    phone: "",
+    category: "",
     services: [],
-    description: '',
-    address: '',
-    is_active: '',
-    rate: '',
-    slogan: '',
-    hours: '',
-    website: '',
-    recruitment: '',
-    numberOfGirls: ''
-  profile: error
-
+    description: "",
+    address: "",
+    is_active: "",
+    rate: "",
+    slogan: "",
+    hours: "",
+    website: "",
+    recruitment: "",
+    numberOfGirls: ""
   });
 
   const {
@@ -96,9 +91,7 @@ const AgencyAdForm = ({
 
   return (
     <Fragment>
-
       <form className="container mb-5" onSubmit={onSubmit}>
-
         <div className="form-group">
           <p>Job Activity</p>
           <div className="form-check form-check-inline">
@@ -136,9 +129,7 @@ const AgencyAdForm = ({
 
         <InputGroup
           name="slogan"
-
-          placeholder={'Slogan'}
-
+          placeholder={"Slogan"}
           onChange={onChange}
           labels={sloganLabel}
           value={slogan}
@@ -254,16 +245,14 @@ const AgencyAdForm = ({
         />
         <InputGroup
           name="phone"
-          placeholder={'+41 79 000 00 00'}
-
+          placeholder={"+41 79 000 00 00"}
           onChange={onChange}
           labels={phonenumberLabel}
           value={phone}
         />
         <InputGroup
           name="website"
-          placeholder={'https://www.site.com'}
-
+          placeholder={"https://www.site.com"}
           onChange={onChange}
           labels={websiteLabel}
           value={website}
@@ -284,7 +273,6 @@ AgencyAdForm.propTypes = {};
 const mapStateToProps = state => ({
   auth: state.auth,
   agency: state.agency
-
 });
 
 export default connect(mapStateToProps, {
