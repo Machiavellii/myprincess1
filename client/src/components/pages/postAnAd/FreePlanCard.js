@@ -34,6 +34,8 @@ const PricingCard = ({
     subscribePlan(time);
   };
 
+  console.log(profile);
+
   return (
     <div className="card h-100">
       <div className="card-body text-center">
@@ -52,14 +54,25 @@ const PricingCard = ({
         <br />
       </div>
       <div className="card-footer text-center">
-        <Link
-          to="/postanadform"
-          className={'btn ' + (buttonStyle ? 'full' : 'empty')}
-          onClick={() => onClick()}
-        >
-          Start
-          <i className="fas fa-caret-right right-icon" />
-        </Link>
+        {!profile === null && profile.type === 'profile' ? (
+          <Link
+            to="/postanadform"
+            className={'btn ' + (buttonStyle ? 'full' : 'empty')}
+            onClick={() => onClick()}
+          >
+            Start Escort
+            <i className="fas fa-caret-right right-icon" />
+          </Link>
+        ) : (
+          <Link
+            to="/agencyadform"
+            className={'btn ' + (buttonStyle ? 'full' : 'empty')}
+            onClick={() => onClick()}
+          >
+            Start Agency
+            <i className="fas fa-caret-right right-icon" />
+          </Link>
+        )}
       </div>
     </div>
   );
