@@ -52,5 +52,5 @@
 		"fslightbox-react": "^1.4.3",
 		"http-server": "^0.12.1"
 	},
-	"proxy": "http://node19574-myprincess.jcloud.ik-server.com:5000/"
+	"proxy": "http://localhost:5000"
 }
