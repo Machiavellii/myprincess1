@@ -40,7 +40,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 //Prevent HPP param polution
-app.use(hpp());
+//app.use(hpp());
 
 // END PROTECT
 
