@@ -16,20 +16,20 @@ import {
 	typePlan
 } from '../../actions/profile';
 
-import { getCurrentAgency } from '../../actions/agencyProfile';
+//import { getCurrentAgency } from '../../actions/agencyProfile';
 
 const Dashboard = ({
 	getCurrentProfile,
 	profile: { profile, loading },
-	getCurrentAgency,
-	agencyProfile,
+	//getCurrentAgency,
+	//agencyProfile,
 	deleteAccount,
 	typePlan
 }) => {
 	useEffect(() => {
 		getCurrentProfile();
-		getCurrentAgency();
-	}, [getCurrentProfile, getCurrentAgency]);
+		//getCurrentAgency();
+	}, [getCurrentProfile]);
 
 	const [kindtype, setType] = useState(false);
 
@@ -44,7 +44,7 @@ const Dashboard = ({
 		typePlan(type);
 	};
 
-	console.log(agencyProfile);
+	//console.log(agencyProfile);
 
 	const renderPostAnAdButton = () => {
 		return type === 'profile' ? (
@@ -157,12 +157,12 @@ Dashboard.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	profile: state.profile,
-	agencyProfile: state.agencyProfile
+	profile: state.profile
+	//agencyProfile: state.agencyProfile
 });
 export default connect(mapStateToProps, {
 	getCurrentProfile,
-	getCurrentAgency,
+	//getCurrentAgency,
 	deleteAccount,
 	typePlan
 })(Dashboard);
