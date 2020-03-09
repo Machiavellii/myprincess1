@@ -40,6 +40,11 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import AdminRoute from './components/routing/AdminRoute';
 import Terms from './components/layout/Terms';
 
+import AgencyDashboard from './components/dashboard/AgencyDashboard';
+import AgencyEditAdForm from './components/pages/postAnAd/AgencyEditAdForm';
+import UploadAgencyCover from './components/pages/postAnAd/UploadAgencyCover';
+import UploadAgencyGallery from './components/pages/postAnAd/UploadAgencyGallery';
+
 import { loadUser, getUsers } from './actions/auth';
 import { loadAdmin } from './actions/adminAuth';
 
@@ -111,6 +116,27 @@ const App = () => {
 							exact
 							path='/upload-gallery'
 							component={UploadGallery}
+						/>
+
+						<PrivateRoute
+							exact
+							path='/agencydashboard'
+							component={AgencyDashboard}
+						/>
+						<PrivateRoute
+							exact
+							path='/agency-edit-profile'
+							component={AgencyEditAdForm}
+						/>
+						<PrivateRoute
+							exact
+							path='/agency-upload-cover'
+							component={UploadAgencyCover}
+						/>
+						<PrivateRoute
+							exact
+							path='/agency-upload-gallery'
+							component={UploadAgencyGallery}
 						/>
 					</Switch>
 					<Footer />
