@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
 
-const Profile = require("../../models/profile");
+const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 
 const geocoder = require("../../utills/geocoder");

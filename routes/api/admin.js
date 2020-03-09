@@ -10,7 +10,7 @@ const authAdmin = require("../../middleware/authAdmin");
 // Admin Model
 const Admin = require("../../models/Admin");
 const User = require("../../models/User");
-const Profile = require("../../models/profile");
+const Profile = require("../../models/Profile");
 
 // @route    GET api/admin
 // @desc     GET Admin
