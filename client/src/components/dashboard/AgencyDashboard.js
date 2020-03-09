@@ -3,33 +3,33 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import DashboardAction from './DashboardActions';
+import AgencyDashboardAction from './AgencyDashboardAction';
 
 import Carousel from '../landing/landingpages/landingcontent/singleGirl/carousel/Carousel';
-import Header from '../landing/landingpages/landingcontent/singleGirl/describeGirl/componentGirls/HeaderGirl';
-import DescribeGirl from '../landing/landingpages/landingcontent/singleGirl/describeGirl/Girl';
-import GalleryHolder from '../landing/landingpages/landingcontent/singleGirl/gallery/GalleryHolder';
+import Header from '../landing/landingpages/landingcontent/singleAgency/describeAgency/componentAgency/HeaderAgency';
+import DescribeAgency from '../landing/landingpages/landingcontent/singleAgency/gallery/galleryComponent/DescribeAgency';
+import GalleryHolderAgency from '../landing/landingpages/landingcontent/singleAgency/gallery/GalleryHolderAgency';
 
 import {
-	getCurrentProfile,
-	deleteAccount,
+	getCurrentAgency,
+	agencyDeleteAccount,
 	typePlan
-} from '../../actions/profile';
+} from '../../actions/agencyProfile';
 
 //import { getCurrentAgency } from '../../actions/agencyProfile';
 
-const Dashboard = ({
-	getCurrentProfile,
-	profile: { profile, loading },
+const AgencyDashboard = ({
+	getCurrentAgency,
+	agency: { agency, loading },
 	//getCurrentAgency,
 	//agencyProfile,
-	deleteAccount,
+	agencyDeleteAccount,
 	typePlan
 }) => {
 	useEffect(() => {
-		getCurrentProfile();
+		getCurrentAgency();
 		//getCurrentAgency();
-	}, [getCurrentProfile]);
+	}, [getCurrentAgency]);
 
 	const [kindtype, setType] = useState(false);
 
@@ -51,7 +51,7 @@ const Dashboard = ({
 			<Fragment>
 				<Link
 					to='/postanad'
-					className='btn my-3 rose-border'
+					className='btn  my-3 rose-border'
 					style={{ backgroundColor: '#2b2b2b', color: '#fff' }}
 					onClick={onClick}>
 					Post an Ad
@@ -61,7 +61,7 @@ const Dashboard = ({
 			<Fragment>
 				<Link
 					to='/postanad'
-					className='btn my-3 rose-border'
+					className='btn  my-3 rose-border'
 					style={{ backgroundColor: '#2b2b2b', color: '#fff' }}
 					onClick={onClick}>
 					Post an Ad
@@ -70,30 +70,30 @@ const Dashboard = ({
 		);
 	};
 
-	return loading && profile === null ? (
+	return loading && agency === null ? (
 		<Spinner />
 	) : (
 		<Fragment>
-			{profile !== null ? (
+			{agency !== null ? (
 				<Fragment>
 					<div className='container text-center px-1'>
-						<DashboardAction />
+						<AgencyDashboardAction />
 					</div>
-					<Carousel photos={profile.photos} />
+					<Carousel photos={agency.photos} />
 					<div className='holder dashboard-content'>
-						<Header profile={profile} />
+						<Header agency={agency} />
 						<div className='container'>
 							<div className='row'>
 								<div className='col-sm-12 col-md-8'>
-									<DescribeGirl profile={profile} />
+									<DescribeAgency agency={agency} />
 								</div>
 								<div className='col-sm-12 col-md-4 gallery'>
-									<GalleryHolder profile={profile} />
+									<GalleryHolderAgency agency={agency} />
 								</div>
 							</div>
 							<button
 								className='btn btn-danger'
-								onClick={() => deleteAccount()}>
+								onClick={() => agencyDeleteAccount()}>
 								<i className='fas fa-user-minus'> Delete My Account</i>
 							</button>
 						</div>
@@ -151,18 +151,18 @@ const Dashboard = ({
 	);
 };
 
-Dashboard.propTypes = {
-	getCurrentProfile: PropTypes.func.isRequired,
-	profile: PropTypes.object.isRequired
+AgencyDashboard.propTypes = {
+	getCurrentAgency: PropTypes.func.isRequired,
+	agency: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-	profile: state.profile
+	agency: state.agency
 	//agencyProfile: state.agencyProfile
 });
 export default connect(mapStateToProps, {
-	getCurrentProfile,
+	getCurrentAgency,
 	//getCurrentAgency,
-	deleteAccount,
+	agencyDeleteAccount,
 	typePlan
-})(Dashboard);
+})(AgencyDashboard);

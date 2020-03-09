@@ -18,8 +18,7 @@ import {
 	TOGGLE_ACTIVE,
 	DECREASE_HOURS,
 	UPLOAD_COVER,
-	UPLOAD_GALLERY,
-	GET_AGENCY_PROFILE
+	UPLOAD_GALLERY
 } from './type';
 
 toast.configure();
