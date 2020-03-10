@@ -63,6 +63,10 @@ const ProfileSchema = new Schema({
     type: Boolean,
     default: false
   },
+  in_agency: {
+    type: Boolean,
+    default: false
+  },
   languages: {
     type: [String],
     required: true

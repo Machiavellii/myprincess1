@@ -111,6 +111,7 @@ router.post(
       end_of_subscription,
       favorites, // array
       is_active,
+      in_agency,
       languages, // array
       slogan,
       category,
@@ -141,6 +142,7 @@ router.post(
 
     if (subscription_plan) profileFields.subscription_plan = subscription_plan;
     if (is_active) profileFields.is_active = is_active;
+    if (in_agency) profileFields.in_agency = in_agency;
     if (slogan) profileFields.slogan = slogan;
     if (category) profileFields.category = category;
     if (age) profileFields.age = age;
@@ -429,6 +431,20 @@ router.put("/me/isActive", auth, async (req, res) => {
     profile.is_active = !profile.is_active;
     profile.save();
     return res.json(profile.is_active);
+  } catch (err) {
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route PUT api/profile/inagency
+// @desc In Agency route
+// @access Private
+router.put("/me/inagency", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    profile.in_agency = !profile.in_agency;
+    profile.save();
+    return res.json(profile.in_agency);
   } catch (err) {
     res.status(500).send("Server Error");
   }

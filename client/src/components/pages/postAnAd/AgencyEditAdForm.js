@@ -1,23 +1,23 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment, useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 import {
   createAgencyProfile,
   getCurrentAgency
-} from '../../../actions/agencyProfile';
+} from "../../../actions/agencyProfile";
 
 import {
   agencyCategoryList,
   servicesList,
   categoryList
-} from '../../../constants/data.json';
+} from "../../../constants/data.json";
 
-import InputGroup from '../../common/InputGroup';
-import SelectListGroup from '../../common/SelectListGroup';
-import TextAreaGroup from '../../common/TextAreaGroup';
+import InputGroup from "../../common/InputGroup";
+import SelectListGroup from "../../common/SelectListGroup";
+import TextAreaGroup from "../../common/TextAreaGroup";
 import {
   sloganLabel,
   descriptionLabel,
@@ -28,7 +28,7 @@ import {
   phonenumberLabel,
   websiteLabel,
   numberOfGirlsLabel
-} from '../../common/consts';
+} from "../../common/consts";
 
 const AgencyEditAdForm = ({
   createAgencyProfile,
@@ -37,38 +37,38 @@ const AgencyEditAdForm = ({
   agency: { agency, loading }
 }) => {
   const [formData, setFormData] = useState({
-    phone: '',
-    category: '',
+    phone: "",
+    category: "",
     services: [],
-    description: '',
-    address: '',
-    is_active: '',
-    rate: '',
-    slogan: '',
-    hours: '',
-    website: '',
-    recruitment: '',
-    numberOfGirls: '',
-    errors: ''
+    description: "",
+    address: "",
+    is_active: "",
+    rate: "",
+    slogan: "",
+    hours: "",
+    website: "",
+    recruitment: "",
+    numberOfGirls: "",
+    errors: ""
   });
 
   useEffect(() => {
     getCurrentAgency();
 
     setFormData({
-      phone: loading || !agency.phone ? ' ' : agency.phone,
-      category: loading || !agency.category ? ' ' : agency.category,
-      services: loading || !agency.services ? ' ' : agency.services,
-      description: loading || !agency.description ? ' ' : agency.description,
-      address: loading || !agency.address ? ' ' : agency.address,
-      is_active: loading || !agency.is_active ? ' ' : agency.is_active,
-      rate: loading || !agency.rate ? ' ' : agency.rate,
-      slogan: loading || !agency.slogan ? ' ' : agency.slogan,
-      hours: loading || !agency.hours ? ' ' : agency.hours,
-      website: loading || !agency.website ? ' ' : agency.website,
-      recruitment: loading || !agency.recruitment ? ' ' : agency.recruitment,
+      phone: loading || !agency.phone ? " " : agency.phone,
+      category: loading || !agency.category ? " " : agency.category,
+      services: loading || !agency.services ? " " : agency.services,
+      description: loading || !agency.description ? " " : agency.description,
+      address: loading || !agency.address ? " " : agency.address,
+      is_active: loading || !agency.is_active ? " " : agency.is_active,
+      rate: loading || !agency.rate ? " " : agency.rate,
+      slogan: loading || !agency.slogan ? " " : agency.slogan,
+      hours: loading || !agency.hours ? " " : agency.hours,
+      website: loading || !agency.website ? " " : agency.website,
+      recruitment: loading || !agency.recruitment ? " " : agency.recruitment,
       numberOfGirls:
-        loading || !agency.numberOfGirls ? ' ' : agency.numberOfGirls
+        loading || !agency.numberOfGirls ? " " : agency.numberOfGirls
     });
   }, [loading, getCurrentAgency]);
 
@@ -95,7 +95,7 @@ const AgencyEditAdForm = ({
   const getCheckStatus = (value, type) => {
     let list = null;
 
-    if (type === 'services') {
+    if (type === "services") {
       list = services;
     }
 
@@ -134,6 +134,8 @@ const AgencyEditAdForm = ({
     createAgencyProfile(formData, history, true);
   };
 
+  console.log(formData);
+
   return (
     <Fragment>
       <form
@@ -151,7 +153,6 @@ const AgencyEditAdForm = ({
               id="active"
               value={true}
               onChange={onChange}
-              checked={getCheckStatus(true)}
             />
             <label className="form-check-label" htmlFor="active">
               active
@@ -165,7 +166,6 @@ const AgencyEditAdForm = ({
               id="inactive"
               value={false}
               onChange={onChange}
-              checked={getCheckStatus(false)}
             />
             <label className="form-check-label" htmlFor="inactive">
               inactive
@@ -180,11 +180,10 @@ const AgencyEditAdForm = ({
 
         <InputGroup
           name="slogan"
-          placeholder={'Slogan'}
+          placeholder={"Slogan"}
           onChange={onChange}
           labels={sloganLabel}
           value={slogan}
-          error={errors}
         />
 
         <div className="form-group">
@@ -201,10 +200,10 @@ const AgencyEditAdForm = ({
                 <input
                   className="form-check-input"
                   type="checkbox"
+                  id={service}
                   value={service}
                   name="services"
                   onChange={e => onCheckBoxServ(e, service)}
-                  checked={getCheckStatus(service, 'services')}
                 />
                 <label
                   className="form-check-label dynamic-checkbox-label ml-2"
@@ -221,7 +220,6 @@ const AgencyEditAdForm = ({
           name="category"
           value={category}
           onChange={onChange}
-          error={errors}
           options={agencyCategoryList}
           labels={categoryLabel}
         />
@@ -261,7 +259,6 @@ const AgencyEditAdForm = ({
               id="recruting"
               value={true}
               onChange={onChange}
-              checked={getCheckStatus(true)}
             />
             <label className="form-check-label" htmlFor="recruting">
               Yes
@@ -275,7 +272,6 @@ const AgencyEditAdForm = ({
               id="noRecruting"
               value={false}
               onChange={onChange}
-              checked={getCheckStatus(false)}
             />
             <label className="form-check-label" htmlFor="noRecruting">
               No
@@ -300,18 +296,19 @@ const AgencyEditAdForm = ({
         />
         <InputGroup
           name="phone"
-          placeholder={'+41 79 000 00 00'}
+          placeholder={"+41 79 000 00 00"}
           onChange={onChange}
           labels={phonenumberLabel}
           value={phone}
         />
         <InputGroup
           name="website"
-          placeholder={'https://www.site.com'}
+          placeholder={"https://www.site.com"}
           onChange={onChange}
           labels={websiteLabel}
           value={website}
         />
+
         <button
           type="submit"
           className="btn btn-primary btn-lg btn-block main-theme-btn"
