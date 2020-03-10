@@ -19,7 +19,6 @@ import {
 const AgencyDashboard = ({
   getCurrentAgency,
   agency: { agency, loading },
-  //agencyProfile,
   agencyDeleteAccount,
   typePlan
 }) => {
@@ -67,7 +66,6 @@ const AgencyDashboard = ({
       </Fragment>
     );
   };
-
 
   return loading && agency === null ? (
     <Spinner />

@@ -323,7 +323,7 @@ const AgencyEditAdForm = ({
 AgencyEditAdForm.propTypes = {};
 
 const mapStateToProps = state => ({
-  agency: state.agency
+  agency: state.agencyProfile
 });
 
 export default connect(mapStateToProps, {

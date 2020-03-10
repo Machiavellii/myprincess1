@@ -10,9 +10,7 @@ import { filterFunc } from "../../actions/profile";
 const Navbar = ({
   auth: { isAuthenticated, loading, user },
   logout,
-  filterFunc,
-  profile: { profile },
-  agency
+  filterFunc
 }) => {
   let [showHide, setShow] = useState(false);
   let [showInput] = useState("");
@@ -26,9 +24,6 @@ const Navbar = ({
     setFilter(e.target.value);
     filterFunc(filter);
   };
-
-  // console.log(profile);
-  console.log(agency);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark" id="top">
@@ -136,66 +131,70 @@ const Navbar = ({
                           Post an ad
                         </NavLink>
                       </li> */}
-										<div className='dropdown'>
-											<a
-												className='nav-link'
-												href='#'
-												role='button'
-												id='dropdownMenuLink'
-												data-toggle='dropdown'
-												aria-haspopup='true'
-												aria-expanded='false'>
-												<i className='far fa-bell'></i>
-												<span class='counter counter-lg'>3</span>
-											</a>
+                    <div className="dropdown">
+                      <a
+                        className="nav-link"
+                        href="#"
+                        role="button"
+                        id="dropdownMenuLink"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <i className="far fa-bell"></i>
+                        <span className="counter counter-lg">3</span>
+                      </a>
 
-											<div
-												className='dropdown-menu notification-dropdown'
-												aria-labelledby='dropdownMenuButton'>
-												<li className='nav-item notification-item'>
-													<div class='alert alert-info'>
-														<strong>Agency</strong> sent you an invitation
-														<div className='btn-group'>
-															<button className='btn btn-success notification-button'>
-																Accepte
-															</button>
-															<button className='btn btn-danger notification-button'>
-																Reject
-															</button>
-														</div>
-													</div>
-													<div className='alert alert-danger'>
-														<strong>Agency2</strong> rejected your join request
-													</div>
-													<div className='alert alert-success'>
-														<strong>Agency3</strong> accepted your join request
-													</div>
-												</li>
-											</div>
-										</div>
-									</Fragment>
-								) : (
-									<Fragment>
-										<li className='nav-item'>
-											<NavLink
-												to='/login'
-												className='nav-link'
-												activeclassname='active'>
-												Sing in
-											</NavLink>
-										</li>
-										<li className='nav-item'>
-											<NavLink
-												to='/register'
-												className='nav-link'
-												activeclassname='active'>
-												Sing Up
-											</NavLink>
-										</li>
-									</Fragment>
-								)}
+                      <div
+                        className="dropdown-menu notification-dropdown"
+                        aria-labelledby="dropdownMenuButton"
+                      >
+                        <li className="nav-item notification-item">
+                          <div className="alert alert-info">
+                            <strong>Agency</strong> sent you an invitation
+                            <div className="btn-group">
+                              <button className="btn btn-success notification-button">
+                                Accepte
+                              </button>
+                              <button className="btn btn-danger notification-button">
+                                Reject
+                              </button>
+                            </div>
+                          </div>
+                          <div className="alert alert-danger">
+                            <strong>Agency2</strong> rejected your join request
+                          </div>
+                          <div className="alert alert-success">
+                            <strong>Agency3</strong> accepted your join request
+                          </div>
+                        </li>
+                      </div>
+                    </div>
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/login"
+                        className="nav-link"
+                        activeclassname="active"
+                      >
+                        Sing in
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/register"
+                        className="nav-link"
+                        activeclassname="active"
+                      >
+                        Sing Up
+                      </NavLink>
+                    </li>
+                  </Fragment>
+                )}
 
-								{/* <li className='nav-item'>
+                {/* <li className='nav-item'>
 									<a
 										href='https://m.facebook.com/Xanibis.ch'
 										className='nav-link rose-border'
@@ -205,20 +204,17 @@ const Navbar = ({
 										Facebook
 									</a>
 								</li> */}
-							</ul>
-						</div>
-					</div>
-				</Fragment>
-			)}
-		</nav>
-	);
-              
+              </ul>
+            </div>
+          </div>
+        </Fragment>
+      )}
+    </nav>
+  );
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  profile: state.profile,
-  agency: state.agencyProfile
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { logout, filterFunc })(Navbar);

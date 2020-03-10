@@ -14,11 +14,13 @@ const DashboardActions = ({ agencyToggleActive, agency: { agency } }) => {
   }, []);
 
   console.log(agency);
+
   Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;
   };
+
   let remainingHours = new Date();
   const dateOfExpiry = remainingHours.addDays(agency.subscription_plan);
 
