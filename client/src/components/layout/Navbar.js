@@ -127,6 +127,43 @@ const Navbar = ({
                           Post an ad
                         </NavLink>
                       </li> */}
+										<div className='dropdown'>
+											<a
+												className='nav-link'
+												href='#'
+												role='button'
+												id='dropdownMenuLink'
+												data-toggle='dropdown'
+												aria-haspopup='true'
+												aria-expanded='false'>
+												<i className='far fa-bell'></i>
+												<span class='counter counter-lg'>3</span>
+											</a>
+
+											<div
+												className='dropdown-menu notification-dropdown'
+												aria-labelledby='dropdownMenuButton'>
+												<li className='nav-item notification-item'>
+													<div class='alert alert-info'>
+														<strong>Agency</strong> sent you an invitation
+														<div className='btn-group'>
+															<button className='btn btn-success notification-button'>
+																Accepte
+															</button>
+															<button className='btn btn-danger notification-button'>
+																Reject
+															</button>
+														</div>
+													</div>
+													<div className='alert alert-danger'>
+														<strong>Agency2</strong> rejected your join request
+													</div>
+													<div className='alert alert-success'>
+														<strong>Agency3</strong> accepted your join request
+													</div>
+												</li>
+											</div>
+										</div>
 									</Fragment>
 								) : (
 									<Fragment>
@@ -149,7 +186,7 @@ const Navbar = ({
 									</Fragment>
 								)}
 
-								<li className='nav-item'>
+								{/* <li className='nav-item'>
 									<a
 										href='https://m.facebook.com/Xanibis.ch'
 										className='nav-link rose-border'
@@ -158,7 +195,7 @@ const Navbar = ({
 										rel='noopener noreferrer'>
 										Facebook
 									</a>
-								</li>
+								</li> */}
 							</ul>
 						</div>
 					</div>

@@ -60,7 +60,7 @@ const Dashboard = ({
 		) : (
 			<Fragment>
 				<Link
-					to='/postanad'
+					to='/agencypostanad'
 					className='btn my-3 rose-border'
 					style={{ backgroundColor: '#2b2b2b', color: '#fff' }}
 					onClick={onClick}>

@@ -44,6 +44,7 @@ import AgencyDashboard from './components/dashboard/AgencyDashboard';
 import AgencyEditAdForm from './components/pages/postAnAd/AgencyEditAdForm';
 import UploadAgencyCover from './components/pages/postAnAd/UploadAgencyCover';
 import UploadAgencyGallery from './components/pages/postAnAd/UploadAgencyGallery';
+import AgencyPostAnAd from './components/pages/postAnAd/AgencyPostAnAd';
 
 import { loadUser, getUsers } from './actions/auth';
 import { loadAdmin } from './actions/adminAuth';
@@ -137,6 +138,11 @@ const App = () => {
 							exact
 							path='/agency-upload-gallery'
 							component={UploadAgencyGallery}
+						/>
+						<PrivateRoute
+							exact
+							path='/agencypostanad'
+							component={AgencyPostAnAd}
 						/>
 					</Switch>
 					<Footer />
