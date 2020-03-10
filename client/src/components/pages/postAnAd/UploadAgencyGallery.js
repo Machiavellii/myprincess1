@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 
 import {
   uploadAgencyGallery,
   getCurrentAgency
-} from '../../../actions/agencyProfile';
+} from "../../../actions/agencyProfile";
 
-import Progress from '../../layout/Progress';
+import Progress from "../../layout/Progress";
 
 const UploadAgencyGallery = ({
   uploadAgencyGallery,
@@ -65,7 +65,7 @@ const UploadAgencyGallery = ({
     let formGallery = new FormData();
 
     for (const key of Object.keys(photos)) {
-      formGallery.append('photos', photos[key]);
+      formGallery.append("photos", photos[key]);
     }
     uploadAgencyGallery(formGallery, history, setUploadPercentage);
   };
@@ -167,7 +167,7 @@ const UploadAgencyGallery = ({
 
         <div className="row my-3 justify-content-between">
           {agency === null || agency.photos === undefined
-            ? ''
+            ? ""
             : agency.photos.map((photo, i) => (
                 <div
                   className="col-6 col-sm-3 col-md-auto holder-img-btn mb-2"
@@ -202,7 +202,7 @@ const UploadAgencyGallery = ({
 };
 
 const mapStateToProps = state => ({
-  agency: state.agency
+  agency: state.agencyProfile
 });
 
 export default connect(mapStateToProps, {
