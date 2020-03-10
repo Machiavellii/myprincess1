@@ -7,13 +7,13 @@ import { Link } from 'react-router-dom';
 
 import {
 	subscribePlan,
-	getCurrentProfile,
+	getCurrentAgency,
 	payment
-} from '../../../actions/profile';
+} from '../../../actions/agencyProfile';
 
 const PricingCard = ({
 	subscribePlan,
-	profile: { profile, loading },
+	agency: { agency, loading },
 	payment,
 	days,
 	subscription_plan,
@@ -25,8 +25,8 @@ const PricingCard = ({
 	amount
 }) => {
 	useEffect(() => {
-		getCurrentProfile();
-	}, [getCurrentProfile]);
+		getCurrentAgency();
+	}, [getCurrentAgency]);
 
 	const onClick = () => {
 		const time = { subscription_plan };
@@ -34,7 +34,7 @@ const PricingCard = ({
 		subscribePlan(time);
 	};
 
-	console.log(profile);
+	console.log(agency);
 
 	return (
 		<div className='card h-100'>
@@ -55,7 +55,7 @@ const PricingCard = ({
 			</div>
 			<div className='card-footer text-center'>
 				<Link
-					to='/postanadform'
+					to='/agencyadform'
 					className={'btn ' + (buttonStyle ? 'full' : 'empty')}
 					onClick={() => onClick()}>
 					Start
@@ -67,15 +67,15 @@ const PricingCard = ({
 };
 
 PricingCard.propTypes = {
-	getCurrentProfile: PropTypes.func.isRequired
+	getCurrentAgency: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	profile: state.profile
+	agency: state.agency
 });
 
 export default connect(mapStateToProps, {
 	payment,
 	subscribePlan,
-	getCurrentProfile
+	getCurrentAgency
 })(PricingCard);

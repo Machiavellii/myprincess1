@@ -39,31 +39,31 @@ const Dashboard = ({
     typePlan(type);
   };
 
-  const renderPostAnAdButton = () => {
-    return type === "profile" ? (
-      <Fragment>
-        <Link
-          to="/postanad"
-          className="btn my-3 rose-border"
-          style={{ backgroundColor: "#2b2b2b", color: "#fff" }}
-          onClick={onClick}
-        >
-          Post an Ad
-        </Link>
-      </Fragment>
-    ) : (
-      <Fragment>
-        <Link
-          to="/postanad"
-          className="btn my-3 rose-border"
-          style={{ backgroundColor: "#2b2b2b", color: "#fff" }}
-          onClick={onClick}
-        >
-          Post an Ad
-        </Link>
-      </Fragment>
-    );
-  };
+
+	const renderPostAnAdButton = () => {
+		return type === 'profile' ? (
+			<Fragment>
+				<Link
+					to='/postanad'
+					className='btn my-3 rose-border'
+					style={{ backgroundColor: '#2b2b2b', color: '#fff' }}
+					onClick={onClick}>
+					Post an Ad
+				</Link>
+			</Fragment>
+		) : (
+			<Fragment>
+				<Link
+					to='/agencypostanad'
+					className='btn my-3 rose-border'
+					style={{ backgroundColor: '#2b2b2b', color: '#fff' }}
+					onClick={onClick}>
+					Post an Ad
+				</Link>
+			</Fragment>
+		);
+	};
+
 
   return loading && profile === null ? (
     <Spinner />
