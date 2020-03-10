@@ -11,9 +11,10 @@ import {
   ACCOUNT_DELETED
 } from "./type";
 
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import { createBrowserHistory } from "history";
 
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 // CREATE AGENCY PROFIL
 export const createAgencyProfile = (
@@ -205,44 +206,44 @@ export const typePlan = value => async dispatch => {
 
 // SUBSCRIPTION PLAN
 export const subscribePlan = time => async dispatch => {
-	try {
-		const res = await axios.post('api/agency/subscription', time);
+  try {
+    const res = await axios.post("api/agency/subscription", time);
 
-		dispatch({
-			type: GET_AGENCY_PROFILE,
-			payload: res.data
-		});
-	} catch (err) {
-		const errors = err.response.data.errors;
+    dispatch({
+      type: GET_AGENCY_PROFILE,
+      payload: res.data
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-		if (errors) {
-			errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-		}
-	}
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+  }
 };
 
 // Stripe Payment Method
 export const payment = async (profile, token) => {
-	const history = createBrowserHistory();
-	try {
-		const res = await axios.post('/api/payment', { token, profile });
+  const history = createBrowserHistory();
+  try {
+    const res = await axios.post("/api/payment", { token, profile });
 
-		const { status } = res.data;
+    const { status } = res.data;
 
-		console.log(status);
-		status === 'success'
-			? toast(
-					'Success! Check email for details',
-					{ type: 'success' },
-					history.push(`/agencyadform`),
-					window.location.reload()
-			  )
-			: toast('Something went wrong', { type: 'error' });
-	} catch (err) {
-		console.log(err);
-		// dispatch({
-		//   type: PROFILE_ERROR,
-		//   payload: { msg: err.response.statusText, status: err.response.status }
-		// });
-	}
+    console.log(status);
+    status === "success"
+      ? toast(
+          "Success! Check email for details",
+          { type: "success" },
+          history.push(`/agencyadform`),
+          window.location.reload()
+        )
+      : toast("Something went wrong", { type: "error" });
+  } catch (err) {
+    console.log(err);
+    // dispatch({
+    //   type: PROFILE_ERROR,
+    //   payload: { msg: err.response.statusText, status: err.response.status }
+    // });
+  }
 };
