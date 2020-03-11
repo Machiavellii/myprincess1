@@ -4,7 +4,8 @@ import {
   UPLOAD_AGENCY_COVER,
   UPLOAD_AGENCY_GALLERY,
   AGENCY_TOGGLE_ACTIVE,
-  CLEAR_AGENCY
+  CLEAR_AGENCY,
+  GET_AGENCY_PROFILES
 } from "../actions/type";
 
 const initialState = {
@@ -31,6 +32,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         agency: payload,
+        loading: false
+      };
+    case GET_AGENCY_PROFILES:
+      return {
+        ...state,
+        agencies: payload,
         loading: false
       };
     case AGENCY_TOGGLE_ACTIVE:

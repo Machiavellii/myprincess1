@@ -13,8 +13,6 @@ const DashboardActions = ({ agencyToggleActive, agency: { agency } }) => {
     getCurrentAgency();
   }, []);
 
-  console.log(agency);
-
   Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);

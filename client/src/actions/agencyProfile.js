@@ -8,7 +8,8 @@ import {
   UPLOAD_AGENCY_GALLERY,
   AGENCY_TOGGLE_ACTIVE,
   CLEAR_AGENCY,
-  ACCOUNT_DELETED
+  ACCOUNT_DELETED,
+  GET_AGENCY_PROFILES
 } from "./type";
 
 import { toast } from "react-toastify";
@@ -69,8 +70,41 @@ export const getCurrentAgency = () => async dispatch => {
   }
 };
 
-// UPLOAD COVER
+// GET All Agency Profiles
+export const getAgencyProfiles = () => async dispatch => {
+  dispatch({ type: CLEAR_AGENCY });
+  try {
+    const res = await axios.get("/api/agency");
 
+    dispatch({
+      type: GET_AGENCY_PROFILES,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: AGENCY_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+export const getAgencyProfileById = userId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/agency/user/${userId}`);
+
+    dispatch({
+      type: GET_AGENCY_PROFILE,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: AGENCY_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// UPLOAD COVER
 export const uploadAgencyCover = (
   formFile,
   history,
@@ -187,9 +221,11 @@ export const agencyDeleteAccount = () => async dispatch => {
   }
 };
 
-export const typePlan = value => async dispatch => {
+export const typePlanAgency = value => async dispatch => {
   try {
     const res = await axios.post("api/agency/type", value);
+
+    console.log(res);
 
     dispatch({
       type: GET_AGENCY_PROFILE,

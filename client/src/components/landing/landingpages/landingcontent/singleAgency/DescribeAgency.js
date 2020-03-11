@@ -1,28 +1,28 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
-import { getProfileById } from "../../../../../actions/profile";
+import { getAgencyProfileById } from "../../../../../actions/agencyProfile";
 import { Link } from "react-router-dom";
 import Spinner from "../../../../layout/Spinner";
 
 import "../../../../../styles/singleGirl.css";
 
 import Carousel from "./carousel/Carousel";
-import Header from "./describeGirl/componentGirls/HeaderGirl";
-import DescribeGirl from "./describeGirl/Girl";
-import GalleryHolder from "./gallery/GalleryHolder";
+import Header from "./describeAgency/componentAgency/HeaderAgency";
+import DescribeGirl from "./describeAgency/Agency";
+import GalleryHolder from "./gallery/GalleryHolderAgency";
 
-const DescribeContent = ({
-  getProfileById,
-  profile: { profile, loading },
+const DescribeAgency = ({
+  getAgencyProfileById,
+  agency: { agency, loading },
   match
 }) => {
   useEffect(() => {
-    getProfileById(match.params.id);
-  }, [getProfileById, match.params.id]);
+    getAgencyProfileById(match.params.id);
+  }, [getAgencyProfileById, match.params.id]);
 
   return (
     <Fragment>
-      {profile === null || loading ? (
+      {agency === null || loading ? (
         <Spinner />
       ) : (
         <Fragment>
@@ -31,16 +31,16 @@ const DescribeContent = ({
               Back
             </Link>
           </div>
-          <Carousel photos={profile.photos} />
+          <Carousel photos={agency.photos} />
           <div className="holder">
-            <Header profile={profile} />
+            <Header agency={agency} />
             <div className="container">
               <div className="row">
                 <div className="col-sm-12 col-md-8">
-                  <DescribeGirl profile={profile} />
+                  <DescribeGirl agency={agency} />
                 </div>
                 <div className="col-sm-12 col-md-4 gallery">
-                  <GalleryHolder profile={profile} />
+                  <GalleryHolder agency={agency} />
                 </div>
               </div>
             </div>
@@ -52,9 +52,9 @@ const DescribeContent = ({
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile
+  agency: state.agencyProfile
 });
 
 export default connect(mapStateToProps, {
-  getProfileById
-})(DescribeContent);
+  getAgencyProfileById
+})(DescribeAgency);

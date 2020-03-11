@@ -450,7 +450,7 @@ router.put("/me/inagency", auth, async (req, res) => {
   }
 });
 
-// @route PUT api/profile/type
+// @route POST api/profile/type
 // @desc Type: agency or escort
 // @access Private
 router.post("/type", auth, async (req, res) => {

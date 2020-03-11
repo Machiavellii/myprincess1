@@ -3,7 +3,7 @@ import "../../../../styles/contents.css";
 import { Link } from "react-router-dom";
 import Pagination from "../../../common/Pagination";
 
-const Contents = ({ profiles: { profile } }) => {
+const Contents = ({ profiles: { profile }, agencies: { agency } }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [contentsPerPage] = useState(3);
 
@@ -15,6 +15,7 @@ const Contents = ({ profiles: { profile } }) => {
     indexOfLastContent
   );
 
+  console.log(agency);
   const filter =
     profile.profileFilter.length >= 1 ? profile.profileFilter : currentContent;
 
