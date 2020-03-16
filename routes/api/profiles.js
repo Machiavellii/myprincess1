@@ -549,4 +549,22 @@ router.put("/reduceSubscription", async (req, res) => {
   }
 });
 
+// @route    POST api/profile/boost
+// @desc     Boost profile to the start of array
+// @access   Private
+
+router.put("/boost", auth, async (req, res) => {
+  let { date, user } = req.body;
+
+  try {
+    let profile = await Profile.findOneAndUpdate({ profile });
+
+    date = Date.now();
+
+    res.json(profile);
+  } catch (err) {
+    res.status(500).send({ msg: err.message });
+  }
+});
+
 module.exports = router;
