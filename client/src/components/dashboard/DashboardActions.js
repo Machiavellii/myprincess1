@@ -1,11 +1,19 @@
-import React, { useEffect, Fragment } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { toggleActive, getCurrentProfile } from "../../actions/profile";
-import Moment from "react-moment";
+import React, { useEffect, Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import {
+  toggleActive,
+  getCurrentProfile,
+  boostProfile
+} from '../../actions/profile';
+import Moment from 'react-moment';
 
-const DashboardActions = ({ toggleActive, profile: { profile } }) => {
+const DashboardActions = ({
+  toggleActive,
+  boostProfile,
+  profile: { profile }
+}) => {
   useEffect(() => {
     getCurrentProfile();
   }, []);
@@ -49,8 +57,8 @@ const DashboardActions = ({ toggleActive, profile: { profile } }) => {
       <Link
         to={`${
           profile.subscription_plan === undefined
-            ? "/postanad"
-            : "/edit-profile"
+            ? '/postanad'
+            : '/edit-profile'
         }`}
         className="btn btn-light"
       >
@@ -65,20 +73,28 @@ const DashboardActions = ({ toggleActive, profile: { profile } }) => {
       <br />
       {profile.subscription_plan > 2 ? (
         <p className="font-weight-bold">
-          Your subscription is active until{" "}
+          Your subscription is active until{' '}
           <Moment format="DD/MM/YYYY">{dateOfExpiry}</Moment>
         </p>
       ) : (
         <p className="font-weight-bold">
-          Your subscription will expire in {""}
+          Your subscription will expire in {''}
           <span className="bg-danger text-white p-1">
             {hoursUntilExpiry}
-          </span>{" "}
+          </span>{' '}
           hours
         </p>
       )}
 
       {renderIsActiveButton()}
+
+      <button
+        type="button"
+        className="btn btn-warning ml-2"
+        onClick={() => boostProfile()}
+      >
+        Boost me
+      </button>
 
       {profile.subscription_plan < 2 ? (
         <Link to="/pricingplan" className="btn btn-warning ml-2">
@@ -91,13 +107,16 @@ const DashboardActions = ({ toggleActive, profile: { profile } }) => {
 
 DashboardActions.propTypes = {
   toggleActive: PropTypes.func.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired
+  getCurrentProfile: PropTypes.func.isRequired,
+  boostProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { toggleActive, getCurrentProfile })(
-  DashboardActions
-);
+export default connect(mapStateToProps, {
+  toggleActive,
+  boostProfile,
+  getCurrentProfile
+})(DashboardActions);

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { setAlert } from "./alert";
+import axios from 'axios';
+import { setAlert } from './alert';
 
 import {
   AGENCY_ERROR,
@@ -10,12 +10,12 @@ import {
   CLEAR_AGENCY,
   ACCOUNT_DELETED,
   GET_AGENCY_PROFILES
-} from "./type";
+} from './type';
 
-import { toast } from "react-toastify";
-import { createBrowserHistory } from "history";
+import { toast } from 'react-toastify';
+import { createBrowserHistory } from 'history';
 
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 // CREATE AGENCY PROFIL
 export const createAgencyProfile = (
@@ -26,24 +26,24 @@ export const createAgencyProfile = (
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     };
 
-    const res = await axios.post("/api/agency", formData, config);
+    const res = await axios.post('/api/agency', formData, config);
 
     dispatch({
       type: GET_AGENCY_PROFILE,
       payload: res.data
     });
 
-    dispatch(setAlert(edit ? "Profile Updated" : "Profile Created", "success"));
+    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
-    history.push("/agencydashboard");
+    history.push('/agencydashboard');
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -56,7 +56,7 @@ export const createAgencyProfile = (
 //Get Current User
 export const getCurrentAgency = () => async dispatch => {
   try {
-    const res = await axios.get("/api/agency/myAgency");
+    const res = await axios.get('/api/agency/myAgency');
 
     dispatch({
       type: GET_AGENCY_PROFILE,
@@ -74,7 +74,7 @@ export const getCurrentAgency = () => async dispatch => {
 export const getAgencyProfiles = () => async dispatch => {
   dispatch({ type: CLEAR_AGENCY });
   try {
-    const res = await axios.get("/api/agency");
+    const res = await axios.get('/api/agency');
 
     dispatch({
       type: GET_AGENCY_PROFILES,
@@ -113,7 +113,7 @@ export const uploadAgencyCover = (
   try {
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data"
+        'Content-Type': 'multipart/form-data'
       },
       onUploadProgress: progressEvent => {
         setUploadPercentage(
@@ -127,21 +127,21 @@ export const uploadAgencyCover = (
       }
     };
 
-    const res = await axios.post("api/agency/upload-cover", formFile, config);
+    const res = await axios.post('api/agency/upload-cover', formFile, config);
 
     dispatch({
       type: UPLOAD_AGENCY_COVER,
       payload: res.data
     });
 
-    dispatch(setAlert("Profile Photo Added", "success"));
+    dispatch(setAlert('Profile Photo Added', 'success'));
 
-    setTimeout(() => history.push("/agencydashboard"), 5000);
+    setTimeout(() => history.push('/agencydashboard'), 5000);
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
   }
 };
@@ -154,7 +154,7 @@ export const uploadAgencyGallery = (
   try {
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data"
+        'Content-Type': 'multipart/form-data'
       },
       onUploadProgress: progressEvent => {
         setUploadPercentage(
@@ -168,14 +168,14 @@ export const uploadAgencyGallery = (
       }
     };
 
-    const res = await axios.post("api/agency/upload-gallery", formFile, config);
+    const res = await axios.post('api/agency/upload-gallery', formFile, config);
 
     dispatch({
       type: UPLOAD_AGENCY_GALLERY,
       payload: res.data
     });
 
-    setTimeout(() => history.push("/agencydashboard"), 5000);
+    setTimeout(() => history.push('/agencydashboard'), 5000);
   } catch (err) {
     // const errors = err.response.data.errors;
     console.log(err);
@@ -188,7 +188,7 @@ export const uploadAgencyGallery = (
 //Toggle Active hours
 export const agencyToggleActive = () => async dispatch => {
   try {
-    const res = await axios.put("/api/agency/me/isActive");
+    const res = await axios.put('/api/agency/me/isActive');
 
     dispatch({
       type: AGENCY_TOGGLE_ACTIVE,
@@ -204,14 +204,14 @@ export const agencyToggleActive = () => async dispatch => {
 
 // Delete account & profile
 export const agencyDeleteAccount = () => async dispatch => {
-  if (window.confirm("Are you sure? This can not be undone!")) {
+  if (window.confirm('Are you sure? This can not be undone!')) {
     try {
-      await axios.delete("/api/agency");
+      await axios.delete('/api/agency');
 
       dispatch({ type: CLEAR_AGENCY });
       dispatch({ type: ACCOUNT_DELETED });
 
-      dispatch(setAlert("Your account has been permanantly deleted", "danger"));
+      dispatch(setAlert('Your account has been permanantly deleted', 'danger'));
     } catch (err) {
       dispatch({
         type: AGENCY_ERROR,
@@ -223,7 +223,7 @@ export const agencyDeleteAccount = () => async dispatch => {
 
 export const typePlanAgency = value => async dispatch => {
   try {
-    const res = await axios.post("api/agency/type", value);
+    const res = await axios.post('api/agency/type', value);
 
     console.log(res);
 
@@ -235,7 +235,7 @@ export const typePlanAgency = value => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
   }
 };
@@ -243,7 +243,7 @@ export const typePlanAgency = value => async dispatch => {
 // SUBSCRIPTION PLAN
 export const subscribePlan = time => async dispatch => {
   try {
-    const res = await axios.post("api/agency/subscription", time);
+    const res = await axios.post('api/agency/subscription', time);
 
     dispatch({
       type: GET_AGENCY_PROFILE,
@@ -253,7 +253,7 @@ export const subscribePlan = time => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
   }
 };
@@ -262,24 +262,38 @@ export const subscribePlan = time => async dispatch => {
 export const payment = async (profile, token) => {
   const history = createBrowserHistory();
   try {
-    const res = await axios.post("/api/payment", { token, profile });
+    const res = await axios.post('/api/payment', { token, profile });
 
     const { status } = res.data;
 
     console.log(status);
-    status === "success"
+    status === 'success'
       ? toast(
-          "Success! Check email for details",
-          { type: "success" },
+          'Success! Check email for details',
+          { type: 'success' },
           history.push(`/agencyadform`),
           window.location.reload()
         )
-      : toast("Something went wrong", { type: "error" });
+      : toast('Something went wrong', { type: 'error' });
   } catch (err) {
     console.log(err);
     // dispatch({
     //   type: PROFILE_ERROR,
     //   payload: { msg: err.response.statusText, status: err.response.status }
     // });
+  }
+};
+
+//Boost profile
+export const boostAgencyProfile = () => async dispatch => {
+  try {
+    await axios.put('/api/agency/boost');
+
+    dispatch(setAlert('Your Profile has been boosted', 'success'));
+  } catch (err) {
+    dispatch({
+      type: AGENCY_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
   }
 };

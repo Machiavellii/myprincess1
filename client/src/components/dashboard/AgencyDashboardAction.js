@@ -1,14 +1,19 @@
-import React, { useEffect, Fragment } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { useEffect, Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   agencyToggleActive,
-  getCurrentAgency
-} from "../../actions/agencyProfile";
-import Moment from "react-moment";
+  getCurrentAgency,
+  boostAgencyProfile
+} from '../../actions/agencyProfile';
+import Moment from 'react-moment';
 
-const DashboardActions = ({ agencyToggleActive, agency: { agency } }) => {
+const DashboardActions = ({
+  agencyToggleActive,
+  boostAgencyProfile,
+  agency: { agency }
+}) => {
   useEffect(() => {
     getCurrentAgency();
   }, []);
@@ -53,8 +58,8 @@ const DashboardActions = ({ agencyToggleActive, agency: { agency } }) => {
       <Link
         to={`${
           agency.subscription_plan === undefined
-            ? "/agencyadform"
-            : "/agency-edit-profile"
+            ? '/agencyadform'
+            : '/agency-edit-profile'
         }`}
         className="btn btn-light"
       >
@@ -69,20 +74,28 @@ const DashboardActions = ({ agencyToggleActive, agency: { agency } }) => {
       <br />
       {agency.subscription_plan > 2 ? (
         <p className="font-weight-bold">
-          Your subscription is active until{" "}
+          Your subscription is active until{' '}
           <Moment format="DD/MM/YYYY">{dateOfExpiry}</Moment>
         </p>
       ) : (
         <p className="font-weight-bold">
-          Your subscription will expire in {""}
+          Your subscription will expire in {''}
           <span className="bg-danger text-white p-1">
             {hoursUntilExpiry}
-          </span>{" "}
+          </span>{' '}
           hours
         </p>
       )}
 
       {renderIsActiveButton()}
+
+      <button
+        type="button"
+        className="btn btn-warning ml-2"
+        onClick={() => boostAgencyProfile()}
+      >
+        Boost me
+      </button>
 
       {agency.subscription_plan < 2 ? (
         <Link to="/pricingplan" className="btn btn-warning ml-2">
@@ -95,7 +108,8 @@ const DashboardActions = ({ agencyToggleActive, agency: { agency } }) => {
 
 DashboardActions.propTypes = {
   agencyToggleActive: PropTypes.func.isRequired,
-  getCurrentAgency: PropTypes.func.isRequired
+  getCurrentAgency: PropTypes.func.isRequired,
+  boostAgencyProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -104,5 +118,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   agencyToggleActive,
+  boostAgencyProfile,
   getCurrentAgency
 })(DashboardActions);
