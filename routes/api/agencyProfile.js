@@ -1,16 +1,16 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const multer = require("multer");
-const fs = require("fs");
-const path = require("path");
-const mongoose = require("mongoose");
-const auth = require("../../middleware/auth");
-const { check, validationResult } = require("express-validator");
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+const mongoose = require('mongoose');
+const auth = require('../../middleware/auth');
+const { check, validationResult } = require('express-validator');
 
-const AgencyProfile = require("../../models/AgencyProfile");
-const User = require("../../models/User");
+const AgencyProfile = require('../../models/AgencyProfile');
+const User = require('../../models/User');
 
-const geocoder = require("../../utills/geocoder");
+const geocoder = require('../../utills/geocoder');
 
 /* start upload image logic */
 let storage = multer.diskStorage({
@@ -31,48 +31,48 @@ const uploadGallery = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     if (
-      file.mimetype == "image/png" ||
-      file.mimetype == "image/jpg" ||
-      file.mimetype == "image/jpeg"
+      file.mimetype == 'image/png' ||
+      file.mimetype == 'image/jpg' ||
+      file.mimetype == 'image/jpeg'
     ) {
       cb(null, true);
     } else {
       cb(null, false);
-      return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
     }
   }
 });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true);
   } else {
     cb(null, false);
   }
 };
 
-const uploadCover = multer({ storage, fileFilter }).single("cover_photo");
+const uploadCover = multer({ storage, fileFilter }).single('cover_photo');
 
 // @route    POST api/agency
 // @desc     Create agency profile
 // @access   Private
 router.post(
-  "/",
+  '/',
   auth,
   [
     // check("type", "Account type is required")
     //   .not()
     //   .isEmpty(),
-    check("address", "Address is required")
+    check('address', 'Address is required')
       .not()
       .isEmpty(),
-    check("category", "Category is required")
+    check('category', 'Category is required')
       .not()
       .isEmpty(),
-    check("services", "Services are required")
+    check('services', 'Services are required')
       .not()
       .isEmpty(),
-    check("numberOfGirls", "Number of girls in your agency is required")
+    check('numberOfGirls', 'Number of girls in your agency is required')
       .not()
       .isEmpty()
   ],
@@ -151,7 +151,7 @@ router.post(
         const locat = await geocoder.geocode(address);
 
         profileFields.location = {
-          type: "Point",
+          type: 'Point',
           coordinates: [locat[0].longitude, locat[0].latitude],
           formattedAddress: locat[0].formattedAddress,
           city: locat[0].city,
@@ -180,7 +180,7 @@ router.post(
       res.json(agencyProfile);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server Error");
+      res.status(500).send('Server Error');
     }
   }
 );
@@ -188,84 +188,84 @@ router.post(
 // @route    GET api/agencies
 // @desc     Get all agency profiles
 // @access   Public
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const agencyProfiles = await AgencyProfile.find().populate("user", [
-      "nickname",
-      "email",
-      "block"
+    const agencyProfiles = await AgencyProfile.find().populate('user', [
+      'nickname',
+      'email',
+      'block'
     ]);
     res.json(agencyProfiles);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 // @route    GET api/agency/user/:user_id
 // @desc     Get agency profile by user ID
 // @access   Public
-router.get("/user/:user_id", async (req, res) => {
+router.get('/user/:user_id', async (req, res) => {
   try {
     const agencyProfile = await AgencyProfile.findOne({
       user: req.params.user_id
-    }).populate("user", ["nickname"]);
+    }).populate('user', ['nickname']);
 
     if (!agencyProfile) {
-      return res.status(400).json({ msg: "Profile not found!" });
+      return res.status(400).json({ msg: 'Profile not found!' });
     }
 
     res.json(agencyProfile);
   } catch (err) {
     console.error(err.message);
-    if (err.kind == "ObjectId") {
-      return res.status(400).json({ msg: "Profile not found!" });
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Profile not found!' });
     }
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 // @route    GET api/profile/myAgency
 // @desc     Get current users agency profile
 // @access   Private
-router.get("/myAgency", auth, async (req, res) => {
+router.get('/myAgency', auth, async (req, res) => {
   try {
     const agencyProfile = await AgencyProfile.findOne({
       user: req.user.id
-    }).populate("user", ["nickname"]);
+    }).populate('user', ['nickname']);
 
     if (!agencyProfile) {
-      return res.status(400).json({ msg: "There is no profile for this user" });
+      return res.status(400).json({ msg: 'There is no profile for this user' });
     }
 
     res.json(agencyProfile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 // @route    DELETE api/agency
 // @desc     Delete agency profile, user & posts
 // @access   Private
-router.delete("/", auth, async (req, res) => {
+router.delete('/', auth, async (req, res) => {
   try {
     // Remove profile
     await AgencyProfile.findOneAndRemove({ user: req.user.id });
     // Remove User
     await User.findOneAndRemove({ _id: req.user.id });
 
-    res.json({ msg: "User Deleted" });
+    res.json({ msg: 'User Deleted' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 // @route    POST api/agency/upload-cover
 // @desc     Upload cover photo
 // @access   Private
-router.post("/upload-cover", auth, async (req, res) => {
+router.post('/upload-cover', auth, async (req, res) => {
   try {
     uploadCover(req, res, async function(err) {
       if (err instanceof multer.MulterError) {
@@ -284,7 +284,7 @@ router.post("/upload-cover", auth, async (req, res) => {
       if (agencyProfile) {
         const coverUrl = agencyProfile.coverUrl;
         fs.unlink(coverUrl, err => {
-          console.log("error", err);
+          console.log('error', err);
         });
       }
       await AgencyProfile.findOneAndUpdate(
@@ -300,7 +300,7 @@ router.post("/upload-cover", auth, async (req, res) => {
       return res.status(200).json({ cover_photo: coverUrl });
     });
   } catch (err) {
-    console.log("create dish err:", err);
+    console.log('create dish err:', err);
     return res.status(500).json();
   }
 });
@@ -308,7 +308,7 @@ router.post("/upload-cover", auth, async (req, res) => {
 // @route    POST api/agency/subscription
 // @desc     Subscription_plan
 // @access   Private
-router.post("/subscription", auth, async (req, res) => {
+router.post('/subscription', auth, async (req, res) => {
   try {
     const { subscription_plan } = req.body;
 
@@ -332,7 +332,7 @@ router.post("/subscription", auth, async (req, res) => {
     );
     return res.status(200).json({ subscription_plan });
   } catch (err) {
-    console.log("create dish err:", err);
+    console.log('create dish err:', err);
     return res.status(500).json();
   }
 });
@@ -341,9 +341,9 @@ router.post("/subscription", auth, async (req, res) => {
 // @desc     Upload gallery photos
 // @access   Private
 router.post(
-  "/upload-gallery",
+  '/upload-gallery',
   auth,
-  uploadGallery.array("photos", 10),
+  uploadGallery.array('photos', 10),
   async (req, res) => {
     try {
       let reqFiles = [];
@@ -362,7 +362,7 @@ router.post(
       if (agencyProfile) {
         const photoUrls = agencyProfile.photoUrls;
         fs.unlink(photoUrls, err => {
-          console.log("error", err);
+          console.log('error', err);
         });
       }
 
@@ -395,21 +395,21 @@ router.post(
 // @route PUT api/agency/isActive
 // @desc Toggle active hours
 // @access Private
-router.put("/me/isActive", auth, async (req, res) => {
+router.put('/me/isActive', auth, async (req, res) => {
   try {
     const agencyProfile = await AgencyProfile.findOne({ user: req.user.id });
     agencyProfile.is_active = !agencyProfile.is_active;
     agencyProfile.save();
     return res.json(agencyProfile.is_active);
   } catch (err) {
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 // @route    POST api/agency/rating
 // @desc     Add rating
 // @access   Private
-router.post("/rating", [auth, []], async (req, res) => {
+router.post('/rating', [auth, []], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -427,14 +427,14 @@ router.post("/rating", [auth, []], async (req, res) => {
     res.json(agencyProfile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 // @route    POST api/agency/favorites
 // @desc     Add rating
 // @access   Private
-router.post("/favorites", [auth, []], async (req, res) => {
+router.post('/favorites', [auth, []], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -452,14 +452,14 @@ router.post("/favorites", [auth, []], async (req, res) => {
     res.json(agencyProfile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 // @route    POST api/agency/reduceSubscription
 // @desc     Reduce subscription by 1 for all active users
 // @access   Public
-router.put("/reduceSubscription", async (req, res) => {
+router.put('/reduceSubscription', async (req, res) => {
   try {
     await AgencyProfile.updateMany(
       { is_active: true },
@@ -467,7 +467,7 @@ router.put("/reduceSubscription", async (req, res) => {
         $inc: { subscription_plan: -1 }
       }
     );
-    res.json("Updated");
+    res.json('Updated');
   } catch (err) {
     res.status(500).send({ msg: err.message });
   }
@@ -476,7 +476,7 @@ router.put("/reduceSubscription", async (req, res) => {
 // @route POST api/agency/type
 // @desc Type: agency or escort
 // @access Private
-router.post("/type", auth, async (req, res) => {
+router.post('/type', auth, async (req, res) => {
   try {
     const { type } = req.body;
 
@@ -502,8 +502,26 @@ router.post("/type", auth, async (req, res) => {
     );
     return res.status(200).json({ type });
   } catch (err) {
-    console.log("create dish err:", err);
+    console.log('create dish err:', err);
     return res.status(500).json();
+  }
+});
+
+// @route    POST api/agency/boost
+// @desc     Boost profile to the start of array
+// @access   Private
+
+router.put('/boost', auth, async (req, res) => {
+  let { date, user } = req.body;
+
+  try {
+    let agency = await AgencyProfile.findOneAndUpdate({ agency });
+
+    date = Date.now();
+
+    res.json(agency);
+  } catch (err) {
+    res.status(500).send({ msg: err.message });
   }
 });
 
