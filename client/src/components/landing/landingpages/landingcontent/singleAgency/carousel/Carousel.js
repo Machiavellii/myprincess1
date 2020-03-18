@@ -1,35 +1,35 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment } from "react";
 
 const Carousel = ({ photos }) => {
-  let [leftArrow] = useState('');
-  let [rightArrow] = useState('');
+  let [leftArrow] = useState("");
+  let [rightArrow] = useState("");
 
   rightArrow = () => {
-    document.getElementById('move').scrollLeft += 250;
+    document.getElementById("move").scrollLeft += 250;
   };
 
   leftArrow = () => {
-    document.getElementById('move').scrollLeft -= 150;
+    document.getElementById("move").scrollLeft -= 150;
   };
 
   return (
     <Fragment>
       {photos.length < 1 ? (
-        ''
+        ""
       ) : (
         <div className="carousel-holder">
           <div className="carousel-gallery" id="move">
             {photos.map((photo, i) => (
               <a
                 key={i}
-                href={`${window.location.origin}/${photo}`}
+                href={`https://myprincess.jcloud.ik-server.com/${photo}`}
                 data-toggle="lightbox"
                 data-gallery="img-gallery"
                 data-height="564"
                 data-width="564"
               >
                 <img
-                  src={`${window.location.origin}/${photo}`}
+                  src={`https://myprincess.jcloud.ik-server.com/${photo}`}
                   alt=""
                   className="img-fluid"
                 />

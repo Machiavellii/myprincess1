@@ -1,6 +1,6 @@
-import React, { useState, Fragment } from 'react';
-import DescribeAgency from './galleryComponent/DescribeAgency';
-import ReactMapGl, { Marker } from 'react-map-gl';
+import React, { useState, Fragment } from "react";
+import DescribeAgency from "./galleryComponent/DescribeAgency";
+import ReactMapGl, { Marker } from "react-map-gl";
 // import Gallery from './galleryComponent/Gallery';
 
 const GalleryHolder = ({ agency }) => {
@@ -8,8 +8,8 @@ const GalleryHolder = ({ agency }) => {
   const [viewPort, setViewPort] = useState({
     latitude: 46.204391,
     longitude: 6.143158,
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     zoom: 12
   });
 
@@ -18,7 +18,7 @@ const GalleryHolder = ({ agency }) => {
     <div className="gallery-holder">
       <div className="img-holder mb-4">
         <img
-          src={`${window.location.origin}/${cover_photo}`}
+          src={`https://myprincess.jcloud.ik-server.com/${cover_photo}`}
           alt=""
           className="img-fluid"
         />
@@ -27,17 +27,17 @@ const GalleryHolder = ({ agency }) => {
         <h6 className="mb-1">Job Activity</h6>
         <span
           className={` mb-3 ${
-            is_active ? 'badge badge-success' : 'badge badge-danger'
+            is_active ? "badge badge-success" : "badge badge-danger"
           }`}
         >
-          {is_active ? 'Active' : 'Inactive'}
+          {is_active ? "Active" : "Inactive"}
         </span>
 
         <div className="map mb-4">
           <ReactMapGl
             {...viewPort}
             mapboxApiAccessToken={
-              'pk.eyJ1IjoibWF0ZWpnZWxqaSIsImEiOiJjazU4MjFubTEwNnB1M2xwZnBmb3F3aDI2In0.Q3ao_KXEg2Hr6ziv1Ddo3g'
+              "pk.eyJ1IjoibWF0ZWpnZWxqaSIsImEiOiJjazU4MjFubTEwNnB1M2xwZnBmb3F3aDI2In0.Q3ao_KXEg2Hr6ziv1Ddo3g"
             }
             onViewportChange={viewPort => {
               setViewPort(viewPort);
@@ -61,7 +61,7 @@ const GalleryHolder = ({ agency }) => {
             )}
           </ReactMapGl>
         </div>
-        <p>{agency.location ? location.formattedAddress : ''}</p>
+        <p>{agency.location ? location.formattedAddress : ""}</p>
         <a href="!#">Get directions</a>
       </div>
       <DescribeAgency agency={agency} />

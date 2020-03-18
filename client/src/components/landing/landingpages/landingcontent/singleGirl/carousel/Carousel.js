@@ -22,14 +22,14 @@ const Carousel = ({ photos }) => {
             {photos.map((photo, i) => (
               <a
                 key={i}
-                href={`${window.location.origin}/${photo}`}
+                href={`https://myprincess.jcloud.ik-server.com/${photo}`}
                 data-toggle="lightbox"
                 data-gallery="img-gallery"
                 data-height="564"
                 data-width="564"
               >
                 <img
-                  src={`${window.location.origin}/${photo}`}
+                  src={`https://myprincess.jcloud.ik-server.com/${photo}`}
                   alt=""
                   className="img-fluid"
                 />

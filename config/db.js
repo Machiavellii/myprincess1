@@ -23,3 +23,4 @@ module.exports = connectDB;
 
 //mongodb+srv://Atisnet:Atisnet100@myprincess-gqkyx.mongodb.net/myprincess?retryWrites=true
 //mongodb://XanibisAdmin:Admin100@node29224-myprincess.jcloud.ik-server.com:27017/xanibis?retryWrites=true&w=majority
+//mongodb+srv://vjeko:123abc@princess-gebfh.mongodb.net/test?retryWrites=true&w=majority
