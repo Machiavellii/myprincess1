@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from '../axios';
 
 const setAdminToken = tokenAdmin => {
   if (tokenAdmin) {
-    axios.defaults.headers.common["x-auth-token"] = tokenAdmin;
+    axios.defaults.headers.common['x-auth-token'] = tokenAdmin;
   } else {
-    delete axios.defaults.headers.common["x-auth-token"];
+    delete axios.defaults.headers.common['x-auth-token'];
   }
 };
 

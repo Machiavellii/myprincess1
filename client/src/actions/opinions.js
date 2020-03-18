@@ -1,11 +1,11 @@
-import axios from "axios";
-import { setAlert } from "./alert";
+import axios from '../axios';
+import { setAlert } from './alert';
 
-import { GET_OPINIONS, OPINION_ERROR, ADD_OPINIONS } from "./type";
+import { GET_OPINIONS, OPINION_ERROR, ADD_OPINIONS } from './type';
 
 export const getOpinions = () => async dispatch => {
   try {
-    const res = await axios.get("/api/opinion");
+    const res = await axios.get('/api/opinion');
 
     dispatch({
       type: GET_OPINIONS,
@@ -25,7 +25,7 @@ export const addOpinion = (formData, id) => async dispatch => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     };
 
@@ -38,7 +38,7 @@ export const addOpinion = (formData, id) => async dispatch => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({

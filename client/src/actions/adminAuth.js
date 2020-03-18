@@ -1,5 +1,5 @@
-import axios from "axios";
-import { setAlert } from "./alert";
+import axios from '../axios';
+import { setAlert } from './alert';
 import {
   ADMIN_LOADED,
   AUTH_ADMIN_ERROR,
@@ -7,22 +7,22 @@ import {
   LOGIN_ADMIN_FAIL,
   LOGOUT,
   CLEAR_PROFILE
-} from "./type";
+} from './type';
 
-import setAdminToken from "../utills/setAdminToken";
+import setAdminToken from '../utills/setAdminToken';
 
 // LOGIN ADMIN
 export const loginAdmin = (username, password) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
   const body = JSON.stringify({ username, password });
 
   try {
-    const res = await axios.post("/api/auth/admin", body, config);
+    const res = await axios.post('/api/auth/admin', body, config);
 
     dispatch({
       type: LOGIN_ADMIN_SUCCESS,
@@ -34,7 +34,7 @@ export const loginAdmin = (username, password) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -50,7 +50,7 @@ export const loadAdmin = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get("/api/auth/admin");
+    const res = await axios.get('/api/auth/admin');
 
     dispatch({
       type: ADMIN_LOADED,

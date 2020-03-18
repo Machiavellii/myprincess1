@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
 
 import {
   uploadAgencyCover,
   getCurrentAgency
-} from "../../../actions/agencyProfile";
+} from '../../../actions/agencyProfile';
 
-import Progress from "../../layout/Progress";
+import Progress from '../../layout/Progress';
 
 const UploadAgencyCover = ({
   uploadAgencyCover,
@@ -34,7 +34,7 @@ const UploadAgencyCover = ({
     e.preventDefault();
 
     let formCover = new FormData();
-    formCover.append("cover_photo", cover_photo);
+    formCover.append('cover_photo', cover_photo);
 
     uploadAgencyCover(formCover, history, setUploadPercentage);
   };
@@ -69,7 +69,10 @@ const UploadAgencyCover = ({
               >
                 <span aria-hidden="true">&times;</span>
               </button> */}
-              <img src={agency.cover_photo} alt="" />
+              <img
+                src={`https://myprincess.jcloud.ik-server.com/${agency.cover_photo}`}
+                alt=""
+              />
             </div>
           </div>
         )}
