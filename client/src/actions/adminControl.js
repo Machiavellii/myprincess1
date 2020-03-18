@@ -1,5 +1,5 @@
-import axios from "axios";
-import { setAlert } from "./alert";
+import axios from '../axios';
+import { setAlert } from './alert';
 import {
   CLEAR_PROFILE,
   PROFILE_ERROR,
@@ -7,7 +7,7 @@ import {
   GET_PROFILE_ADMIN,
   UPDATE_PROFILE_ADMIN,
   BLOCK_ACCOUNT
-} from "./type";
+} from './type';
 
 //Get Current User
 export const getCurrentProfileAdmin = profile => async dispatch => {
@@ -22,24 +22,24 @@ export const editProfile = (formData, history) => async dispatch => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     };
 
-    const res = await axios.post("/api/admin/edit", formData, config);
+    const res = await axios.post('/api/admin/edit', formData, config);
 
     dispatch({
       type: UPDATE_PROFILE_ADMIN,
       payload: res.data
     });
 
-    dispatch(setAlert("Profile Updated", "success"));
+    dispatch(setAlert('Profile Updated', 'success'));
 
-    history.push("/superadmin");
+    history.push('/superadmin');
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -55,7 +55,7 @@ export const blockAccount = (id, block, history) => async dispatch => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     };
 
@@ -66,11 +66,11 @@ export const blockAccount = (id, block, history) => async dispatch => {
       payload: data
     });
 
-    history.push("/superadminlogin");
+    history.push('/superadminlogin');
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
     }
   }
   // }
@@ -78,14 +78,14 @@ export const blockAccount = (id, block, history) => async dispatch => {
 
 // Delete account & profile
 export const deleteAccountAdmin = id => async dispatch => {
-  if (window.confirm("Are you sure? This can not be undone!")) {
+  if (window.confirm('Are you sure? This can not be undone!')) {
     try {
       await axios.delete(`/api/admin/${id}`);
 
       dispatch({ type: CLEAR_PROFILE });
       dispatch({ type: ACCOUNT_DELETED_ADMIN, payload: id });
 
-      dispatch(setAlert("This account has been permanantly deleted", "danger"));
+      dispatch(setAlert('This account has been permanantly deleted', 'danger'));
     } catch (err) {
       dispatch({
         type: PROFILE_ERROR,

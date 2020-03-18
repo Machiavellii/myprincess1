@@ -1,7 +1,7 @@
-import React, { Fragment, useState } from "react";
-import "../../../styles/contents.css";
-import { Link } from "react-router-dom";
-import Pagination from "../../common/Pagination";
+import React, { Fragment, useState } from 'react';
+import '../../../styles/contents.css';
+import { Link } from 'react-router-dom';
+import Pagination from '../../common/Pagination';
 
 const Content = ({ profile, agency }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,13 +42,13 @@ const Content = ({ profile, agency }) => {
                 <div className="contentHolder">
                   <div className="top-holder">
                     <Link to="/" className="links">
-                      {profile.location ? profile.location.canton : "No canton"}
+                      {profile.location ? profile.location.canton : 'No canton'}
                     </Link>
                   </div>
 
                   <Link to={`/profile/user/${profile.user._id}`}>
                     <img
-                      src={profile.cover_photo}
+                      src={`https://myprincess.jcloud.ik-server.com/${profile.cover_photo}`}
                       alt=""
                       className="img-fluid"
                     />
@@ -66,7 +66,7 @@ const Content = ({ profile, agency }) => {
                         to={`/profile/user/${profile.user._id}`}
                         className="links link-name"
                       >
-                        {" "}
+                        {' '}
                         {profile.user.nickname}
                       </Link>
                     </h5>
@@ -75,7 +75,7 @@ const Content = ({ profile, agency }) => {
               </article>
             </div>
           ) : (
-            ""
+            ''
           )
         )}
 
@@ -86,13 +86,13 @@ const Content = ({ profile, agency }) => {
                 <div className="contentHolder">
                   <div className="top-holder">
                     <Link to="/" className="links">
-                      {profile.location ? profile.location.canton : "No canton"}
+                      {profile.location ? profile.location.canton : 'No canton'}
                     </Link>
                   </div>
 
                   <Link to={`/agency/user/${profile.user._id}`}>
                     <img
-                      src={profile.cover_photo}
+                      src={`https://myprincess.jcloud.ik-server.com/${profile.cover_photo}`}
                       alt=""
                       className="img-fluid"
                     />
@@ -110,7 +110,7 @@ const Content = ({ profile, agency }) => {
                         to={`/agency/user/${profile.user._id}`}
                         className="links link-name"
                       >
-                        {" "}
+                        {' '}
                         {profile.user.nickname}
                       </Link>
                     </h5>
@@ -119,7 +119,7 @@ const Content = ({ profile, agency }) => {
               </article>
             </div>
           ) : (
-            ""
+            ''
           )
         )}
       </div>

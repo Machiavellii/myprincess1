@@ -1,15 +1,15 @@
-import React, { Fragment, useEffect } from "react";
-import { connect } from "react-redux";
-import { getAgencyProfileById } from "../../../../../actions/agencyProfile";
-import { Link } from "react-router-dom";
-import Spinner from "../../../../layout/Spinner";
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getAgencyProfileById } from '../../../../../actions/agencyProfile';
+import { Link } from 'react-router-dom';
+import Spinner from '../../../../layout/Spinner';
 
-import "../../../../../styles/singleGirl.css";
+import '../../../../../styles/singleGirl.css';
 
-import Carousel from "./carousel/Carousel";
-import Header from "./describeAgency/componentAgency/HeaderAgency";
-import DescribeGirl from "./describeAgency/Agency";
-import GalleryHolder from "./gallery/GalleryHolderAgency";
+import Carousel from './carousel/Carousel';
+import Header from './describeAgency/componentAgency/HeaderAgency';
+import DescribeGirl from './describeAgency/Agency';
+import GalleryHolder from './gallery/GalleryHolderAgency';
 
 const DescribeAgency = ({
   getAgencyProfileById,

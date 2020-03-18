@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import React, { Fragment, useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 
 const Girls = ({ profiles }) => {
   let [tru, setTru] = useState(false);
@@ -21,19 +21,19 @@ const Girls = ({ profiles }) => {
             ) : (
               <Fragment>
                 <img
-                  src={profile.cover_photo}
+                  src={`https://myprincess.jcloud.ik-server.com/${profile.cover_photo}`}
                   alt=""
                   className="card-img-top"
                 />
                 <div className="card-body">
                   <h5 className="card-title">{profile.user.nickname}</h5>
                   <p className="card-text">
-                    Student hot in{" "}
-                    {profile.location ? profile.location.city : "No Cities"}
+                    Student hot in{' '}
+                    {profile.location ? profile.location.city : 'No Cities'}
                   </p>
                   <Link to={`/profile/user/${profile.user._id}`}>
                     <i className="fas fa-map-marker-alt" />
-                    {profile.location ? profile.location.formattedAddress : ""}
+                    {profile.location ? profile.location.formattedAddress : ''}
                   </Link>
                 </div>
               </Fragment>
