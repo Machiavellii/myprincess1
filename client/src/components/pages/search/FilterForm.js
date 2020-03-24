@@ -14,8 +14,6 @@ const FilterForm = ({ filterSearchPage, profiles: { profiles } }) => {
     filterSearchPage(formData);
   }, [formData, filterSearchPage]);
 
-  // console.log(profiles);
-
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     // setFormData(e.target.value);
@@ -46,7 +44,7 @@ const FilterForm = ({ filterSearchPage, profiles: { profiles } }) => {
         multiple={false}
       >
         <option value="0"> - Canton - </option>
-
+        //{" "}
         {profiles.map((profile, index) => {
           return (
             <option
