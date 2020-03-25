@@ -9,8 +9,6 @@ const HeaderGirl = ({ profile }) => {
     webcamlink
   } = profile;
 
-  console.log(profile);
-
   return (
     <div className="headerGirl">
       <div className="container">
@@ -21,7 +19,7 @@ const HeaderGirl = ({ profile }) => {
         </a>
 
         {webcamlink ? (
-          <a href={webcamlink} style={{ cursor: "pointer" }}>
+          <a href={webcamlink} target="_blank" style={{ cursor: "pointer" }}>
             <i class="fas fa-video"></i> Webcam link
           </a>
         ) : (

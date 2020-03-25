@@ -48,8 +48,6 @@ const Dashboard = ({
   //   typePlanAgency(type);
   // };
 
-  console.log(type.type);
-
   const renderPostAnAdButton = () => {
     return type.type === "agency" ? (
       <Fragment>

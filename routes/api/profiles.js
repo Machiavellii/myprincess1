@@ -107,7 +107,6 @@ router.post(
       phone,
       type,
       address,
-      webcamlink,
       subscription_plan,
       start_of_subscription,
       end_of_subscription,
@@ -126,6 +125,7 @@ router.post(
       hours,
       rate,
       website,
+      webcamlink,
       ratings // array
       // opinions
     } = req.body;

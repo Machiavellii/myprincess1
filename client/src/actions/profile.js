@@ -97,7 +97,6 @@ export const createProfile = (
     dispatch(setAlert(edit ? "Profile Updated" : "Profile Created", "success"));
 
     history.push("/dashboard");
-    // window.location.reload();
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
