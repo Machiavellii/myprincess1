@@ -29,6 +29,9 @@ const ProfileSchema = new Schema({
     type: String,
     required: true
   },
+  webcamlink: {
+    type: String
+  },
   location: {
     type: {
       type: String,

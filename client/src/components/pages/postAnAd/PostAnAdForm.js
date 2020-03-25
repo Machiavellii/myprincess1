@@ -31,7 +31,8 @@ import {
   businesshoursLabel,
   rateLabel,
   phonenumberLabel,
-  websiteLabel
+  websiteLabel,
+  webcamlinkLabel
 } from "../../common/consts";
 
 // import MapboxAutocomplete from "react-mapbox-autocomplete";
@@ -58,7 +59,8 @@ const PostAnAdForm = ({
     rate: "",
     slogan: "",
     hours: "",
-    website: ""
+    website: "",
+    webcamlink: ""
   });
 
   const {
@@ -76,7 +78,8 @@ const PostAnAdForm = ({
     rate,
     slogan,
     hours,
-    website
+    website,
+    webcamlink
   } = formData;
 
   useEffect(() => {
@@ -326,6 +329,13 @@ const PostAnAdForm = ({
           onChange={onChange}
           labels={phonenumberLabel}
           value={phone}
+        />
+        <InputGroup
+          name="webcamlink"
+          placeholder={"Webcam Link"}
+          onChange={onChange}
+          labels={webcamlinkLabel}
+          value={webcamlink}
         />
         <InputGroup
           name="website"

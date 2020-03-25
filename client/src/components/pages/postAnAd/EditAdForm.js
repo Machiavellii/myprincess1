@@ -34,7 +34,8 @@ import {
   businesshoursLabel,
   rateLabel,
   phonenumberLabel,
-  websiteLabel
+  websiteLabel,
+  webcamlinkLabel
 } from "../../common/consts";
 
 const EditAdForm = ({
@@ -59,6 +60,7 @@ const EditAdForm = ({
     slogan: "",
     hours: "",
     website: "",
+    webcamlink: "",
     type: "",
     errors: ""
   });
@@ -87,6 +89,7 @@ const EditAdForm = ({
       slogan: loading || !profile.slogan ? " " : profile.slogan,
       hours: loading || !profile.hours ? " " : profile.hours,
       website: loading || !profile.website ? " " : profile.website,
+      webcamlink: loading || !profile.webcamlink ? " " : profile.webcamlink,
       is_active: loading || !profile.is_active ? " " : profile.is_active
     });
   }, [loading, getCurrentProfile]);
@@ -108,6 +111,7 @@ const EditAdForm = ({
     slogan,
     hours,
     website,
+    webcamlink,
     type,
     is_active,
     errors
@@ -384,6 +388,13 @@ const EditAdForm = ({
           labels={phonenumberLabel}
           value={phone}
           error={errors}
+        />
+        <InputGroup
+          name="webcamlink"
+          placeholder={"Webcam Link"}
+          onChange={onChange}
+          labels={webcamlinkLabel}
+          value={webcamlink}
         />
         <InputGroup
           name="website"

@@ -18,7 +18,8 @@ import {
   phonenumberLabel,
   websiteLabel,
   numberOfGirlsLabel,
-  categoryLabel
+  categoryLabel,
+  webcamlinkLabel
 } from "../../common/consts";
 
 const AgencyAdForm = ({
@@ -38,6 +39,7 @@ const AgencyAdForm = ({
     slogan: "",
     hours: "",
     website: "",
+    webcamlink: "",
     recruitment: "",
     numberOfGirls: ""
   });
@@ -52,6 +54,7 @@ const AgencyAdForm = ({
     slogan,
     hours,
     website,
+    webcamlink,
     numberOfGirls
   } = formData;
 
@@ -243,6 +246,13 @@ const AgencyAdForm = ({
           onChange={onChange}
           labels={phonenumberLabel}
           value={phone}
+        />
+        <InputGroup
+          name="webcamlink"
+          placeholder={"Webcam Link"}
+          onChange={onChange}
+          labels={webcamlinkLabel}
+          value={webcamlink}
         />
         <InputGroup
           name="website"

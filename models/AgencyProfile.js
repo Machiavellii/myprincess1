@@ -16,6 +16,9 @@ const AgencyProfileSchema = new Schema({
     type: String,
     required: true
   },
+  webcamlink: {
+    type: String
+  },
   type: {
     type: String,
     required: true
