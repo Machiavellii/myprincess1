@@ -34,6 +34,13 @@ const FilterForm = ({ filterSearchPage, profiles: { profiles } }) => {
 
   const { canton, category, services } = formData;
 
+  const cantons = [
+    ...new Set(profiles.map(profile => profile.location.canton))
+  ];
+
+  // console.log(cantons);
+  // console.log(profiles);
+
   return (
     <div className="form-select">
       <select
@@ -43,15 +50,11 @@ const FilterForm = ({ filterSearchPage, profiles: { profiles } }) => {
         name="canton"
         multiple={false}
       >
-        <option value="0"> - Canton - </option>
-        //{" "}
-        {profiles.map((profile, index) => {
+        <option value="0"> - Canton - </option>{" "}
+        {cantons.map((canton, index) => {
           return (
-            <option
-              key={index}
-              value={profile.location ? profile.location.canton : "No canton"}
-            >
-              {profile.location ? profile.location.canton : "No canton"}
+            <option key={index} value={canton ? canton : "No canton"}>
+              {canton ? canton : "No canton"}
             </option>
           );
         })}
