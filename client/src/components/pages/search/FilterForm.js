@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { categoryList, servicesList } from "../../../constants/data.json";
-import { connect } from "react-redux";
-import { filterSearchPage } from "../../../actions/profile";
+import React, { useState, useEffect } from 'react';
+import { categoryList, servicesList } from '../../../constants/data.json';
+import { connect } from 'react-redux';
+import { filterSearchPage } from '../../../actions/profile';
 
 const FilterForm = ({ filterSearchPage, profiles: { profiles } }) => {
   const [formData, setFormData] = useState({
-    canton: "",
+    canton: '',
     services: [],
-    category: ""
+    category: ''
   });
 
   useEffect(() => {
@@ -38,7 +38,19 @@ const FilterForm = ({ filterSearchPage, profiles: { profiles } }) => {
     ...new Set(profiles.map(profile => profile.location.canton))
   ];
 
-  // console.log(cantons);
+  console.log(profiles);
+
+  const getNumbOfGirls = canton => {
+    var numbOfGirls = 0;
+
+    for (var i = 0; i < profiles.length; i++) {
+      if ('location' in profiles[i] && profiles[i].location.canton === canton)
+        numbOfGirls++;
+    }
+
+    return numbOfGirls;
+  };
+
   // console.log(profiles);
 
   return (
@@ -50,11 +62,11 @@ const FilterForm = ({ filterSearchPage, profiles: { profiles } }) => {
         name="canton"
         multiple={false}
       >
-        <option value="0"> - Canton - </option>{" "}
+        <option value="0"> - Canton - </option>{' '}
         {cantons.map((canton, index) => {
           return (
-            <option key={index} value={canton ? canton : "No canton"}>
-              {canton ? canton : "No canton"}
+            <option key={index} value={canton ? canton : 'No canton'}>
+              {canton ? canton + ` (${getNumbOfGirls(canton)})` : 'No canton'}
             </option>
           );
         })}
