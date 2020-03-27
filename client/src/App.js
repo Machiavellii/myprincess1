@@ -14,6 +14,8 @@ import Footer from './components/layout/Footer';
 
 import Login from './components/auth/Login';
 
+import SignInAndSignUpPage from './components/auth/SignInAndSignUpPage';
+
 import LoginAdmin from './components/admin/LoginAdmin';
 
 import Register from './components/auth/Register';
@@ -81,10 +83,11 @@ const App = () => {
           <Alert />
           <Switch>
             <Route exact path="/" component={Landing} />
-            <Route exact path="/login" component={Login} />
+
+            <Route exact path="/auth" component={SignInAndSignUpPage} />
             <Route exact path="/blocked" component={BlockedAccount} />
             <Route exact path="/superadminlogin" component={LoginAdmin} />
-            <Route exact path="/register" component={Register} />
+
             <Route exact path="/faq" component={Faq} />
             <Route exact path="/contact" component={Contact} />
             <PrivateRoute exact path="/postanad" component={Postanad} />

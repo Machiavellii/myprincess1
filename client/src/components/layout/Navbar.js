@@ -1,11 +1,11 @@
-import React, { Fragment, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
-import "../../styles/navbar.css";
-import Logo from "../../img/logo.png";
+import React, { Fragment, useState } from 'react';
+import { NavLink, Link } from 'react-router-dom';
+import '../../styles/navbar.css';
+import Logo from '../../img/logo.png';
 
-import { connect } from "react-redux";
-import { logout } from "../../actions/auth";
-import { filterFunc } from "../../actions/profile";
+import { connect } from 'react-redux';
+import { logout } from '../../actions/auth';
+import { filterFunc } from '../../actions/profile';
 
 const Navbar = ({
   auth: { isAuthenticated, loading, user },
@@ -13,8 +13,8 @@ const Navbar = ({
   filterFunc
 }) => {
   let [showHide, setShow] = useState(false);
-  let [showInput] = useState("");
-  const [filter, setFilter] = useState("");
+  let [showInput] = useState('');
+  const [filter, setFilter] = useState('');
 
   showInput = () => {
     setShow((showHide = !showHide));
@@ -57,7 +57,7 @@ const Navbar = ({
                   <i className="fas fa-search" />
                 </Link>
                 <a href="#!" className="small-size" onClick={showInput}>
-                  <i className={`fas fa-search ${showHide ? "opct" : ""}`} />
+                  <i className={`fas fa-search ${showHide ? 'opct' : ''}`} />
                 </a>
               </div>
             </div>
@@ -74,24 +74,6 @@ const Navbar = ({
 
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <NavLink
-                    to="/faq"
-                    className="nav-link"
-                    activeClassName="active"
-                  >
-                    FAQ
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink
-                    to="/contact"
-                    className="nav-link"
-                    activeclassname="active"
-                  >
-                    Contact
-                  </NavLink>
-                </li>
                 {isAuthenticated ? (
                   <Fragment>
                     <div className="dropdown">
@@ -104,7 +86,7 @@ const Navbar = ({
                         aria-haspopup="true"
                         aria-expanded="false"
                       >
-                        {user.nickname}
+                        <i class="fas fa-user"></i>
                       </a>
 
                       <div
@@ -175,20 +157,11 @@ const Navbar = ({
                   <Fragment>
                     <li className="nav-item">
                       <NavLink
-                        to="/login"
+                        to="/auth"
                         className="nav-link"
                         activeclassname="active"
                       >
-                        Sing in
-                      </NavLink>
-                    </li>
-                    <li className="nav-item">
-                      <NavLink
-                        to="/register"
-                        className="nav-link"
-                        activeclassname="active"
-                      >
-                        Sing Up
+                        <i class="fas fa-user"></i>
                       </NavLink>
                     </li>
                   </Fragment>
