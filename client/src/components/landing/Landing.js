@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getProfiles } from '../../actions/profile';
 import { getAgencyProfiles } from '../../actions/agencyProfile';
@@ -21,6 +21,11 @@ const Landing = ({ getProfiles, profile, getAgencyProfiles, agency }) => {
     getProfiles();
   }, [getProfiles, getAgencyProfiles]);
 
+  const [covidToggle, setCovidToggle] = useState(false);
+  const onChange = e => {
+    setCovidToggle(!covidToggle);
+  };
+
   return (
     <Fragment>
       {profile.profiles === null ||
@@ -31,6 +36,26 @@ const Landing = ({ getProfiles, profile, getAgencyProfiles, agency }) => {
       ) : (
         <Fragment>
           <div className="container mt-5">
+            <div className="card p-2 mb-4">
+              <h5 className="covid-title" onClick={onChange}>
+                Please read this important note about Covid-19 pandemic
+              </h5>
+              {covidToggle ? (
+                <p className="lead">
+                  Dear clients, <br />
+                  <br /> Because of the pandemic Covid-19, the authorities have
+                  taken exceptional measures FOR ANY SECURITY 👍 <br />
+                  <br />
+                  Take care of yourself and others and opt for distance
+                  services, we recently added webcam link to our site, so our
+                  girls can offer webcam sesions, and please don't contact them
+                  for some other purpose
+                  <br />
+                  <br />
+                  Your Xanibis Team
+                </p>
+              ) : null}
+            </div>
             <div className="holder-line">
               <span className="sep-holder holder-1">
                 <span className="line"></span>
@@ -40,13 +65,11 @@ const Landing = ({ getProfiles, profile, getAgencyProfiles, agency }) => {
                 <span className="line"></span>
               </span>
             </div>
-
             {profile.profiles.length > 0 ? (
               <Content profile={profile} agency={agency} />
             ) : (
               <Spinner />
             )}
-
             {/* <LatestAds /> */}
           </div>
           <LandingCanton />

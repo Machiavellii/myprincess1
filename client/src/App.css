@@ -147,3 +147,24 @@ img {
   position: absolute;
   top: 2px !important;
 }
+
+.confirm-container {
+  position: absolute;
+  background-color: rgb(0, 0, 0, 0.95);
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  z-index: 1000;
+}
+
+.overlay-container {
+  position: relative;
+}
+
+.red {
+  color: red;
+}
+
+.covid-title {
+  cursor: pointer;
+}
