@@ -10,6 +10,7 @@ import setAdminToken from './utills/setAdminToken';
 
 import MiniHeader from './components/layout/MiniHeader';
 import Navbar from './components/layout/Navbar';
+import BottomNavbar from './components/layout/BottomNav';
 import Footer from './components/layout/Footer';
 
 import Login from './components/auth/Login';
@@ -31,6 +32,7 @@ import PostAnAdForm from './components/pages/postAnAd/PostAnAdForm';
 import EditAdForm from './components/pages/postAnAd/EditAdForm';
 import Search from './components/pages/search/Search';
 import EscortsGirls from './components/pages/EscortsGirls';
+import WebcamGirls from './components/pages/WebcamGirls';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
 import Admin from './components/admin/admin';
@@ -87,6 +89,7 @@ const App = () => {
             <Route exact path="/auth" component={SignInAndSignUpPage} />
             <Route exact path="/blocked" component={BlockedAccount} />
             <Route exact path="/superadminlogin" component={LoginAdmin} />
+            <Route exact path="/webcamgirls" component={WebcamGirls} />
 
             <Route exact path="/faq" component={Faq} />
             <Route exact path="/contact" component={Contact} />
@@ -148,6 +151,7 @@ const App = () => {
               component={AgencyPricingPlan}
             />
           </Switch>
+          {window.innerWidth < 993 ? <BottomNavbar /> : null}
           <Footer />
         </div>
       </Router>

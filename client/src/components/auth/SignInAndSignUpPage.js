@@ -11,10 +11,10 @@ const SignInAndSignUpPage = ({ isAuthenticated }) => {
   }
   return (
     <div className="row container mx-auto my-4">
-      <div className="col col-md-6 col-sm-12 my-4">
+      <div className="col col-md-6 col-sm-12 col-12 my-4">
         <Login />
       </div>
-      <div className="col col-md-6 col-sm-12">
+      <div className="col col-md-6 col-sm-12 col-12">
         <Register />
       </div>
     </div>
