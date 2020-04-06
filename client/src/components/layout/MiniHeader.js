@@ -26,24 +26,6 @@ const MiniHeader = () => {
         <a href="#!" onClick={() => handleLanguage('fr')}>
           <img src={france} alt="" />
         </a>
-        <a href="#!" onClick={() => handleLanguage('de')}>
-          <img src={germany} alt="" />
-        </a>
-        <a href="#!">
-          <img src={italy} alt="" />
-        </a>
-        <a href="#!">
-          <img src={portugal} alt="" />
-        </a>
-        <a href="#!">
-          <img src={unitedkingdom} alt="" />
-        </a>
-        <a href="#!">
-          <img src={romania} alt="" />
-        </a>
-        <a href="#!">
-          <img src={russia} alt="" />
-        </a>
       </div>
     </div>
   );

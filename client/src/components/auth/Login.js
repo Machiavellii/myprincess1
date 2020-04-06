@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { Redirect, Link } from "react-router-dom";
-import { login, logout } from "../../actions/auth";
-import { emailLabel, passwordLabel } from "../common/consts";
+import { Redirect, Link } from 'react-router-dom';
+import { login, logout } from '../../actions/auth';
+import { emailLabel, passwordLabel } from '../common/consts';
 
-import InputGroup from "../common/InputGroup";
+import InputGroup from '../common/InputGroup';
 
 const Login = ({ isAuthenticated, login, auth, logout }) => {
   const [formData, setFormData] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: ''
   });
 
   const { email, password } = formData;
@@ -24,7 +24,7 @@ const Login = ({ isAuthenticated, login, auth, logout }) => {
     login(email, password);
   };
 
-  const userBlock = auth.user ? auth.user.payload.user.block : "";
+  const userBlock = auth.user ? auth.user.payload.user.block : '';
 
   if (userBlock === false) {
     logout();
@@ -35,11 +35,13 @@ const Login = ({ isAuthenticated, login, auth, logout }) => {
 
   return (
     <div className="container">
-      <form className="px-3" onSubmit={e => onSubmit(e)}>
+      <h2>I already have an account</h2>
+      <span>Sign In with your email and password</span>
+      <form className="mt-3" onSubmit={e => onSubmit(e)}>
         <InputGroup
           type="email"
           name="email"
-          placeholder={"Enter Email"}
+          placeholder={'Enter Email'}
           onChange={onChange}
           labels={emailLabel}
           value={email}
@@ -47,7 +49,7 @@ const Login = ({ isAuthenticated, login, auth, logout }) => {
         <InputGroup
           type="password"
           name="password"
-          placeholder={"Enter Password"}
+          placeholder={'Enter Password'}
           onChange={onChange}
           labels={passwordLabel}
           minLength="6"
@@ -58,9 +60,6 @@ const Login = ({ isAuthenticated, login, auth, logout }) => {
           Log in
         </button>
       </form>
-      <p>
-        Don't have an account? <Link to="/register">Sign Up</Link>
-      </p>
     </div>
   );
 };

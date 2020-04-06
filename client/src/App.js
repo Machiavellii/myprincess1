@@ -10,9 +10,12 @@ import setAdminToken from './utills/setAdminToken';
 
 import MiniHeader from './components/layout/MiniHeader';
 import Navbar from './components/layout/Navbar';
+import BottomNavbar from './components/layout/BottomNav';
 import Footer from './components/layout/Footer';
 
 import Login from './components/auth/Login';
+
+import SignInAndSignUpPage from './components/auth/SignInAndSignUpPage';
 
 import LoginAdmin from './components/admin/LoginAdmin';
 
@@ -29,7 +32,9 @@ import PostAnAdForm from './components/pages/postAnAd/PostAnAdForm';
 import EditAdForm from './components/pages/postAnAd/EditAdForm';
 import Search from './components/pages/search/Search';
 import EscortsGirls from './components/pages/EscortsGirls';
+import WebcamGirls from './components/pages/WebcamGirls';
 import Alert from './components/layout/Alert';
+import Confirm from './components/layout/Confirm';
 import Dashboard from './components/dashboard/Dashboard';
 import Admin from './components/admin/admin';
 import EditAdmin from './components/admin/editAdmin';
@@ -71,81 +76,109 @@ const App = () => {
     store.dispatch(getUsers());
   }, []);
 
+  const confirm = window.sessionStorage.getItem('confirm');
+
   return (
-    <Provider store={store}>
+    <Provider store={store} className="overlay-container">
       <Router>
-        {/* {GA.init() && <GA.RouteTracker />} */}
-        <div className="App">
-          <MiniHeader />
-          <Navbar />
-          <Alert />
-          <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/blocked" component={BlockedAccount} />
-            <Route exact path="/superadminlogin" component={LoginAdmin} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/faq" component={Faq} />
-            <Route exact path="/contact" component={Contact} />
-            <PrivateRoute exact path="/postanad" component={Postanad} />
-            <PrivateRoute exact path="/pricingplan" component={PricingPlan} />
-            <PrivateRoute exact path="/postanadform" component={PostAnAdForm} />
-            <PrivateRoute exact path="/agencyadform" component={AgencyAdForm} />
-            <Route exact path="/search" component={Search} />
-            <Route exact path="/profile/user/:id" component={DescribeContent} />
-            <Route exact path="/agency/user/:id" component={DescribeAgency} />
-            <Route exact path="/links" component={Links} />
-            <Route
-              exact
-              path="/escorts-girls/:canton"
-              component={EscortsGirls}
-            />
-            <Route exact path="/terms" component={Terms} />
+        <div className="overlay-container">
+          {!confirm ? <Confirm /> : null}
+          {/* {GA.init() && <GA.RouteTracker />} */}
+          <div className="App">
+            <MiniHeader />
+            <Navbar />
+            <Alert />
+            <Switch>
+              <Route exact path="/" component={Landing} />
 
-            <AdminRoute exact path="/superadmin" component={Admin} />
-            <AdminRoute exact path="/editprofileAdmin" component={EditAdmin} />
+              <Route exact path="/auth" component={SignInAndSignUpPage} />
+              <Route exact path="/blocked" component={BlockedAccount} />
+              <Route exact path="/superadminlogin" component={LoginAdmin} />
+              <Route exact path="/webcamgirls" component={WebcamGirls} />
 
-            <PrivateRoute exact path="/dashboard" component={Dashboard} />
-            <PrivateRoute exact path="/edit-profile" component={EditAdForm} />
-            <PrivateRoute exact path="/upload-cover" component={UploadCover} />
-            <PrivateRoute
-              exact
-              path="/upload-gallery"
-              component={UploadGallery}
-            />
+              <Route exact path="/confirm" component={Confirm} />
+              <Route exact path="/contact" component={Contact} />
+              <PrivateRoute exact path="/postanad" component={Postanad} />
+              <PrivateRoute exact path="/pricingplan" component={PricingPlan} />
+              <PrivateRoute
+                exact
+                path="/postanadform"
+                component={PostAnAdForm}
+              />
+              <PrivateRoute
+                exact
+                path="/agencyadform"
+                component={AgencyAdForm}
+              />
+              <Route exact path="/search" component={Search} />
+              <Route
+                exact
+                path="/profile/user/:id"
+                component={DescribeContent}
+              />
+              <Route exact path="/agency/user/:id" component={DescribeAgency} />
+              <Route exact path="/links" component={Links} />
+              <Route
+                exact
+                path="/escorts-girls/:canton"
+                component={EscortsGirls}
+              />
+              <Route exact path="/terms" component={Terms} />
 
-            <PrivateRoute
-              exact
-              path="/agencydashboard"
-              component={AgencyDashboard}
-            />
-            <PrivateRoute
-              exact
-              path="/agency-edit-profile"
-              component={AgencyEditAdForm}
-            />
-            <PrivateRoute
-              exact
-              path="/agency-upload-cover"
-              component={UploadAgencyCover}
-            />
-            <PrivateRoute
-              exact
-              path="/agency-upload-gallery"
-              component={UploadAgencyGallery}
-            />
-            <PrivateRoute
-              exact
-              path="/agencypostanad"
-              component={AgencyPostAnAd}
-            />
-            <PrivateRoute
-              exact
-              path="/agencypricingplan"
-              component={AgencyPricingPlan}
-            />
-          </Switch>
-          <Footer />
+              <AdminRoute exact path="/superadmin" component={Admin} />
+              <AdminRoute
+                exact
+                path="/editprofileAdmin"
+                component={EditAdmin}
+              />
+
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute exact path="/edit-profile" component={EditAdForm} />
+              <PrivateRoute
+                exact
+                path="/upload-cover"
+                component={UploadCover}
+              />
+              <PrivateRoute
+                exact
+                path="/upload-gallery"
+                component={UploadGallery}
+              />
+
+              <PrivateRoute
+                exact
+                path="/agencydashboard"
+                component={AgencyDashboard}
+              />
+              <PrivateRoute
+                exact
+                path="/agency-edit-profile"
+                component={AgencyEditAdForm}
+              />
+              <PrivateRoute
+                exact
+                path="/agency-upload-cover"
+                component={UploadAgencyCover}
+              />
+              <PrivateRoute
+                exact
+                path="/agency-upload-gallery"
+                component={UploadAgencyGallery}
+              />
+              <PrivateRoute
+                exact
+                path="/agencypostanad"
+                component={AgencyPostAnAd}
+              />
+              <PrivateRoute
+                exact
+                path="/agencypricingplan"
+                component={AgencyPricingPlan}
+              />
+            </Switch>
+            {window.innerWidth < 993 && confirm ? <BottomNavbar /> : null}
+            <Footer />
+          </div>
         </div>
       </Router>
     </Provider>
