@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 //Enable cors
 app.use(cors());
 
-// PROTECT
+// PROTECTT
 // Sanitize data
 app.use(mongoSanitize());
 
